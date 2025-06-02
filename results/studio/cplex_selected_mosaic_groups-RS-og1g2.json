@@ -1,0 +1,869 @@
+[
+  {
+    "group_id": "mosaic_1",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip",
+      "S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.9999643968695879,
+    "avg_cloud_coverage": 6.887743681037263e-05,
+    "time_window_start": "2025-03-10T13:39:01.025000",
+    "time_window_end": "2025-03-15T13:38:39.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip",
+        "other_image": "S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.0001409086233954101,
+        "cloud_cover_other_in_overlap": 1.393492390536196e-06,
+        "prioritized_image_filename": "S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip"
+      }
+    ],
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 6293876150.825369,
+    "total_pairwise_overlap": 3146938075.4126844,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": [
+      {
+        "images": [
+          0,
+          1
+        ],
+        "area": 3146938075.4126844
+      }
+    ]
+  },
+  {
+    "group_id": "mosaic_2",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2A_MSIL2A_20241021T133831_N0511_R124_T21JXG_20241021T181351.SAFE.zip",
+      "S2B_MSIL2A_20241016T133839_N0511_R124_T21JXG_20241016T202419.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.9962820852465424,
+    "avg_cloud_coverage": 0.007340549052661009,
+    "time_window_start": "2024-10-16T13:38:39.024000",
+    "time_window_end": "2024-10-21T13:38:31.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2A_MSIL2A_20241021T133831_N0511_R124_T21JXG_20241021T181351.SAFE.zip",
+        "other_image": "S2B_MSIL2A_20241016T133839_N0511_R124_T21JXG_20241016T202419.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.002141399663571123,
+        "cloud_cover_other_in_overlap": 0.01701022889771434,
+        "prioritized_image_filename": "S2A_MSIL2A_20241021T133831_N0511_R124_T21JXG_20241021T181351.SAFE.zip"
+      }
+    ],
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 6293876150.825369,
+    "total_pairwise_overlap": 3146938075.4126844,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": [
+      {
+        "images": [
+          0,
+          1
+        ],
+        "area": 3146938075.4126844
+      }
+    ]
+  },
+  {
+    "group_id": "mosaic_3",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2B_MSIL2A_20250404T133829_N0511_R124_T21JXG_20250404T184437.SAFE.zip",
+      "S2C_MSIL2A_20250330T133901_N0511_R124_T21JXG_20250330T201214.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.9831880176594661,
+    "avg_cloud_coverage": 0.03361945955956961,
+    "time_window_start": "2025-03-30T13:39:01.025000",
+    "time_window_end": "2025-04-04T13:38:29.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2B_MSIL2A_20250404T133829_N0511_R124_T21JXG_20250404T184437.SAFE.zip",
+        "other_image": "S2C_MSIL2A_20250330T133901_N0511_R124_T21JXG_20250330T201214.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.058602692094584956,
+        "cloud_cover_other_in_overlap": 2.1897737565568796e-06,
+        "prioritized_image_filename": "S2C_MSIL2A_20250330T133901_N0511_R124_T21JXG_20250330T201214.SAFE.zip"
+      }
+    ],
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 6293876150.825369,
+    "total_pairwise_overlap": 3146938075.4126844,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": [
+      {
+        "images": [
+          0,
+          1
+        ],
+        "area": 3146938075.4126844
+      }
+    ]
+  },
+  {
+    "group_id": "mosaic_6",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2B_MSIL2A_20241205T133839_N0511_R124_T21JXG_20241205T185708.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.8085514005688473,
+    "avg_cloud_coverage": 0.0,
+    "time_window_start": "2024-12-05T13:38:39.024000",
+    "time_window_end": "2024-12-10T13:39:01.025000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2A_MSIL2A_20241210T133831_N0511_R124_T21JXG_20241210T180602.SAFE.zip",
+        "other_image": "S2B_MSIL2A_20241205T133839_N0511_R124_T21JXG_20241205T185708.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.23073675933391063,
+        "cloud_cover_other_in_overlap": 5.30854244013789e-07,
+        "prioritized_image_filename": "S2B_MSIL2A_20241205T133839_N0511_R124_T21JXG_20241205T185708.SAFE.zip"
+      },
+      {
+        "base_image": "S2A_MSIL2A_20241210T133831_N0511_R124_T21JXG_20241210T180602.SAFE.zip",
+        "other_image": "S2C_MSIL2A_20241210T133901_N9905_R124_T21JXG_20241210T165513.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.23073675933391063,
+        "cloud_cover_other_in_overlap": 0.3101552416879838,
+        "prioritized_image_filename": "S2A_MSIL2A_20241210T133831_N0511_R124_T21JXG_20241210T180602.SAFE.zip"
+      }
+    ],
+    "selected_by_overlap": true,
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 3146938075.4126844,
+    "total_pairwise_overlap": 0,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": []
+  },
+  {
+    "group_id": "mosaic_9",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T180449.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.7308433852407599,
+    "avg_cloud_coverage": 0.0,
+    "time_window_start": "2024-10-26T13:38:39.024000",
+    "time_window_end": "2024-10-31T13:38:31.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T180449.SAFE.zip",
+        "other_image": "S2B_MSIL2A_20241026T133839_N0511_R124_T21JXG_20241026T190316.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 1.6456481564427457e-05,
+        "cloud_cover_other_in_overlap": 0.004147464673308981,
+        "prioritized_image_filename": "S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T180449.SAFE.zip"
+      },
+      {
+        "base_image": "S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T180449.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T173259.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 1.6456481564427457e-05,
+        "cloud_cover_other_in_overlap": 0.0,
+        "prioritized_image_filename": "S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T173259.SAFE.zip"
+      }
+    ],
+    "selected_by_overlap": true,
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 3146938075.4126844,
+    "total_pairwise_overlap": 0,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": []
+  },
+  {
+    "group_id": "mosaic_10",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2A_MSIL2A_20250109T133831_N0511_R124_T21JXG_20250109T172416.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.7295673402437748,
+    "avg_cloud_coverage": 1.772956243822555e-05,
+    "time_window_start": "2025-01-09T13:38:31.024000",
+    "time_window_end": "2025-01-14T13:38:29.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2B_MSIL2A_20250114T133829_N0511_R124_T21JXG_20250114T185433.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20250109T133831_N0511_R124_T21JXG_20250109T175949.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.009482715717598813,
+        "cloud_cover_other_in_overlap": 0.0014025500910746812,
+        "prioritized_image_filename": "S2A_MSIL2A_20250109T133831_N0511_R124_T21JXG_20250109T175949.SAFE.zip"
+      },
+      {
+        "base_image": "S2B_MSIL2A_20250114T133829_N0511_R124_T21JXG_20250114T185433.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20250109T133831_N0511_R124_T21JXG_20250109T172416.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.009482715717598813,
+        "cloud_cover_other_in_overlap": 0.0007521209285967864,
+        "prioritized_image_filename": "S2A_MSIL2A_20250109T133831_N0511_R124_T21JXG_20250109T172416.SAFE.zip"
+      }
+    ],
+    "selected_by_overlap": true,
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 3146938075.4126844,
+    "total_pairwise_overlap": 0,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": []
+  },
+  {
+    "group_id": "mosaic_11",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2B_MSIL2A_20241115T133829_N0511_R124_T21JXG_20241115T172246.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.7071078328936019,
+    "avg_cloud_coverage": 0.0,
+    "time_window_start": "2024-11-10T13:38:31.024000",
+    "time_window_end": "2024-11-15T13:38:29.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2B_MSIL2A_20241115T133829_N0511_R124_T21JXG_20241115T172246.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T180450.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 2.5381468541909284e-05,
+        "cloud_cover_other_in_overlap": 7.299245855189597e-07,
+        "prioritized_image_filename": "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T180450.SAFE.zip"
+      },
+      {
+        "base_image": "S2B_MSIL2A_20241115T133829_N0511_R124_T21JXG_20241115T172246.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T172652.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 2.5381468541909284e-05,
+        "cloud_cover_other_in_overlap": 0.0,
+        "prioritized_image_filename": "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T172652.SAFE.zip"
+      }
+    ],
+    "selected_by_overlap": true,
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 3146938075.4126844,
+    "total_pairwise_overlap": 0,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": []
+  },
+  {
+    "group_id": "mosaic_12",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2A_MSIL2A_20241230T133831_N0511_R124_T21JXG_20241230T173053.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.6978228984005262,
+    "avg_cloud_coverage": 0.0,
+    "time_window_start": "2024-12-25T13:38:39.024000",
+    "time_window_end": "2024-12-30T13:38:31.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2A_MSIL2A_20241230T133831_N0511_R124_T21JXG_20241230T173053.SAFE.zip",
+        "other_image": "S2B_MSIL2A_20241225T133839_N0511_R124_T21JXG_20241225T185311.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.000297941944452739,
+        "cloud_cover_other_in_overlap": 0.10779804977422106,
+        "prioritized_image_filename": "S2A_MSIL2A_20241230T133831_N0511_R124_T21JXG_20241230T173053.SAFE.zip"
+      },
+      {
+        "base_image": "S2A_MSIL2A_20241230T133831_N0511_R124_T21JXG_20241230T173053.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20241230T133831_N0511_R124_T21JXG_20241230T180549.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.000297941944452739,
+        "cloud_cover_other_in_overlap": 0.0004739864831238118,
+        "prioritized_image_filename": "S2A_MSIL2A_20241230T133831_N0511_R124_T21JXG_20241230T173053.SAFE.zip"
+      }
+    ],
+    "selected_by_overlap": true,
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 3146938075.4126844,
+    "total_pairwise_overlap": 0,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": []
+  },
+  {
+    "group_id": "mosaic_14",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2A_MSIL2A_20250119T133831_N0511_R124_T21JXG_20250119T172650.SAFE.zip",
+      "S2A_MSIL2A_20250119T133831_N0511_R124_T21JXG_20250119T180146.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.6001448057087615,
+    "avg_cloud_coverage": 0.0009086719626612864,
+    "time_window_start": "2025-01-19T13:38:31.024000",
+    "time_window_end": "2025-01-19T13:38:31.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2A_MSIL2A_20250119T133831_N0511_R124_T21JXG_20250119T172650.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20250119T133831_N0511_R124_T21JXG_20250119T180146.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.003028788889220673,
+        "cloud_cover_other_in_overlap": 0.002275075397891845,
+        "prioritized_image_filename": "S2A_MSIL2A_20250119T133831_N0511_R124_T21JXG_20250119T180146.SAFE.zip"
+      }
+    ],
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 6293876150.825369,
+    "total_pairwise_overlap": 3146938075.4126844,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": [
+      {
+        "images": [
+          0,
+          1
+        ],
+        "area": 3146938075.4126844
+      }
+    ]
+  },
+  {
+    "group_id": "mosaic_15",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T180450.SAFE.zip",
+      "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T172652.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.5971726160946096,
+    "avg_cloud_coverage": 0.0,
+    "time_window_start": "2024-11-10T13:38:31.024000",
+    "time_window_end": "2024-11-10T13:38:31.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T180450.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T172652.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 7.299245855189597e-07,
+        "cloud_cover_other_in_overlap": 0.0,
+        "prioritized_image_filename": "S2A_MSIL2A_20241110T133831_N0511_R124_T21JXG_20241110T172652.SAFE.zip"
+      }
+    ],
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 6293876150.825369,
+    "total_pairwise_overlap": 3146938075.4126844,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": [
+      {
+        "images": [
+          0,
+          1
+        ],
+        "area": 3146938075.4126844
+      }
+    ]
+  },
+  {
+    "group_id": "mosaic_16",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2C_MSIL2A_20250320T133901_N0511_R124_T21JXG_20250320T195511.SAFE.zip",
+      "S2A_MSIL2A_20250322T134221_N0511_R124_T21JXG_20250322T172614.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.5176386551517428,
+    "avg_cloud_coverage": 0.0,
+    "time_window_start": "2025-03-20T13:39:01.024000",
+    "time_window_end": "2025-03-22T13:42:21.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2C_MSIL2A_20250320T133901_N0511_R124_T21JXG_20250320T195511.SAFE.zip",
+        "other_image": "S2A_MSIL2A_20250322T134221_N0511_R124_T21JXG_20250322T172614.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.0,
+        "cloud_cover_other_in_overlap": 0.2742607688760157,
+        "prioritized_image_filename": "S2C_MSIL2A_20250320T133901_N0511_R124_T21JXG_20250320T195511.SAFE.zip"
+      }
+    ],
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 6293876150.825369,
+    "total_pairwise_overlap": 3146938075.4126844,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": [
+      {
+        "images": [
+          0,
+          1
+        ],
+        "area": 3146938075.4126844
+      }
+    ]
+  }
+]
