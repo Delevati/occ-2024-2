@@ -14,7 +14,7 @@ Este projeto implementa um pipeline completo para otimização da seleção de m
 ### 2. Processamento e Análise
 
 - **`2-prepare-and-greedy.py`**: Processa imagens e aplica algoritmo heurístico guloso para encontrar combinações iniciais de mosaicos
-- **`2.2.1-PG-PC.py`**: Pós-processa grupos de mosaicos para calcular valores de cobertura par a par com precisão
+- **`2.2.1-PG-PC.py`**: Pós-processa grupos de mosaicos para calcular valores de cobertura par a par
 
 ### 3. Otimização
 
@@ -22,7 +22,7 @@ Este projeto implementa um pipeline completo para otimização da seleção de m
 
 ## Abordagem Metodológica
 
-O sistema utiliza o Princípio da Inclusão-Exclusão (PIE) para calcular com precisão a cobertura considerando sobreposições entre imagens. O modelo de otimização:
+O sistema utiliza os valores de cobertura para calcular considerando sobreposições entre mosaicos. O modelo de otimização:
 
 - Maximiza a cobertura efetiva
 - Minimiza o número de grupos de mosaicos
@@ -34,7 +34,7 @@ O sistema utiliza o Princípio da Inclusão-Exclusão (PIE) para calcular com pr
 
 Duas abordagens distintas para o cálculo PIE são implementadas:
 
-1. **PIE Tradicional** (no modelo CPLEX): obertura = Soma(Áreas_Individuais) - Soma(Interseções_Pares)
+1. **Cobertura obtida pelo modelo CPLEX**: Cobertura = Soma(Áreas_Individuais) - Soma(Interseções_Pares)
 
 ### Normalização no Modelo de Otimização
 
