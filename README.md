@@ -9,7 +9,7 @@ Este projeto implementa um pipeline completo para otimização da seleção de m
 ### 1. Aquisição de Imagens
 
 - **`1.1-cdse-download.py`**: Realiza busca e download inicial de imagens Sentinel-2
-- **`1.1.2-cdse-recapture-images.py`**: Recupera imagens específicas ausentes após análise inicial
+- **`1.1.2-cdse-recapture-images.py`**: Recupera imagens específicas da seleção inicial
 
 ### 2. Processamento e Análise
 
