@@ -34,7 +34,7 @@ O sistema utiliza os valores de cobertura para calcular considerando sobreposiç
 
 Duas abordagens distintas para o cálculo PIE são implementadas:
 
-1. **Cobertura obtida pelo modelo CPLEX**: Cobertura = Soma(Áreas_Individuais) - Soma(Interseções_Pares)
+1. **Cobertura estimada pelo MILP**: Cobertura = Soma(Áreas_Individuais) - Soma(Interseções_Pares)
 
 ### Normalização no Modelo de Otimização
 
