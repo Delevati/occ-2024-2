@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Este projeto implementa um pipeline completo para otimização da seleção de mosaicos de imagens de satélite Sentinel-2, visando maximizar a cobertura efetiva de uma Área de Interesse (AOI) com mínima presença de nuvens. O sistema combina processamento geométrico, algoritmos heurísticos e métodos exatos de otimização para resolver este problema geoespacial complexo.
+Este projeto implementa um pipeline completo para otimização da seleção de mosaicos de imagens de satélite Sentinel-2, visando maximizar a cobertura efetiva de uma Área de Interesse (AOI) com mínima presença de nuvens. O sistema combina processamento geométrico, algoritmos heurísticos e métodos exatos de otimização para resolver este problema.
 
 ## Componentes do Fluxo de Trabalho
 
