@@ -9,10 +9,6 @@ que maximizam a cobertura efetiva da área de interesse (AOI).
 O modelo utiliza o Princípio da Inclusão-Exclusão (MILP) para calcular corretamente
 a cobertura sem duplicação de áreas sobrepostas, considerando a geometria espacial
 das imagens na representação da AOI.
-
-Autor: Luryand
-Instituição: Universidade Federal
-Data: Maio/2025
 """
 
 import os
@@ -160,7 +156,7 @@ def solve_mosaic_selection_milp(optimization_params):
     # RESTRIÇÃO 1: Limite de cobertura de nuvens
     # Exclui automaticamente grupos com cobertura de nuvens acima do threshold
     # Corresponde à restrição: N_j > threshold → y_j = 0
-    cloud_threshold = 0.50
+    cloud_threshold = 0.40
     for group_id, cloud_coverage in group_cloud_coverages.items():
         if cloud_coverage > cloud_threshold and group_id in y:
             mdl.add_constraint(y[group_id] == 0, ctname=f"exclude_high_cloud_{group_id}")
@@ -462,8 +458,8 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
     logging.info(f"= Total calculado: {(obj_coverage_quality - obj_num_groups_penalty - obj_cloud_penalty):.4f}")
     
     # 2. Verificação da Restrição de Nuvens
-    logging.info("\n2. VERIFICAÇÃO DA RESTRIÇÃO DE NUVENS (LIMITE: 50%)")
-    cloud_threshold = 0.5
+    logging.info("\n2. VERIFICAÇÃO DA RESTRIÇÃO DE NUVENS ")
+    cloud_threshold = 0.4
     
     for group_id, cloud_coverage in group_cloud_coverages.items():
         is_selected = group_id in selected_group_ids
@@ -505,7 +501,7 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
         logging.info("✓ Todas as restrições de exclusividade satisfeitas")
     
     # 4. VERIFICAÇÃO DA RESTRIÇÃO DE COBERTURA
-    logging.info("\n4. VERIFICAÇÃO DA RESTRIÇÃO DE COBERTURA (INCREMENTAL)")
+    logging.info("\n4. VERIFICAÇÃO DA RESTRIÇÃO DE COBERTURA")
 
     aoi_area = 1.0
     for group in mosaic_groups:
