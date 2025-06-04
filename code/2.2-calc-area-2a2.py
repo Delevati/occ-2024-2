@@ -296,7 +296,7 @@ def calculate_coverage_twotwo(params):
     
     Este método:
     1. Calcula explicitamente áreas individuais e interseções 2a2
-    2. Computa a cobertura usando a fórmula MILP 
+    2. Computa a cobertura usando a fórmula PIE
     3. Calcula também a área real preenchida usando unary_union
     
     Args:
@@ -319,7 +319,7 @@ def calculate_coverage_twotwo(params):
     image_metadata = {img["filename"]: img for img in params["image_catalog"]}
     
     group_count = len(result_params.get('mosaic_groups', []))
-    logging.info(f"Processando {group_count} grupos de mosaico usando MILP modificado")
+    logging.info(f"Processando {group_count} grupos de mosaico usando PIE modificado")
     
     for i, group in enumerate(result_params.get('mosaic_groups', []), 1):
         group_id = group.get('group_id', f'unknown_{i}')
@@ -329,7 +329,7 @@ def calculate_coverage_twotwo(params):
         
         # Coletar geometrias das imagens do grupo
         group_geometries = []
-        image_weights = []  # Para calcular média ponderada da cobertura de nuvens
+        image_weights = []
         total_area = 0
         
         for img_name in group_images:
@@ -355,7 +355,7 @@ def calculate_coverage_twotwo(params):
                     image_weights.append((img_area, cloud_coverage))
                     total_area += img_area
         
-        # Cálculo da cobertura usando MILP modificado
+        # Cálculo da cobertura usando PIE
         if not group_geometries:
             logging.warning(f"Nenhuma geometria válida para grupo {group_id}")
             group['geometric_coverage'] = 0.0
@@ -418,30 +418,29 @@ def calculate_coverage_twotwo(params):
             real_coverage_area = real_coverage_geometry.area if real_coverage_geometry else 0
             real_coverage_ratio = real_coverage_area / aoi_area if aoi_area > 0 else 0
             
-            # Aplicar MILP considerando apenas interseções 2a2
-            MILP_coverage = total_individual_area - total_pairwise_overlap
+            # Aplicar PIE considerando apenas interseções 2a2
+            pie_coverage = total_individual_area - total_pairwise_overlap
                  
             # Garantir que a cobertura não exceda a área da AOI
-            MILP_coverage = min(MILP_coverage, aoi_area)
+            pie_coverage = min(pie_coverage, aoi_area)
             
-            # Calcular a razão de cobertura pelo MILP
-            coverage_ratio = MILP_coverage / aoi_area
+            # Calcular a razão de cobertura pelo PIE
+            coverage_ratio = pie_coverage / aoi_area
             
             # Armazenar valores no grupo
             group['geometric_coverage'] = coverage_ratio
-            group['geometric_coverage_m2'] = MILP_coverage
+            group['geometric_coverage_m2'] = pie_coverage
             group['total_individual_area'] = total_individual_area
             group['total_pairwise_overlap'] = total_pairwise_overlap
             
             # Novos campos para comparação entre métodos
             group['real_coverage_area'] = real_coverage_area
             group['real_coverage_ratio'] = real_coverage_ratio
-            group['MILP_coverage_area'] = MILP_coverage
-            group['MILP_coverage_ratio'] = coverage_ratio
+            group['pie_coverage_area'] = pie_coverage
+            group['pie_coverage_ratio'] = coverage_ratio
             
             group['pairwise_intersections'] = pairwise_intersections
             
-            # NOVA IMPLEMENTAÇÃO: Cálculo correto da cobertura de nuvens
             # Considerando apenas a geometria real do mosaico (sem contar áreas sobrepostas múltiplas vezes)
             try:
                 # Já temos a união das geometrias (real_coverage_geometry)
@@ -493,7 +492,7 @@ def calculate_coverage_twotwo(params):
                 avg_cloud_coverage = max(0.0, min(1.0, avg_cloud_coverage))
                 group['avg_cloud_coverage'] = avg_cloud_coverage
             
-            logging.info(f"Grupo {group_id}: Cobertura Real = {real_coverage_ratio:.4f}, MILP = {coverage_ratio:.4f}, Nuvens = {avg_cloud_coverage:.4f}")
+            logging.info(f"Grupo {group_id}: Cobertura Real = {real_coverage_ratio:.4f}, PIE= {coverage_ratio:.4f}, Nuvens = {avg_cloud_coverage:.4f}")
             logging.info(f"  → Áreas individuais: {total_individual_area:.2f}, Overlap 2a2: {total_pairwise_overlap:.2f}")
             
         except Exception as e:
@@ -511,7 +510,7 @@ def main():
     Função principal que coordena o cálculo de cobertura geométrica
     e salva os resultados no arquivo de parâmetros.
     """
-    logging.info("=== Cálculo de Cobertura via cálculo de cobertura MILP Modificado ===")
+    logging.info("=== Cálculo de Cobertura ===")
     
     if not os.path.exists(DOWNLOAD_PATH) or not os.path.exists(AOI_SHAPEFILE):
         logging.error(f"Diretórios ou arquivos necessários não encontrados")
