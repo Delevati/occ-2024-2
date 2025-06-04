@@ -15,11 +15,11 @@ coverage_otimization/
 │   ├── 2-compatibility-greedy.py # Implementação da heurística gulosa
 │   ├── 2.2-calc-area-2a2.py      # Cálculo de cobertura par a par (método 2a2)
 │   ├── 3-CPLEX.py                # Modelo PLIM com IBM CPLEX
+│   ├── external_utils/           # Utilitários externos / não usados em scripts principais
 │   ├── APA-input/                # Diretório com shapefiles das áreas de interesse
 │   │   ├── recapture/            # Subdiretório com áreas categorizadas
 │   │   └── primarios/            # Shapefiles originais das AOIs
-│   ├── greedy_utils/             # Módulo de utilitários para o algoritmo
-│   └── external_utils/           # Utilitários externos / não usados em scripts principais
+│   └── greedy_utils/             # Módulo de utilitários para o algoritmo
 │       ├── __init__.py
 │       ├── configuration.py      # Configurações globais e parâmetros
 │       ├── file_utils.py         # Utilitários para manipulação de arquivos
