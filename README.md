@@ -83,7 +83,7 @@ __Cobertura estimada pelo MILP__: Cobertura = Soma(Áreas_Individuais) - Soma(In
 
 Todos os valores de cobertura são normalizados para o intervalo [0,1] no modelo de otimização, representando a proporção (%) da AOI coberta.
 
-## Personalização para Novas Áreas
+## Parâmetros de Seleção Heurística Gulosa
 
 Para aplicar o sistema a uma nova área de interesse:
 
@@ -103,6 +103,32 @@ Para aplicar o sistema a uma nova área de interesse:
 
    - Para áreas muito grandes, considere subdividir em regiões menores
    - Ajuste `TEMP_EXTRACT_DIR` para um volume com espaço suficiente
+
+## Parâmetros de Otimização Método Exato CPLEX
+
+Para personalizar o comportamento do modelo de otimização CPLEX:
+
+1. __Diretórios e Arquivos__:
+
+   - Ajuste `METADATA_DIR` e `OUTPUT_DIR` para os diretórios de metadados e resultados
+   - Configure os caminhos de `OPTIMIZATION_PARAMS_FILE` e `CPLEX_RESULTS_FILE`
+
+2. __Pesos da Função Objetivo__:
+
+   - `alpha = 0.4` - Penalidade por número de grupos (maior valor = menos grupos)
+   - `gamma = 0.8` - Penalidade por cobertura de nuvens (maior valor = menos nuvens)
+
+3. __Restrições do Modelo__:
+
+   - `cloud_threshold = 0.50` - Limite máximo de cobertura de nuvens (50%)
+   - `min_total_coverage = 0.85` - Cobertura mínima requerida da AOI (85%)
+
+4. __Ajustes Recomendados por Cenário__:
+
+   - Para regiões com muitas nuvens: Reduza `gamma` (0.4-0.6) e aumente `cloud_threshold` (0.60-0.70)
+   - Para maximizar qualidade: Aumente `gamma` (0.9-1.0)
+   - Para maximizar cobertura: Aumente `min_total_coverage` (0.90-0.95) e reduza `alpha` (0.2-0.3)
+   - Para reduzir grupos de mosaicos: Aumente `alpha` (0.5-0.7)
 
 ## Requisitos de Sistema
 
