@@ -34,7 +34,7 @@ from greedy_utils.json_utils import DateTimeEncoder
 from greedy_utils.processing_utils import process_single_zip_file
 
 # --- Funções de Busca de Mosaicos --- Deixei aqui para manter o entendimento do algoritmo
-# mas ela é na verdade uma importante auxiliar da função heurística principal, que ta logo abaixo
+# mas ela é na verdade uma importante função auxiliar da função heurística principal, que ta logo abaixo
 def calculate_compatibility_mosaics(base_img: dict, other_img: dict, max_days: int) -> dict | None:
     """
     Avalia a compatibilidade entre duas imagens para formar um mosaico, considerando
