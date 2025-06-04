@@ -20,7 +20,7 @@ coverage_otimization/
 │   │   ├── recapture/            # Subdiretório com áreas categorizadas
 │   │   └── primarios/            # Shapefiles originais das AOIs
 │   ├── cplex_utils/              # Módulo de utilitários para o algoritmo CPLEX
-│       ├── validation.py      # Utilitário de resultados do modelo
+│   │   ├── validation.py         # Utilitário de resultados do modelo
 │   └── greedy_utils/             # Módulo de utilitários para o algoritmo Guloso
 │       ├── __init__.py
 │       ├── configuration.py      # Configurações globais e parâmetros
