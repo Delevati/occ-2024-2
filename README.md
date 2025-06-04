@@ -128,7 +128,7 @@ Para personalizar o comportamento do modelo de otimização CPLEX:
 
 ## Ambientes de Execução
 
-O sistema da Heurística Gulosa foi desenvolvida e testada principalmente em sistema macOS, enquanto os modelos de otimização CPLEX foram executados em ambiente AWS Ubuntu.
+O sistema da Heurística Gulosa foi desenvolvido e testado principalmente em sistema macOS, enquanto os modelos de otimização CPLEX foram executados em ambiente AWS Ubuntu.
 
 ## Requisitos de Sistema
 
