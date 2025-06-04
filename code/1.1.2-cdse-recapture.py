@@ -10,15 +10,12 @@ from dotenv import load_dotenv
 from datetime import date
 import geopandas as gpd
 
-# Carrega variáveis de ambiente
 load_dotenv('/Users/luryand/Documents/encode-image/coverage_otimization/code/.env')
 
-# Definições de caminhos
 json_path = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG/optimization_parameters.json"
 download_path = "/Volumes/luryand/nova_busca/MG"
 relatorio_csv_path = "relatorio_downloads_especificos.csv"
 
-# Configurações SSL
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
 def extract_image_filenames(json_path):
@@ -69,8 +66,7 @@ def download_specific_files():
         for img in sorted(needed_images):
             f.write(f"{img}\n")
     print(f"Lista de {len(needed_images)} imagens salva em images_to_download.txt")
-    
-    # Credenciais
+
     credentials = Credentials(os.getenv('CDSE_USER'), os.getenv('CDSE_PASSWORD'))
     
     # Verifica quais arquivos já existem
@@ -116,7 +112,6 @@ def download_specific_files():
     features_by_name = {}
     for feature in features:
         title = feature["properties"]["title"]
-        # Tenta várias variações do nome do arquivo
         features_by_name[title] = feature
         features_by_name[f"{title}.zip"] = feature
         features_by_name[f"{title}.SAFE"] = feature
@@ -142,7 +137,7 @@ def download_specific_files():
     
     if missing_features:
         print(f"\nAVISO: {len(missing_features)} imagens não foram encontradas na API:")
-        for missing in missing_features[:10]:  # Mostra os 10 primeiros
+        for missing in missing_features[:10]:
             print(f"  - {missing}")
         if len(missing_features) > 10:
             print(f"  - ... e mais {len(missing_features)-10} imagens")
@@ -156,7 +151,6 @@ def download_specific_files():
     
     response = input(f"Deseja iniciar o download de {len(features_to_download)} arquivos? (s/n): ")
     if response.lower() == 's':
-        # CORREÇÃO AQUI: usar o generator corretamente
         download_count = 0
         print("\nIniciando downloads...")
         
