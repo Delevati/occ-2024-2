@@ -27,6 +27,9 @@ coverage_otimization/
 │       ├── metadata_utils.py     # Processamento de metadados
 │       ├── plotting_utils.py     # Funções de visualização
 │       └── processing_utils.py   # Funções de processamento principal
+├── submission/
+│   ├── artigo-sbpo/              # Arquivos .tex, .pdf e img/ 
+│   └── resumo-sbpo/              # Arquivos .tex, .pdf e img/
 └── results/                      # Diretório de saída para resultados
 
 ````
@@ -55,13 +58,26 @@ coverage_otimization/
 
 - __`1.1-cdse-download.py`__: Realiza busca e download inicial de imagens Sentinel-2
 
-- __`1.1.2-cdse-recapture.py`__: Recupera imagens específicas da seleção inicial
+- __`1.2-cdse-recapture.py`__: Recupera imagens específicas da seleção inicial
 
 ### 2. Processamento e Análise
 
 - __`2-compatibility-greedy.py`__: Processa imagens e aplica algoritmo heurístico guloso para encontrar combinações iniciais de mosaicos
 
 - __`2.2-calc-area-2a2.py.py`__: Pós-processa grupos de mosaicos para calcular valores de cobertura par a par
+
+## Parâmetros de Configuração Detalhados
+
+Os seguintes parâmetros podem ser ajustados no arquivo `code/greedy_utils/configuration.py`:
+
+## Parâmetros do Algoritmo Guloso
+
+- `MOSAIC_MIN_CONTRIBUTION_THRESHOLD`: Limiar de contribuição mínima (5%) para inclusão de imagem em grupo
+- `CENTRAL_IMAGE_EFFECTIVE_COVERAGE_THRESHOLD`: Limiar para classificação de imagem como central (30%)
+- `COMPLEMENT_IMAGE_MIN_GEOGRAPHIC_COVERAGE_THRESHOLD`: Cobertura mínima para imagens complementares (2%)
+- `MOSAIC_TIME_WINDOW_DAYS`: Janela temporal máxima para agrupar imagens (5 dias)
+- `MAX_CLOUD_COVERAGE_THRESHOLD`: Cobertura máxima de nuvens permitida (50%)
+- `OVERLAP_QUALITY_WEIGHT`: Peso para qualidade na avaliação de sobreposições (0.3)
 
 ### 3. Otimização
 
@@ -122,7 +138,7 @@ Para personalizar o comportamento do modelo de otimização CPLEX:
 
 3. __Restrições do Modelo__:
 
-   - `cloud_threshold = 0.50` - Limite máximo de cobertura de nuvens (50%)
+   - `cloud_threshold = 0.40` - Limite máximo de cobertura de nuvens (40%)
    - `min_total_coverage = 0.85` - Cobertura mínima requerida da AOI (85%)
 
 4. __Ajustes Recomendados por Cenário__:

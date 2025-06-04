@@ -1,0 +1,168 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{sbpo-template}
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{url}
+\usepackage[square]{natbib}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{graphicx} 
+\usepackage{float}
+\usepackage{booktabs,array}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{hyphenat}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{placeins}
+
+\setlength{\aboverulesep}{0.1ex}  
+\setlength{\belowrulesep}{0.2ex}  
+\setlength{\cmidrulewidth}{0.3pt} 
+\setlength{\emergencystretch}{2em}
+\hfuzz=1pt
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\includegraphics[scale=0.32]{sbpo2025-header-logo.png}}
+\fancyfoot[C]{\thepage} 
+\renewcommand{\headruleskip}{-1mm}
+\setlength\headheight{86pt}
+\addtolength{\textheight}{-86pt}
+\setlength{\headsep}{5mm}
+\setlength{\footskip}{14pt}
+
+\begin{document}
+
+\title{Otimização da Observação Ambiental em Unidades de Conservação: Integração de Heurística e Programação Linear Inteira Mista}
+
+\maketitle
+\thispagestyle{fancy}
+
+\vspace{8mm}
+\begin{resumo}
+    Este artigo apresenta uma abordagem híbrida para otimizar a cobertura de imagens ópticas em Unidades de Conservação (UCs) brasileiras. A metodologia combina uma heurística construtiva gulosa, seguida de um modelo Programação Linear Inteira Mista (PLIM). O objetivo consiste em maximizar a cobertura útil qualificada das áreas monitoradas, considerando cobertura de nuvens, pixels válidos, compatibilidade orbital e cálculo de cobertura que considera explicitamente as áreas individuais das imagens e suas interseções. O modelo PLIM incorpora penalizações específicas para cobertura de nuvens e restrições de exclusividade de imagens. Os resultados demonstram que a abordagem PLIM resultou em redução média de 28,1\% em relação à heurística gulosa inicial, mantendo a cobertura de nuvens controlada (abaixo de 10\% em cenários favoráveis como a APA Ibirapuitã e não excedendo 38,55\% em regiões tradicionalmente nebulosas como APAs de Alagoas), enquanto assegura cobertura geográfica das áreas estudadas.
+    \end{resumo}
+
+\bigskip
+\begin{palchaves}
+Otimização Combinatória. Programação Linear Inteira Mista. Heurística Construtiva Gulosa. Sensoriamento Remoto.
+
+\bigskip
+AG\&MA --- PO na Agricultura, Meio Ambiente e Sustentabilidade.
+\end{palchaves}
+
+\begin{abstract}
+    This paper presents a hybrid approach to optimize the coverage of optical images in Brazilian Conservation Units (UCs). The methodology combines a greedy constructive heuristic with a composite evaluation function, followed by exact optimization via Mixed-Integer Linear Programming (MILP). The objective is to maximize the qualified useful coverage of the monitored areas, considering cloud cover, valid pixels, orbital compatibility, and coverage calculation that explicitly accounts for individual image areas and their pairwise intersections. The MILP model incorporates specific penalties for cloud cover and image exclusivity constraints. Results demonstrate that the MILP approach achieved a 28.1\% average reduction in the number of products compared to the initial greedy heuristic, maintaining cloud cover controlled (below 10\% in favorable scenarios and not exceeding 38.55\% in traditionally cloudy regions), while ensuring geographic coverage of the studied areas.
+    \end{abstract}
+
+\bigskip
+\begin{keywords}
+    Combinatorial Optimization. Mixed-Integer Linear Programming. Greedy Constructive Heuristic. Remote Sensing.
+
+\bigskip
+    AG\&MA --- OR in Agriculture, Environment and Sustainability.
+\end{keywords}
+
+\newpage
+
+\section{Introdução}
+
+O monitoramento de Unidades de Conservação (UCs) necessita de imagens ópticas de alta resolução. O programa Copernicus, através dos satélites Sentinel-2, proporciona um recurso valioso com imagens multiespectrais de até 10 metros de resolução e frequente revisita. Contudo, a cobertura de nuvens, a qualidade dos pixels e a sobreposição entre cenas prejudicam a consistência dos mosaicos.
+
+A literatura apresenta diferentes variantes para o problema de mosaicos. Diversas abordagens buscam maximizar a área útil coberta, enquanto outras minimizam o número de mosaicos necessários. Alguns métodos penalizam imagens com maior presença de nuvens ou estabelecem limites mínimos de cobertura da área.
+
+O método proposto maximiza a cobertura útil qualificada com penalizações para o número de mosaicos e presença de nuvens, visando identificar o subconjunto ótimo para áreas de conservação. A abordagem, validada com imagens Sentinel-2, aplica-se a diversos sensores ópticos que fornecem dados sobre cobertura de nuvens e qualidade de pixels. A função objetivo prioriza cobertura geográfica útil e qualidade, enquanto as restrições asseguram cobertura mínima e exclusividade de imagens nos grupos.
+
+A construção de mosaicos ótimos equivale ao problema de cobertura de polígonos por retângulos alinhados aos eixos (minimum axis-parallel rectangle cover), reconhecidamente NP-difícil. Esta complexidade dificulta a obtenção de soluções exatas diretas para grandes conjuntos de imagens.
+
+Este trabalho propõe uma estratégia híbrida em duas etapas. Primeiro, uma heurística construtiva identifica grupos de mosaicos candidatos que satisfazem requisitos de cobertura de nuvens, pixels válidos e compatibilidade orbital e temporal. Em seguida, um modelo PLIM seleciona o subconjunto final que otimiza a função objetivo, respeitando todas as restrições.
+
+\section{Metodologia}
+
+A metodologia desenvolvida para otimizar a seleção de imagens Sentinel-2 segue a abordagem híbrida em duas fases. A primeira fase gera um conjunto inicial de mosaicos candidatos ($M$), aplicando critérios de qualidade e compatibilidade para agrupar imagens. A segunda fase seleciona o subconjunto ótimo de mosaicos a partir de $M$, utilizando o modelo PLIM.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{p{2cm}p{12cm}}
+    \toprule
+    \textbf{Símbolo} & \textbf{Descrição} \\
+    \midrule
+    $I$       & Conjunto de todas as imagens Sentinel-2 candidatas disponíveis \\
+    $A$       & Área de Interesse (UC) \\
+    $M$       & Conjunto de todos os mosaicos candidatos gerados na Fase 1 \\
+    $I(j)$    & Conjunto de imagens que compõem o mosaico $j$ \\
+    $M(i)$    & Conjunto de mosaicos que contêm a imagem $i$ \\
+    $E_j$     & Cobertura efetiva total do mosaico $j$ \\
+    $Q_j$     & Fator de qualidade médio do mosaico $j$ \\
+    $N_j$     & Máxima de nuvens entre as imagens do mosaico $j$ \\
+    $y_j$     & Variável de decisão binária: 1 se o mosaico $j$ é selecionado \\
+    $\alpha, \gamma$ & Pesos de penalização (0.4 e 0.8, respectivamente) \\
+    $I_{j,k}$ & Área de interseção entre os mosaicos $j$ e $k$ sobre a área $A$ \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+Na primeira fase, a heurística gulosa agrupa imagens temporalmente compatíveis (intervalo máximo de 5 dias) priorizando aquelas com maior efetividade, calculada pelo produto da cobertura efetiva e qualidade da imagem. A qualidade considera tanto a proporção de pixels válidos quanto a ausência de nuvens. Esta fase gera múltiplos grupos candidatos que cobrem a área de interesse.
+
+Na segunda fase, o modelo PLIM seleciona o subconjunto ótimo destes grupos candidatos. A função objetivo maximiza a cobertura geométrica qualificada, penalizando tanto o número de grupos quanto a presença de nuvens, conforme a equação:
+
+\begin{equation}
+    \max \left( \sum_{j \in M} E_j \cdot Q_j \cdot y_j - \alpha \sum_{j \in M} y_j - \gamma \sum_{j \in M} N_j \cdot y_j \right)
+\end{equation}
+\vspace{-5mm}
+\begin{align}
+    \text{s.a.} \quad & \sum_{j \in M} y_j \leq N_{\max} \tag{2}\\
+    & \sum_{j \in M(i)} y_j \leq 1, \quad \forall i \in I' \tag{3}\\
+    & \sum_{j \in M} A_j \cdot y_j - \sum_{j, k \in M, j < k} I_{j,k} \cdot o_{j,k} \geq 0.85 \tag{4}\\
+    & y_j \in \{0,1\}, \quad \forall j \in M \tag{5}
+\end{align}
+
+As restrições garantem cobertura mínima de 85\% da área, limitam o número total de grupos selecionados e asseguram que cada imagem seja utilizada em no máximo um grupo na solução final.
+
+O modelo PLIM busca equilibrar o benefício da cobertura útil contra o custo de ter muitos grupos e alta presença de nuvens. A função objetivo valoriza soluções com maior cobertura geométrica qualificada e penaliza soluções com muitos grupos ou elevada presença de nuvens. Os pesos $\alpha$ (0.4) e $\gamma$ (0.8) controlam a importância relativa destas penalizações.
+
+Para calcular com precisão a cobertura geométrica de cada grupo, aplica-se o Princípio de Inclusão-Exclusão (PIE). O método calcula explicitamente as áreas individuais e interseções de segunda ordem (2 a 2), desconsiderando interseções de ordem superior que representam apenas uma parcela pequena da área total, garantindo assim eficiência computacional sem perda significativa de precisão.
+
+A heurística construtiva gulosa prioriza imagens com maior efetividade, combinando cobertura efetiva e qualidade. A efetividade considera tanto a proporção geométrica da imagem que cobre a UC quanto a qualidade dos pixels. A janela temporal máxima de 5 dias garante que imagens de um mesmo grupo sejam temporalmente próximas, reduzindo potenciais variações radiométricas entre elas.
+
+\begin{table}[ht!]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \caption{Comparativo de processamento e resultados por região de estudo.}
+    \label{tab:comparativo_regioes}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccc>{\centering\arraybackslash}p{1.8cm}cc}
+    \toprule
+    \textbf{Região/UF} & \textbf{Cobertura} & \textbf{Imagens} & \textbf{Imagens} & \multicolumn{2}{c}{\textbf{Mosaicos Selecionados}} & \textbf{Nuvens} \\
+    \cmidrule(lr){5-6}
+     & \textbf{total (\%)} & \textbf{(total)} & \textbf{(aceitas)} & \textbf{H. Gulosa} & \textbf{CPLEX} & \textbf{máx. (\%)} \\
+    \midrule
+    PARNA Mantiqueira & 89,1 & 445 & 179 & 45 & 20 & 8,62 \\
+    APA Ibirapuitã/RS & 98,9 & 333 & 54 & 16 & 11 & 0,42 \\
+    PARNA do Pantanal & 100,0 & 52 & 52 & 18 & 17 & 12,95 \\
+    APAs Alagoas & 100,0 & 310 & 80 & 24 & 23 & 38,55 \\
+    PARNAs Bahia & 100,0 & 154 & 37 & 9 & 8 & 30,94 \\
+    APA Chapada Araripe & 88,1 & 641 & 106 & 46 & 18 & 19,80 \\
+    \bottomrule
+    \end{tabular*}
+\end{table}
+
+A Tabela 1 apresenta os resultados obtidos nas diferentes UCs estudadas. Nota-se que a otimização PLIM reduziu significativamente o número de mosaicos necessários (média de 28,1\% menos produtos) em comparação com a heurística inicial, mantendo controle adequado da cobertura de nuvens em todas as regiões. Os casos mais favoráveis, como a APA Ibirapuitã, apresentaram cobertura de nuvens abaixo de 0,42\%, enquanto regiões tipicamente nebulosas como as APAs de Alagoas não excederam 38,55\%.
+
+Foram analisadas 13 UCs distribuídas em 9 estados brasileiros, abrangendo áreas de 3.708 ha (APA Catolé) até 1.019.460 ha (APA Chapada do Araripe). O conjunto completo de dados incluiu 1.941 imagens Sentinel-2 candidatas, das quais 524 foram aceitas após os filtros de qualidade e cobertura mínima.
+
+A validação do PIE com interseções de segunda ordem revelou resultados consistentes entre valores estimados e reais de cobertura. As regiões com mosaicos compostos por imagem única (BA, MG, RS) apresentaram diferença negligível, enquanto Alagoas, com média de 2 imagens por mosaico, obteve cobertura efetiva de 100\% sem variações detectáveis. A exceção ocorreu na região PI-PE-CE, onde mosaicos compostos por 2--3 imagens e maior frequência de interseções triplas resultaram em diferença de 4,42 pp. No entanto, a diferença média global de apenas -0,65 pp corrobora a eficácia da aproximação PIE com interseções de segunda ordem para o cálculo preciso da cobertura territorial.
+
+\section{Conclusão}
+
+Os mosaicos selecionados pelo modelo PLIM atingiram fatores de qualidade satisfatórios, com redução média de 28,1\% em relação à heurística gulosa inicial. O controle da cobertura de nuvens foi eficaz, mantida abaixo de 10\% em cenários favoráveis como APA Ibirapuitã (0,42\%) e em níveis aceitáveis mesmo em regiões tradicionalmente nebulosas como APAs de Alagoas (38,55\%). A diversidade das UCs estudadas, de 3.708 ha a mais de 1 milhão de hectares, demonstra a aplicabilidade da metodologia em diferentes contextos geográficos e climáticos.
+
+A abordagem híbrida desenvolvida, com suas etapas distintas --- heurística construtiva com refinamento PIE (Fase 1) e otimização PLIM (Fase 2) --- mostrou-se efetiva para obter soluções de alta qualidade. O pós-processamento, utilizando o PIE e eliminando redundâncias causadas por sobreposição excessiva, foi fundamental para melhorar a eficiência computacional e a qualidade radiométrica dos mosaicos. A aproximação do PIE considerando apenas interseções de segunda ordem demonstrou-se válida, com diferença média global de apenas -0,65 pp entre cobertura estimada e efetiva.
+
+A incorporação de penalizações específicas para cobertura de nuvens e número de grupos na função objetivo do modelo PLIM resultou em soluções otimizadas, com 202 imagens selecionadas no total. Mesmo nas áreas com maior complexidade geométrica, como a APA Chapada do Araripe e o PARNA Mantiqueira, o método alcançou estimativas PIE de 92,5\% e 89,1\%, respectivamente, com coberturas efetivas de 88,1\% e 89,1\%.
+
+Trabalhos futuros podem explorar recortes parciais e janelas temporais maiores para cobrir lacunas em áreas com alta nebulosidade, além de incorporar imagens SAR na função objetivo. Uma abordagem alternativa seria discretizar a área em células de grid como variáveis binárias, permitindo representação mais granular da cobertura. Pretende-se também expandir a aplicação para diferentes regiões e perfis climáticos, e investigar estratégias de fusão de imagens para manter a visualização global em períodos de disponibilidade limitada.
+
+\end{document}
