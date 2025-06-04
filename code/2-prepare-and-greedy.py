@@ -146,9 +146,39 @@ def process_single_zip_file(zip_path: Path, index: int, total: int, aoi_gdf_wgs8
         return result_data
 
 # --- Funções de Busca de Mosaicos ---
-def calculate_refined_compatibility(base_img: dict, other_img: dict, max_days: int) -> dict | None:
+def calculate_compatibility_mosaics(base_img: dict, other_img: dict, max_days: int) -> dict | None:
     """
-    Calcula a compatibilidade refinada entre duas imagens para mosaicos.
+    Avalia a compatibilidade entre duas imagens para formar um mosaico, considerando
+    múltiplos fatores de qualidade, sobreposição e temporalidade.
+    
+    Esta função implementa uma métrica de compatibilidade que considera:
+    1. Proximidade temporal (diferença em dias)
+    2. Correspondência de órbita (bônus para mesma órbita)
+    3. Geometria de sobreposição espacial
+    4. Cobertura de nuvens nas áreas de sobreposição
+    5. Fator de qualidade refinado que pondera:
+       - Qualidade global de ambas as imagens
+       - Qualidade específica na área de sobreposição
+    
+    A compatibilidade é calculada para determinar o benefício de adicionar
+    uma imagem complementar à imagem base, usando uma formulação heurística:
+    
+    effectiveness_score = (added_geo_coverage * refined_quality_factor) + orbit_bonus
+    
+    Onde:
+    - added_geo_coverage: Estimativa de nova área coberta pela imagem complementar
+    - refined_quality_factor: Métrica de qualidade ponderada entre qualidade global e da sobreposição
+    - orbit_bonus: Bônus de correspondência de órbita (0.05 se mesma órbita)
+    
+    Args:
+        base_img (dict): Metadados da imagem base/atual do mosaico
+        other_img (dict): Metadados da imagem candidata a complementar
+        max_days (int): Diferença máxima permitida entre datas das imagens (em dias)
+        
+    Returns:
+        dict | None: Detalhes de compatibilidade se compatível, None caso contrário
+              Contém: effectiveness_score, estimated_coverage_after_add, refined_quality_factor,
+                      overlap_details e outras métricas de compatibilidade
     """
     # Extrai e valida datas
     base_date_str = base_img.get('date')
@@ -198,7 +228,12 @@ def calculate_refined_compatibility(base_img: dict, other_img: dict, max_days: i
     if not base_crs_str or not other_crs_str:
         return None
 
-    # Calcula geometria de sobreposição
+    # Calcula geometria de sobreposição entre as imagens
+    # Esta seção transforma as geometrias das duas imagens para um sistema
+    # de coordenadas comum (WGS84) e calcula:
+    # 1. A área de interseção
+    # 2. A proporção da interseção em relação a cada imagem
+    # 3. A qualidade relativa das imagens na região de sobreposição
     overlap_geom_wgs84 = None
     overlap_details = {}
     
@@ -285,7 +320,14 @@ def calculate_refined_compatibility(base_img: dict, other_img: dict, max_days: i
         overlap_details['cloud_overlap_other'] = cloud_overlap_other
         overlap_details['better_img_in_overlap'] = None
 
-    # Calcula fatores de qualidade
+    # Calcula fatores de qualidade para ambas as imagens e área de sobreposição
+    # A qualidade é uma função da cobertura de nuvens e percentual de pixels válidos:
+    # quality = (1 - cloud_coverage) * valid_pixels_percentage
+    #
+    # O modelo prioriza a imagem com menor cobertura de nuvens na área de sobreposição,
+    # aplicando uma ponderação (OVERLAP_QUALITY_WEIGHT) entre:
+    # - Qualidade média global das duas imagens
+    # - Qualidade específica na área de sobreposição
     quality_base = (1.0 - base_img.get('cloud_coverage', 1.0)) * base_img.get('valid_pixels_percentage', 0.0)
     quality_other = (1.0 - other_img.get('cloud_coverage', 1.0)) * other_img.get('valid_pixels_percentage', 0.0)
 
@@ -323,7 +365,40 @@ def calculate_refined_compatibility(base_img: dict, other_img: dict, max_days: i
 
 def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
     """
-    Encontra combinações potenciais de mosaicos usando um algoritmo guloso.
+    Implementa um algoritmo guloso para formar grupos de mosaicos otimizados
+    a partir de imagens individuais, priorizando cobertura e qualidade.
+    
+    Esta heurística implementa uma estratégia gulosa em dois estágios:
+    
+    ESTÁGIO 1: Grupos baseados em imagens centrais
+    Para cada imagem central:
+    1. Inicia um grupo de mosaico com a imagem central como base
+    2. Ordena candidatas complementares por cobertura * qualidade
+    3. Adiciona iterativamente imagens que maximizem a cobertura efetiva
+       considerando compatibilidade, sobreposição e qualidade
+    4. Atualiza incrementalmente a cobertura estimada após cada adição
+    
+    ESTÁGIO 2: Grupos baseados apenas em imagens complementares
+    1. Agrupa imagens complementares por data
+    2. Para cada grupo com pelo menos 2 imagens:
+       - Seleciona a melhor imagem como base
+       - Aplica o mesmo processo iterativo do estágio 1
+    
+    A heurística prioriza:
+    - Maximizar cobertura geográfica
+    - Minimizar sobreposição entre imagens (através de contribution_factor)
+    - Balancear qualidade (baixa cobertura de nuvens, alta validade de pixels)
+    - Manter coerência temporal (imagens dentro da janela max_days_diff)
+    
+    Args:
+        image_metadata (dict): Dicionário com listas de imagens classificadas
+                              como 'central' e 'complement'
+        max_days_diff (int): Diferença máxima de dias permitida entre imagens do mesmo mosaico
+        
+    Returns:
+        list: Lista de grupos de mosaicos potenciais, ordenados por cobertura e qualidade,
+              cada grupo contendo imagem base, imagens complementares, métricas estimadas
+              e detalhes de sobreposição
     """
     logging.info("\nAnalisando combinações potenciais de mosaicos...")
     potential_mosaics = []
@@ -335,12 +410,19 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
         logging.warning("Nenhuma imagem aceita encontrada para combinações de mosaicos.")
         return []
 
+    # ESTÁGIO 1: Formação de grupos a partir de imagens centrais
+    # Esta é a etapa principal da heurística gulosa, onde cada imagem central
+    # serve como ponto de partida para um grupo potencial de mosaico.
+    # A estratégia gulosa seleciona iterativamente a melhor próxima imagem
+    # baseada na sua contribuição marginal para a cobertura.
     processed_centrals = set()
     for central_img in centrals:
         central_key = central_img.get('filename')
         if central_key in processed_centrals:
             continue
-            
+
+        # Inicializa grupo de mosaico com a imagem central como base
+        # A estimativa inicial de cobertura e qualidade baseia-se apenas na imagem central            
         mosaic_group = {
             'base_image': central_img,
             'complementary_images': [],
@@ -351,17 +433,23 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
             'overlap_details': []
         }
         
-        # Encontra complementos compatíveis
+        # Ordenação de candidatos por mérito heurístico
+        # Imagens são ordenadas inicialmente por cobertura * (1 - nuvens)
+        # Esta ordenação proporciona uma primeira aproximação de quais imagens
+        # têm maior potencial de contribuição para o mosaico
         candidate_imgs = sorted(
             [img for img in all_accepted if img.get('filename') != central_key],
             key=lambda x: x.get('geographic_coverage', 0.0) * (1.0 - x.get('cloud_coverage', 1.0)),
             reverse=True
         )
         
-        # Usa calculate_refined_compatibility
+        # Processo iterativo guloso - para cada candidato, avalia-se a compatibilidade
+        # e adiciona-se o candidato se ele melhorar a cobertura efetiva do mosaico.
+        # O modelo de base é atualizado a cada iteração, permitindo que o algoritmo
+        # considere o estado atual do mosaico ao avaliar o próximo candidato.
         current_base = central_img
         for candidate in candidate_imgs:
-            compatibility = calculate_refined_compatibility(current_base, candidate, max_days_diff)
+            compatibility = calculate_compatibility_mosaics(current_base, candidate, max_days_diff)
             if not compatibility:
                 continue
                 
@@ -399,7 +487,11 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
             potential_mosaics.append(mosaic_group)
             processed_centrals.add(central_key)
 
-    # Lógica para grupos apenas de complementos
+    # ESTÁGIO 2: Formação de grupos apenas com imagens complementares
+    # Esta etapa explora a possibilidade de formar mosaicos de qualidade
+    # usando apenas imagens complementares, agrupadas por data.
+    # Esta abordagem permite aproveitar imagens que não foram classificadas
+    # como centrais mas que em conjunto podem formar mosaicos eficazes.
     complement_groups = defaultdict(list)
     for comp_img in complements:
         if comp_img.get('date'):
@@ -435,10 +527,10 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
             'overlap_details': []
         }
         
-        # Usa calculate_refined_compatibility
+        # Usa calculate_compatibility_mosaics
         current_base = base_img
         for candidate in sorted_comps[1:]:
-            compatibility = calculate_refined_compatibility(current_base, candidate, max_days_diff)
+            compatibility = calculate_compatibility_mosaics(current_base, candidate, max_days_diff)
             if not compatibility:
                 continue
                 
