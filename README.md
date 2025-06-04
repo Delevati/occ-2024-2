@@ -83,32 +83,6 @@ __Cobertura estimada pelo MILP__: Cobertura = Soma(Áreas_Individuais) - Soma(In
 
 Todos os valores de cobertura são normalizados para o intervalo [0,1] no modelo de otimização, representando a proporção (%) da AOI coberta.
 
-## Execução do Pipeline
-
-## 1. Download de imagens
-
-python code/1.1-cdse-download.py
-
-## 2. Recaptura de imagens, baixar as imagens após seleções, ou imagens ausentes
-
-python code/1.1.2-cdse-recapture-images.py
-
-## 3. Processamento de imagens e aplicação de heurística gulosa
-
-python code/2-prepare-and-greedy.py
-
-## 4. Cálculo preciso de valores de cobertura
-
-python code/2.2.1-PG-PC.py
-
-## 5. Execução da otimização CPLEX
-
-python code/3-CPLEX.py
-
-## 6. Opcional: Validação geométrica dos resultados
-
-python code/external-utils/3.2-area_validation.py
-
 ## Personalização para Novas Áreas
 
 Para aplicar o sistema a uma nova área de interesse:
