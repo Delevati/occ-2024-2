@@ -33,12 +33,6 @@ from greedy_utils.metadata_utils import get_cloud_cover_in_geom
 from greedy_utils.json_utils import DateTimeEncoder
 from greedy_utils.processing_utils import process_single_zip_file
 
-from greedy_utils.configuration import *
-from greedy_utils.file_utils import safe_extract
-from greedy_utils.metadata_utils import get_date_from_xml, extract_orbit_from_filename
-from greedy_utils.image_processing import calculate_coverage_metrics, calculate_cloud_coverage, check_image_suitability, classify_image
-
-
 # --- Funções de Busca de Mosaicos ---
 def calculate_compatibility_mosaics(base_img: dict, other_img: dict, max_days: int) -> dict | None:
     """

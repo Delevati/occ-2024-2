@@ -11,7 +11,7 @@ Este projeto implementa um pipeline para otimização da seleção de mosaicos d
 coverage_otimization/
 ├── code/                        # Scripts principais de processamento
 │   ├── 1.1-cdse-download.py     # Download inicial de imagens Sentinel-2
-│   ├── 1.1.2-cdse-recapture-images.py # Recuperação de imagens
+│   ├── 1.1.2-cdse-recapture.py # Recuperação de imagens
 │   ├── 2-compatibility-greedy.py # Implementação da heurística gulosa
 │   ├── 2.2-calc-area-2a2.py     # Cálculo de cobertura par a par (método 2a2)
 │   ├── 3-CPLEX.py               # Modelo PLIM com IBM CPLEX
@@ -55,13 +55,13 @@ coverage_otimization/
 
 - __`1.1-cdse-download.py`__: Realiza busca e download inicial de imagens Sentinel-2
 
-- __`1.1.2-cdse-recapture-images.py`__: Recupera imagens específicas da seleção inicial
+- __`1.1.2-cdse-recapture.py`__: Recupera imagens específicas da seleção inicial
 
 ### 2. Processamento e Análise
 
-- __`2-prepare-and-greedy.py`__: Processa imagens e aplica algoritmo heurístico guloso para encontrar combinações iniciais de mosaicos
+- __`2-compatibility-greedy.py`__: Processa imagens e aplica algoritmo heurístico guloso para encontrar combinações iniciais de mosaicos
 
-- __`2.2.1-PG-PC.py`__: Pós-processa grupos de mosaicos para calcular valores de cobertura par a par
+- __`2.2-calc-area-2a2.py.py`__: Pós-processa grupos de mosaicos para calcular valores de cobertura par a par
 
 ### 3. Otimização
 
