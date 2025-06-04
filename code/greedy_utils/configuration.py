@@ -17,10 +17,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 # --- Configuração de diretórios ---
 BASE_VOLUME = Path("/Volumes/luryand")
-ZIP_SOURCE_DIR = BASE_VOLUME / "nova_busca"
-OUTPUT_BASE_DIR = BASE_VOLUME / "coverage_otimization_pe-pi-ce"
-TEMP_EXTRACT_DIR = BASE_VOLUME / "temp_extract"
-AOI_SHAPEFILE = Path("/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/PI-PE-CE/ucs_pe-pi-ce_31984.shp")
+ZIP_SOURCE_DIR = BASE_VOLUME / "nova_busca/RS"
+OUTPUT_BASE_DIR = BASE_VOLUME / "coverage_otimization_rs"
+TEMP_EXTRACT_DIR = BASE_VOLUME / "temp"
+AOI_SHAPEFILE = Path("/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/RS/ibirapuita_31982.shp")
 METADATA_DIR = OUTPUT_BASE_DIR / "metadata"
 PLOTS_DIR = OUTPUT_BASE_DIR / 'publication_plots'
 VALIDATION_DIR = OUTPUT_BASE_DIR / 'validation'

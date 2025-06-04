@@ -11,6 +11,8 @@ import numpy as np
 import geopandas as gpd
 import logging
 import traceback
+import rasterio
+from rasterio.mask import geometry_mask
 from shapely.geometry import Polygon, box
 from .metadata_utils import get_cloud_cover_in_geom
 import pyproj
@@ -59,10 +61,25 @@ def calculate_coverage_metrics(raster_path, aoi_gdf_crs_raster, aoi_area_wgs84):
                 metrics['geographic_coverage'] = min(1.0, intersection_area / aoi_area_wgs84)
                 
                 # Calcula percentual de pixels válidos
-                raster_data = src.read(1, masked=True)
-                total_pixels = raster_data.size
-                valid_pixels = np.sum(~raster_data.mask)
-                metrics['valid_pixels_percentage'] = valid_pixels / total_pixels if total_pixels > 0 else 0.0
+                geom = aoi_gdf_crs_raster.geometry.iloc[0]
+                aoi_mask = geometry_mask(
+                    [geom],
+                    out_shape=(src.height, src.width),
+                    transform=src.transform,
+                    invert=True
+                )
+
+                raster_data = src.read(1, masked=False)
+                raster_data_aoi = raster_data[aoi_mask]  # Apenas pixels na AOI
+
+                # Calcula percentual de pixels válidos apenas na AOI
+                total_pixels_in_aoi = raster_data_aoi.size
+                valid_pixels_in_aoi = np.sum(raster_data_aoi > 0)
+                    
+                logging.debug(f"Total de pixels na AOI: {total_pixels_in_aoi}")
+                logging.debug(f"Pixels válidos na AOI: {valid_pixels_in_aoi}")
+
+                metrics['valid_pixels_percentage'] = valid_pixels_in_aoi / total_pixels_in_aoi if total_pixels_in_aoi > 0 else 0.0
                 
                 # Calcula cobertura efetiva
                 metrics['effective_coverage'] = metrics['geographic_coverage'] * metrics['valid_pixels_percentage']
@@ -94,7 +111,7 @@ def calculate_cloud_coverage(cloud_mask_path, aoi_gdf_crs_mask):
             try:
                 # Cria máscara para AOI
                 geom = aoi_gdf_crs_mask.geometry.iloc[0]
-                aoi_mask = rasterio.features.geometry_mask(
+                aoi_mask = geometry_mask(
                     [geom],
                     out_shape=(src.height, src.width),
                     transform=src.transform,

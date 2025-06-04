@@ -8,14 +8,9 @@ de grupos de imagens utilizando o Princípio da Inclusão-Exclusão (PIE) modifi
 METODOLOGIA:
 -----------
 Cada imagem é representada como um polígono espacial na projeção da AOI (Área de Interesse).
-O cálculo de cobertura utiliza a fórmula PIE modificada:
+O cálculo de cobertura utiliza a fórmula do Princípio da Inclusão-Exclusão para áreas de interseção 2a2:
 
-    Cobertura = [Soma(Áreas individuais) - Soma(Interseções 2a2) + 0,0993*Soma(Interseções 2a2)*Ind(|I|≥3)] / Area[AOI]
-
-Esta abordagem:
-1. É computacionalmente mais eficiente que calcular todas as interseções de ordem superior
-2. Mantém alta precisão matemática, conforme o Princípio da Inclusão-Exclusão
-3. Evita contagem duplicada de áreas sobrepostas
+    Cobertura = [Soma(Áreas individuais) - Soma(Interseções 2a2)]
 
 INTEGRAÇÃO:
 ----------

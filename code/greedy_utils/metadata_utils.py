@@ -23,46 +23,42 @@ from shapely.ops import transform as shapely_transform
 def get_date_from_xml(xml_path):
     """
     Extrai a data de um arquivo XML de metadados do Sentinel-2.
-    
-    Tenta encontrar a data em diversas tags do XML e formatos conhecidos.
-    Se falhar, tenta extrair a data do nome do arquivo.
-    
-    Parâmetros:
-        xml_path: Caminho para o arquivo XML de metadados
-        
-    Retorno:
-        Objeto datetime com a data extraída ou None se falhar
     """
-    date_formats = ['%Y-%m-%dT%H:%M:%S.%fZ', '%Y-%m-%dT%H:%M:%S.%f', '%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S']
-    date_tags = ['DATATAKE_SENSING_START', 'SENSING_TIME', 'PRODUCT_START_TIME', 'GENERATION_TIME']
     try:
-        tree = ET.parse(xml_path)
-        root = tree.getroot()
-        for tag_name in date_tags:
-            elements = root.findall(f".//*[contains(local-name(), '{tag_name}')]")
-            if elements:
-                for elem in elements:
-                    for date_format in date_formats:
-                        try:
-                            return datetime.strptime(elem.text.strip(), date_format)
-                        except (ValueError, TypeError):
-                            continue
-    except ET.ParseError as e_xml:
-        logging.warning(f"Não foi possível analisar o arquivo XML: {xml_path} - {e_xml}")
-    except Exception as e:
-        logging.warning(f"Erro ao ler data do XML {xml_path}: {e}")
-    
-    # Tenta extrair a data do nome do arquivo caso a análise do XML falhe
-    try:
+        # Extrair diretamente do nome do arquivo - método mais confiável
         filename = os.path.basename(xml_path)
+        dir_name = os.path.basename(os.path.dirname(xml_path))
+        
+        # Primeiro tenta extrair do nome do diretório (mais confiável)
+        date_match = re.search(r'_(\d{8}T\d{6})_', dir_name)
+        if date_match:
+            date_str = date_match.group(1)
+            return datetime.strptime(date_str, '%Y%m%dT%H%M%S')
+            
+        # Se não encontrar no diretório, tenta no nome do arquivo
         date_match = re.search(r'_(\d{8}T\d{6})_', filename)
         if date_match:
             date_str = date_match.group(1)
             return datetime.strptime(date_str, '%Y%m%dT%H%M%S')
+            
+        # Tenta método de busca básica no XML como último recurso
+        tree = ET.parse(xml_path)
+        root = tree.getroot()
+        
+        # Busca simples por elementos que terminam com os nomes das tags
+        for tag_name in ['DATATAKE_SENSING_START', 'SENSING_TIME', 'PRODUCT_START_TIME', 'GENERATION_TIME']:
+            for elem in root.iter():
+                if elem.tag.endswith(tag_name) and elem.text:
+                    for date_format in ['%Y-%m-%dT%H:%M:%S.%fZ', '%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S']:
+                        try:
+                            return datetime.strptime(elem.text.strip(), date_format)
+                        except ValueError:
+                            continue
+        
+        return None
     except Exception as e:
-        logging.warning(f"Erro ao extrair data do nome do arquivo {xml_path}: {e}")
-    
-    return None
+        logging.warning(f"Erro ao processar data do arquivo {xml_path}: {e}")
+        return None
 
 def extract_orbit_from_filename(filename):
     """
