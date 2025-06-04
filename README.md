@@ -77,9 +77,7 @@ O sistema utiliza os valores de cobertura para calcular considerando sobreposiç
 
 ### Métodos de Cálculo de Cobertura
 
-Duas abordagens distintas para o cálculo PIE são implementadas:
-
-1. __Cobertura estimada pelo MILP__: Cobertura = Soma(Áreas_Individuais) - Soma(Interseções_Pares)
+__Cobertura estimada pelo MILP__: Cobertura = Soma(Áreas_Individuais) - Soma(Interseções_Pares)
 
 ### Normalização no Modelo de Otimização
 
