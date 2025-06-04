@@ -71,11 +71,9 @@ coverage_otimization/
 
 - __`3-CPLEX.py`__: Implementa modelo de Programação Linear Inteira Mista (PLIM) utilizando CPLEX para selecionar o conjunto ótimo de grupos de mosaicos
 
-## Parâmetros de Configuração Detalhados
+## Parâmetros do Algoritmo Guloso
 
 Os seguintes parâmetros podem ser ajustados no arquivo `code/greedy_utils/configuration.py`:
-
-## Parâmetros do Algoritmo Guloso
 
 - `MOSAIC_MIN_CONTRIBUTION_THRESHOLD`: Limiar de contribuição mínima (5%) para inclusão de imagem em grupo
 - `CENTRAL_IMAGE_EFFECTIVE_COVERAGE_THRESHOLD`: Limiar para classificação de imagem como central (30%)
@@ -101,27 +99,6 @@ __Cobertura estimada pelo MILP__: Cobertura = Soma(Áreas_Individuais) - Soma(In
 ### Normalização no Modelo de Otimização
 
 Todos os valores de cobertura são normalizados para o intervalo [0,1] no modelo de otimização, representando a proporção (%) da AOI coberta.
-
-## Parâmetros de Seleção Heurística Gulosa
-
-Para aplicar o sistema a uma nova área de interesse:
-
-1. __Preparar Shapefile__: Adicione o shapefile da nova AOI em `code/APA-input/recapture/[nova_regiao]/`
-
-2. __Ajustar Configurações__:
-
-   - Edite `code/greedy_utils/configuration.py` para apontar para o novo shapefile
-   - Ajuste `OUTPUT_BASE_DIR` para um diretório adequado à nova região
-
-3. __Parâmetros Específicos da Região__:
-
-   - Para regiões com mais nuvens, considere ajustar `MAX_CLOUD_COVERAGE_THRESHOLD`
-   - Em áreas menores, pode-se reduzir `MOSAIC_MIN_CONTRIBUTION_THRESHOLD`
-
-4. __Limitações Computacionais__:
-
-   - Para áreas muito grandes, considere subdividir em regiões menores
-   - Ajuste `TEMP_EXTRACT_DIR` para um volume com espaço suficiente
 
 ## Parâmetros de Otimização Método Exato CPLEX
 
