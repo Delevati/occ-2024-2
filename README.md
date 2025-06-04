@@ -12,8 +12,8 @@ coverage_otimization/
 ├── code/                        # Scripts principais de processamento
 │   ├── 1.1-cdse-download.py     # Download inicial de imagens Sentinel-2
 │   ├── 1.1.2-cdse-recapture-images.py # Recuperação de imagens
-│   ├── 2-prepare-and-greedy.py  # Implementação da heurística gulosa
-│   ├── 2.2.1-PG-PC.py           # Cálculo de cobertura 2a2
+│   ├── 2-compatibility-greedy.py # Implementação da heurística gulosa
+│   ├── 2.2-calc-area-2a2.py     # Cálculo de cobertura par a par (método 2a2)
 │   ├── 3-CPLEX.py               # Modelo PLIM com IBM CPLEX
 │   ├── APA-input/               # Diretório com shapefiles das áreas de interesse (utilizados no projeto .shp's)
 │   │   ├── recapture/           # Subdiretório com áreas categorizadas
@@ -23,8 +23,10 @@ coverage_otimization/
 │       ├── configuration.py     # Configurações globais e parâmetros
 │       ├── file_utils.py        # Utilitários para manipulação de arquivos
 │       ├── image_processing.py  # Funções de processamento de imagens
+│       ├── json_utils.py        # Utilitários para serialização JSON
 │       ├── metadata_utils.py    # Processamento de metadados
-│       └── plotting_utils.py    # Funções de visualização
+│       ├── plotting_utils.py    # Funções de visualização
+│       └── processing_utils.py  # Funções de processamento principal
 └── results/                     # Diretório de saída para resultados
 
 ````
@@ -37,7 +39,7 @@ coverage_otimization/
 
 - __Projeção__: Recomendado usar projeções UTM específicas para a região
 
-- __Localização__: ```code/APA-input/[região]/[nome_shapefile].shp```
+- __Localização__: ```code/APA-input/recapture/[região]/[nome_shapefile].shp```
 
 ### 2. Imagens Sentinel-2
 
@@ -87,7 +89,7 @@ Todos os valores de cobertura são normalizados para o intervalo [0,1] no modelo
 
 Para aplicar o sistema a uma nova área de interesse:
 
-1. __Preparar Shapefile__: Adicione o shapefile da nova AOI em `code/APA-input/[nova_regiao]/`
+1. __Preparar Shapefile__: Adicione o shapefile da nova AOI em `code/APA-input/recapture/[nova_regiao]/`
 
 2. __Ajustar Configurações__:
 
