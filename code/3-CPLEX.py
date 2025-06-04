@@ -6,11 +6,11 @@ Este script implementa um modelo de otimização matemática usando programaçã
 linear inteira mista (MILP) para selecionar o conjunto ótimo de grupos de mosaicos
 que maximizam a cobertura efetiva da área de interesse (AOI).
 
-O modelo utiliza o Princípio da Inclusão-Exclusão (PIE) para calcular corretamente
+O modelo utiliza o Princípio da Inclusão-Exclusão (MILP) para calcular corretamente
 a cobertura sem duplicação de áreas sobrepostas, considerando a geometria espacial
 das imagens na representação da AOI.
 
-Autor: Luryand Costa
+Autor: Luryand
 Instituição: Universidade Federal
 Data: Maio/2025
 """
@@ -48,14 +48,30 @@ def calculate_group_coverage(group):
 
 def solve_mosaic_selection_milp(optimization_params):
     """
-    Implementa e resolve o modelo de programação linear inteira mista (MILP)
+    Implementa e resolve o modelo de Programação Linear Inteira Mista (PLIM)
     para seleção ótima de grupos de mosaicos.
     
-    O modelo considera:
-    1. Maximizar a cobertura efetiva considerando sobreposições (PIE)
-    2. Minimizar o número de grupos selecionados
-    3. Minimizar a cobertura de nuvens
-    4. Garantir restrições de exclusividade entre imagens
+    Este modelo implementa o problema de cobertura de Áreas de Interesse (AOI)
+    usando o Princípio de Inclusão-Exclusão (MILP) para contabilizar corretamente
+    as sobreposições entre grupos de mosaicos. A formulação matemática segue:
+    
+    Maximize: ∑(j∈M) E_j·y_j - α·∑(j∈M) y_j - γ·∑(j∈M) N_j·y_j
+    
+    Sujeito a:
+    - Restrições de nuvens: N_j > threshold → y_j = 0
+    - Exclusividade: ∑(j∈M(i)) y_j ≤ 1, ∀i ∈ I'
+    - Cobertura mínima: ∑(j∈M) A_j·y_j - ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} ≥ min_coverage
+    - Restrições de linearização: y_j + y_k - 1 ≤ o_{j,k}, o_{j,k} ≤ y_j, o_{j,k} ≤ y_k
+    
+    Onde:
+    - E_j: Qualidade efetiva do grupo j (cobertura × qualidade)
+    - y_j: Variável binária de decisão (1 se grupo j é selecionado, 0 caso contrário)
+    - α: Penalidade por número de grupos
+    - γ: Penalidade por cobertura de nuvens
+    - N_j: Cobertura de nuvens do grupo j
+    - A_j: Área de cobertura do grupo j
+    - I_{j,k}: Interseção entre grupos j e k
+    - o_{j,k}: Variável auxiliar para interseções (1 se ambos j e k selecionados)
     
     Args:
         optimization_params (dict): Parâmetros contendo grupos de mosaicos e metadados
@@ -79,7 +95,7 @@ def solve_mosaic_selection_milp(optimization_params):
     group_coverages = {}
     group_qualities = {}
 
-    logging.info("Analisando métricas dos grupos de mosaico (PIE simplificado)...")
+    logging.info("Analisando métricas dos grupos de mosaico (MILP simplificado)...")
     for group in mosaic_groups:
         group_id = group['group_id']
         images = group['images']
@@ -106,6 +122,8 @@ def solve_mosaic_selection_milp(optimization_params):
         )
 
     # Variáveis de decisão: y[group_id] = 1 se o grupo for selecionado, 0 caso contrário
+    # Estas variáveis binárias representam as decisões fundamentais do modelo (y_j na formulação matemática)
+    # e determinam quais grupos de mosaicos farão parte da solução final
     y = {
         group['group_id']: mdl.binary_var(name=f'y_{group["group_id"]}')
         for group in mosaic_groups
@@ -116,6 +134,13 @@ def solve_mosaic_selection_milp(optimization_params):
     gamma = 0.8   # Penalidade por cobertura de nuvens
 
     # Função objetivo: Maximiza cobertura e qualidade, penalizando número de grupos e nuvens
+    # Esta implementação corresponde à equação: 
+    # max ∑(j∈M) E_j·y_j - α·∑(j∈M) y_j - γ·∑(j∈M) N_j·y_j
+    # 
+    # Decomposição da função objetivo em suas três componentes:
+    # 1. Benefício: Cobertura efetiva qualificada (E_j·y_j)
+    # 2. Penalidade 1: Número de grupos selecionados (α·y_j)
+    # 3. Penalidade 2: Cobertura de nuvens nos grupos selecionados (γ·N_j·y_j)
     total_coverage_quality = mdl.sum(
         group_coverages[group['group_id']] * group_qualities[group_id] * y[group['group_id']]
         for group in mosaic_groups if group['group_id'] in y
@@ -133,12 +158,17 @@ def solve_mosaic_selection_milp(optimization_params):
     logging.info(f"Função objetivo: Maximizar (Cobertura * Qualidade) - {alpha}(Num Grupos) - {gamma}(Cobertura de Nuvens)")
 
     # RESTRIÇÃO 1: Limite de cobertura de nuvens
+    # Exclui automaticamente grupos com cobertura de nuvens acima do threshold
+    # Corresponde à restrição: N_j > threshold → y_j = 0
     cloud_threshold = 0.50
     for group_id, cloud_coverage in group_cloud_coverages.items():
         if cloud_coverage > cloud_threshold and group_id in y:
             mdl.add_constraint(y[group_id] == 0, ctname=f"exclude_high_cloud_{group_id}")
 
     # RESTRIÇÃO 2: Exclusividade - cada imagem pode aparecer em no máximo um grupo selecionado
+    # Garante que uma mesma imagem não seja utilizada em diferentes grupos na solução final
+    # Corresponde à restrição: ∑(j∈M(i)) y_j ≤ 1, ∀i ∈ I'
+    # onde M(i) é o conjunto de grupos que contêm a imagem i
     image_to_groups = defaultdict(list)
     for group in mosaic_groups:
         group_id = group['group_id']
@@ -152,11 +182,14 @@ def solve_mosaic_selection_milp(optimization_params):
                 mdl.sum(y[group_id] for group_id in groups_with_image) <= 1,
                 ctname=f"exclusivity_{clean_name}"
             )
-
     # RESTRIÇÃO 3: Cobertura mínima total da AOI considerando interseções entre grupos
+    # Implementa o Princípio da Inclusão-Exclusão (MILP) para evitar contagem duplicada de áreas
+    # Corresponde à restrição: ∑(j∈M) A_j·y_j - ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} ≥ min_coverage
     min_total_coverage = 0.85  # 85% de cobertura mínima
     
-    # 1. Criar variáveis binárias para rastrear pares de grupos selecionados (o_g1,g2)
+    # 1. Criar variáveis binárias para rastrear pares de grupos selecionados (o_j,k)
+    # Estas variáveis auxiliares são usadas para contabilizar interseções apenas quando
+    # ambos os grupos são selecionados, linearizando a expressão não-linear y_j × y_k
     group_pairs = {}
     for i, group1 in enumerate(mosaic_groups):
         g1_id = group1['group_id']
@@ -165,9 +198,14 @@ def solve_mosaic_selection_milp(optimization_params):
             pair_name = f"o_{g1_id}_{g2_id}"
             group_pairs[(g1_id, g2_id)] = mdl.binary_var(name=pair_name)
     
-    # 2. Adicionar restrições para vincular variáveis de pares às variáveis de grupos
+    # 2. Restrições de linearização para relacionar variáveis de pares (o_j,k) com 
+    # variáveis de grupos (y_j, y_k)
+    # Estas três restrições garantem que o_j,k = 1 se e somente se y_j = y_k = 1
+    # Correspondem às restrições:
+    # y_j + y_k - 1 ≤ o_j,k (força o_j,k = 1 quando y_j = y_k = 1)
+    # o_j,k ≤ y_j (impede o_j,k = 1 quando y_j = 0)
+    # o_j,k ≤ y_k (impede o_j,k = 1 quando y_k = 0)
     for (g1_id, g2_id), pair_var in group_pairs.items():
-        # o_g1,g2 = 1 somente se ambos y[g1_id] = 1 E y[g2_id] = 1
         mdl.add_constraint(y[g1_id] + y[g2_id] - 1 <= pair_var, 
                           ctname=f"pair_linkage_1_{g1_id}_{g2_id}")
         mdl.add_constraint(pair_var <= y[g1_id], 
@@ -176,6 +214,8 @@ def solve_mosaic_selection_milp(optimization_params):
                           ctname=f"pair_linkage_3_{g1_id}_{g2_id}")
     
     # 3. Calcular interseções entre pares de grupos
+    # Esta seção estima áreas de interseção entre grupos baseando-se na 
+    # proporção de imagens compartilhadas e em dados geométricos disponíveis
     group_intersections.clear()
     
     # Obter a área total da AOI
@@ -244,6 +284,8 @@ def solve_mosaic_selection_milp(optimization_params):
                            f"{intersection_value:.4f} (baseado em {len(shared_images)} imagens compartilhadas)")
     
     # 4. Aplicar a restrição de cobertura
+    # A expressão de cobertura subtrai as interseções para evitar contagem duplicada
+    # Implementa: ∑(j∈M) A_j·y_j - ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} ≥ min_coverage
     coverage_expr = mdl.sum(
         group_coverages[group['group_id']] * y[group['group_id']]
         for group in mosaic_groups if group['group_id'] in y
@@ -290,10 +332,9 @@ def solve_mosaic_selection_milp(optimization_params):
                     f"Qualidade = {quality:.4f}"
                 )
         
-        # Calcular cobertura real considerando interseções
         true_coverage = total_coverage
         
-        # Aplicar o Princípio da Inclusão-Exclusão para subtrair interseções
+        # Aplicar a subtração das interseções
         for (g1_id, g2_id), intersection in group_intersections.items():
             if g1_id in selected_group_ids and g2_id in selected_group_ids:
                 true_coverage -= intersection
@@ -333,9 +374,6 @@ def save_cplex_results(selected_groups, output_filepath):
     Args:
         selected_groups (list): Lista de grupos de mosaicos selecionados
         output_filepath (str): Caminho para o arquivo de saída
-        
-    Returns:
-        bool: True se o salvamento foi bem-sucedido
     """
     os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
     with open(output_filepath, 'w') as f:
@@ -348,8 +386,20 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
                           selected_group_ids, min_total_coverage, mosaic_groups):
     """
     Realiza uma validação detalhada das decisões tomadas pelo modelo CPLEX,
-    analisando restrições, função objetivo e calculando a cobertura usando
-    o método PIE incremental.
+    verificando a consistência da solução e analisando o atendimento às restrições.
+    
+    Este processo valida matematicamente se a solução encontrada pelo solver:
+    1. Satisfaz todas as restrições do modelo
+    2. Calcula corretamente o valor da função objetivo
+    3. Implementa corretamente o método MILP para cálculo de cobertura
+    
+    A validação inclui:
+    - Análise da função objetivo: decomposição em seus componentes
+    - Verificação da restrição de nuvens: nenhum grupo com nuvens > threshold
+    - Verificação de exclusividade: cada imagem em no máximo um grupo
+    - Verificação da cobertura MILP: usando método incremental para confirmação
+    - Validação das restrições lógicas: consistência entre variáveis y_j e o_j,k
+    - Análise de decisões: motivos para seleção/rejeição de grupos
     
     Args:
         mdl: Modelo CPLEX
@@ -364,10 +414,9 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
         mosaic_groups: Lista de grupos de mosaicos
         
     Returns:
-        dict: Relatório detalhado da validação
+        dict: Relatório detalhado da validação, contendo análises de todas as 
+              restrições e componentes do modelo
     """
-    logging.info("\n====== VALIDAÇÃO DETALHADA DAS DECISÕES DO CPLEX ======")
-    
     validation_report = {
         "objective": {
             "total_value": solution.get_objective_value(),
@@ -376,7 +425,7 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
         "constraints": {
             "cloud_threshold": [],
             "exclusivity": [],
-            "coverage_pie": {},
+            "coverage_MILP": {},
             "logical_pairs": []
         },
         "group_analysis": {}
@@ -455,11 +504,10 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
     if exclusivity_violations == 0:
         logging.info("✓ Todas as restrições de exclusividade satisfeitas")
     
-    # 4. VERIFICAÇÃO DA RESTRIÇÃO DE COBERTURA (PIE INCREMENTAL)
-    logging.info("\n4. VERIFICAÇÃO DA RESTRIÇÃO DE COBERTURA (PIE INCREMENTAL)")
-    
-    # Estimar área da AOI
-    aoi_area = 1.0  # Valor padrão
+    # 4. VERIFICAÇÃO DA RESTRIÇÃO DE COBERTURA
+    logging.info("\n4. VERIFICAÇÃO DA RESTRIÇÃO DE COBERTURA (INCREMENTAL)")
+
+    aoi_area = 1.0
     for group in mosaic_groups:
         if 'geometric_coverage_m2' in group and 'geometric_coverage' in group:
             aoi_area = group['geometric_coverage_m2'] / group['geometric_coverage']
@@ -472,16 +520,14 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
         reverse=True
     )
     
-    # Cálculo incremental - cada grupo adiciona apenas sua área única
-    pie_steps = []
+    # Cálculo - cada grupo adiciona apenas sua área única
+    MILP_steps = []
     current_covered_groups = set()
-    current_pie_area = 0
-    
-    # Preparar tabela para exibição
-    pie_incremental_table = []
+    current_MILP_area = 0
+ 
+    MILP_incremental_table = []
     
     for i, (group_id, coverage) in enumerate(sorted_groups):
-        # Encontrar o grupo completo
         group = next((g for g in mosaic_groups if g['group_id'] == group_id), None)
         individual_area = coverage * aoi_area
         
@@ -506,10 +552,10 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
         current_covered_groups.add(group_id)
         
         # Atualizar a cobertura acumulada
-        current_pie_area += increment
+        current_MILP_area += increment
         
         # Adicionar à tabela com colunas simplificadas conforme solicitado
-        pie_incremental_table.append([
+        MILP_incremental_table.append([
             group_id, 
             f"{coverage*100:.2f}%", 
             f"{increment*100:.2f}%",
@@ -517,46 +563,43 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
         ])
         
         # Registrar este passo para o relatório
-        pie_steps.append({
+        MILP_steps.append({
             'group_id': group_id,
-            'pie_individual_pct': coverage*100,
-            'pie_incremento_pct': increment*100,
-            'pie_incremento_km2': increment_area/1e6
+            'MILP_individual_pct': coverage*100,
+            'MILP_incremento_pct': increment*100,
+            'MILP_incremento_km2': increment_area/1e6
         })
-    
-    # Exibir a tabela no formato solicitado
-    logging.info("\n== COBERTURA PIE INCREMENTAL (PAR A PAR) ==")
-    logging.info("Mosaicos ordenados por área PIE (maior primeiro):")
+
+    logging.info("\n== COBERTURA MILP INCREMENTAL (PAR A PAR) ==")
+    logging.info("Mosaicos ordenados por área MILP (maior primeiro):")
     logging.info("{:<10} {:<20} {:<20} {:<20}".format(
-        "Mosaico", "PIE Individual %", "Incremento PIE %", "Incremento PIE km²"
+        "Mosaico", "MILP Individual %", "Incremento MILP %", "Incremento MILP km²"
     ))
     
-    for row in pie_incremental_table:
+    for row in MILP_incremental_table:
         logging.info("{:<10} {:<20} {:<20} {:<20}".format(
             row[0], row[1], row[2], row[3]
         ))
-    
-    # Este valor agora usa o método PIE incremental como o valor correto
-    true_coverage = current_pie_area
+
+    true_coverage = current_MILP_area
     coverage_slack = true_coverage - min_total_coverage
-    
-    # Informações adicionais
+
     logging.info("\n-- RESUMO DE COBERTURA --")
-    logging.info(f"Cobertura final pelo método PIE incremental: {true_coverage*100:.2f}%")
+    logging.info(f"Cobertura final pelo método MILP incremental: {true_coverage*100:.2f}%")
     logging.info(f"Cobertura mínima exigida: {min_total_coverage*100:.2f}%")
     logging.info(f"Folga na restrição: {coverage_slack*100:.2f}%")
     
-    status = "✓ SATISFEITA" if true_coverage >= min_total_coverage else "❌ VIOLADA"
+    status = "SATISFEITA" if true_coverage >= min_total_coverage else "VIOLADA"
     logging.info(f"Restrição de cobertura: {status}")
     
     # Atualizar o relatório de validação
-    validation_report["constraints"]["coverage_pie"] = {
-        "method": "incremental_pie",
+    validation_report["constraints"]["coverage_MILP"] = {
+        "method": "incremental_MILP",
         "true_coverage": true_coverage, 
         "min_required": min_total_coverage,
         "slack": coverage_slack,
         "satisfied": coverage_slack >= 0,
-        "pie_steps": pie_steps
+        "MILP_steps": MILP_steps
     }
     
     # 5. Verificação das Restrições Lógicas de Pares
@@ -646,7 +689,7 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
     logging.info(f"\nRelatório de validação salvo em: {validation_file}")
     logging.info("\n====== VALIDAÇÃO COMPLETA ======")
     
-    logging.info("\n7. ESTATÍSTICAS PIE PARA ANÁLISE DIDÁTICA")
+    logging.info("\n7. ESTATÍSTICAS MILP PARA ANÁLISE DIDÁTICA")
     
     # Calcular estatísticas para todos os grupos, não apenas os selecionados
     # Isso mostrará o impacto teórico das interseções
@@ -655,7 +698,7 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
     # A. Cenário real (sem restrições de exclusividade)
     theoretical_raw_coverage = sum(group_coverages[g_id] for g_id in all_groups_ids)
     
-    # B. Cálculo PIE pares (ordem 2)
+    # B. Cálculo MILP pares (ordem 2)
     theoretical_intersections = 0
     intersections_count = 0
     significant_intersections = 0
@@ -666,15 +709,15 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
         if intersection_value > 0.01:  # Interseção significativa (>1%)
             significant_intersections += 1
     
-    theoretical_pie_coverage = theoretical_raw_coverage - theoretical_intersections
+    theoretical_milp_coverage = theoretical_raw_coverage - theoretical_intersections
     
     # C. Estatísticas comparativas
-    logging.info("A. ESTATÍSTICAS PIE TEÓRICAS (TODOS OS GRUPOS)")
+    logging.info("A. ESTATÍSTICAS MILP TEÓRICAS (TODOS OS GRUPOS)")
     logging.info(f"Cobertura bruta (soma simples de todos os grupos): {theoretical_raw_coverage:.4f}")
     logging.info(f"Total de interseções calculadas: {intersections_count}")
     logging.info(f"Interseções significativas (>1%): {significant_intersections}")
     logging.info(f"Soma total das interseções: {theoretical_intersections:.4f}")
-    logging.info(f"Cobertura estimada PIE: {theoretical_pie_coverage:.4f}")
+    logging.info(f"Cobertura estimada MILP: {theoretical_milp_coverage:.4f}")
     logging.info(f"Impacto das interseções: {(theoretical_intersections/theoretical_raw_coverage)*100:.2f}% da soma bruta")
     
     # D. Impacto das interseções na solução atual
@@ -684,32 +727,32 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
     logging.info("\nB. ESTATÍSTICAS DA SOLUÇÃO CPLEX")
     logging.info(f"Cobertura bruta da solução (soma simples): {sum(group_coverages[g_id] for g_id in selected_group_ids):.4f}")
     logging.info(f"Pares possíveis na solução: {len(selected_pairs)}")
-    logging.info(f"Total de interseções na solução: calculadas no PIE incremental")
-    logging.info(f"Cobertura real PIE incremental: {true_coverage:.4f}")
+    logging.info(f"Total de interseções na solução: calculadas no incremental")
+    logging.info(f"Cobertura real incremental: {true_coverage:.4f}")
     
-    # E. Salvar estatísticas em arquivo separado
-    pie_stats = {
+    # E. Salvar estatísticas em arquivo
+    MILP_stats = {
         "theoretical_analysis": {
             "raw_coverage": theoretical_raw_coverage,
             "total_intersections": theoretical_intersections,
-            "pie_coverage": theoretical_pie_coverage,
+            "MILP_coverage": theoretical_milp_coverage,
             "intersections_count": intersections_count,
             "significant_intersections": significant_intersections,
             "intersection_impact_percent": (theoretical_intersections/theoretical_raw_coverage)*100
         },
         "solution_analysis": {
             "raw_coverage": sum(group_coverages[g_id] for g_id in selected_group_ids),
-            "pie_coverage": true_coverage,
+            "MILP_coverage": true_coverage,
             "possible_pairs": len(selected_pairs),
-            "calculation_method": "PIE incremental"
+            "calculation_method": "MILP incremental"
         }
     }
     
-    pie_stats_file = os.path.join(os.path.dirname(CPLEX_RESULTS_FILE), 'cplex_pie_extended_stats.json')
-    with open(pie_stats_file, 'w') as f:
-        json.dump(pie_stats, f, indent=2)
+    MILP_stats_file = os.path.join(os.path.dirname(CPLEX_RESULTS_FILE), 'cplex_MILP_extended_stats.json')
+    with open(MILP_stats_file, 'w') as f:
+        json.dump(MILP_stats, f, indent=2)
     
-    logging.info(f"\nEstatísticas PIE estendidas salvas em: {pie_stats_file}")
+    logging.info(f"\nEstatísticas estendidas salvas em: {MILP_stats_file}")
 
     return validation_report
 
@@ -720,7 +763,7 @@ def main():
     2. Resolve o modelo MILP usando CPLEX
     3. Salva os resultados e realiza validações detalhadas
     """
-    logging.info("=== INICIANDO OTIMIZAÇÃO CPLEX COM MÉTODO PIE SIMPLIFICADO ===")
+    logging.info("=== INICIANDO OTIMIZAÇÃO CPLEX COM MÉTODO ===")
     
     logging.info(f"Carregando parâmetros pré-calculados: {OPTIMIZATION_PARAMS_FILE}")
     with open(OPTIMIZATION_PARAMS_FILE, 'r') as f:
@@ -728,9 +771,9 @@ def main():
     
     has_precalc = any('geometric_coverage' in group for group in optimization_params.get('mosaic_groups', []))
     if has_precalc:
-        logging.info("✓ Valores de cobertura geométrica encontrados")
+        logging.info("Valores de cobertura geométrica encontrados")
     else:
-        logging.warning("⚠ Valores de cobertura geométrica não encontrados. Execute area.py primeiro.")
+        logging.warning("Valores de cobertura geométrica não encontrados. Execute area.py primeiro.")
     
     selected_mosaic_groups, model_vars = solve_mosaic_selection_milp(optimization_params)
 
