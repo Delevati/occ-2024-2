@@ -67,6 +67,10 @@ coverage_otimization/
 
 - __`2.2-calc-area-2a2.py.py`__: Pós-processa grupos de mosaicos para calcular valores de cobertura par a par
 
+### 3. Otimização
+
+- __`3-CPLEX.py`__: Implementa modelo de Programação Linear Inteira Mista (PLIM) utilizando CPLEX para selecionar o conjunto ótimo de grupos de mosaicos
+
 ## Parâmetros de Configuração Detalhados
 
 Os seguintes parâmetros podem ser ajustados no arquivo `code/greedy_utils/configuration.py`:
@@ -79,10 +83,6 @@ Os seguintes parâmetros podem ser ajustados no arquivo `code/greedy_utils/confi
 - `MOSAIC_TIME_WINDOW_DAYS`: Janela temporal máxima para agrupar imagens (5 dias)
 - `MAX_CLOUD_COVERAGE_THRESHOLD`: Cobertura máxima de nuvens permitida (50%)
 - `OVERLAP_QUALITY_WEIGHT`: Peso para qualidade na avaliação de sobreposições (0.3)
-
-### 3. Otimização
-
-- __`3-CPLEX.py`__: Implementa modelo de Programação Linear Inteira Mista (PLIM) utilizando CPLEX para selecionar o conjunto ótimo de grupos de mosaicos
 
 ## Abordagem Metodológica
 
