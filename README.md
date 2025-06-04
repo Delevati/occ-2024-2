@@ -19,7 +19,9 @@ coverage_otimization/
 │   ├── APA-input/                # Diretório com shapefiles das áreas de interesse
 │   │   ├── recapture/            # Subdiretório com áreas categorizadas
 │   │   └── primarios/            # Shapefiles originais das AOIs
-│   └── greedy_utils/             # Módulo de utilitários para o algoritmo
+│   ├── cplex_utils/              # Módulo de utilitários para o algoritmo CPLEX
+│       ├── configuration.py      # Utilitário de resultados do modelo
+│   └── greedy_utils/             # Módulo de utilitários para o algoritmo Guloso
 │       ├── __init__.py
 │       ├── configuration.py      # Configurações globais e parâmetros
 │       ├── file_utils.py         # Utilitários para manipulação de arquivos
