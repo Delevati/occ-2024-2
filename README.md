@@ -89,7 +89,7 @@ Todos os valores de cobertura são normalizados para o intervalo [0,1] no modelo
 
 python code/1.1-cdse-download.py
 
-## 2. Recaptura de imagens ausentes, se necessário
+## 2. Recaptura de imagens, baixar as imagens após seleções, ou imagens ausentes
 
 python code/1.1.2-cdse-recapture-images.py
 
