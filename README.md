@@ -71,17 +71,6 @@ coverage_otimization/
 
 - __`3-CPLEX.py`__: Implementa modelo de Programação Linear Inteira Mista (PLIM) utilizando CPLEX para selecionar o conjunto ótimo de grupos de mosaicos
 
-## Parâmetros do Algoritmo Guloso
-
-Os seguintes parâmetros podem ser ajustados no arquivo `code/greedy_utils/configuration.py`:
-
-- `MOSAIC_MIN_CONTRIBUTION_THRESHOLD`: Limiar de contribuição mínima (5%) para inclusão de imagem em grupo
-- `CENTRAL_IMAGE_EFFECTIVE_COVERAGE_THRESHOLD`: Limiar para classificação de imagem como central (30%)
-- `COMPLEMENT_IMAGE_MIN_GEOGRAPHIC_COVERAGE_THRESHOLD`: Cobertura mínima para imagens complementares (2%)
-- `MOSAIC_TIME_WINDOW_DAYS`: Janela temporal máxima para agrupar imagens (5 dias)
-- `MAX_CLOUD_COVERAGE_THRESHOLD`: Cobertura máxima de nuvens permitida (50%)
-- `OVERLAP_QUALITY_WEIGHT`: Peso para qualidade na avaliação de sobreposições (0.3)
-
 ## Abordagem Metodológica
 
 O sistema utiliza os valores de cobertura para calcular considerando sobreposições entre mosaicos. O modelo de otimização:
@@ -99,6 +88,17 @@ __Cobertura estimada pelo MILP__: Cobertura = Soma(Áreas_Individuais) - Soma(In
 ### Normalização no Modelo de Otimização
 
 Todos os valores de cobertura são normalizados para o intervalo [0,1] no modelo de otimização, representando a proporção (%) da AOI coberta.
+
+## Parâmetros do Algoritmo Guloso
+
+Os seguintes parâmetros podem ser ajustados no arquivo `code/greedy_utils/configuration.py`:
+
+- `MOSAIC_MIN_CONTRIBUTION_THRESHOLD`: Limiar de contribuição mínima (5%) para inclusão de imagem em grupo
+- `CENTRAL_IMAGE_EFFECTIVE_COVERAGE_THRESHOLD`: Limiar para classificação de imagem como central (30%)
+- `COMPLEMENT_IMAGE_MIN_GEOGRAPHIC_COVERAGE_THRESHOLD`: Cobertura mínima para imagens complementares (2%)
+- `MOSAIC_TIME_WINDOW_DAYS`: Janela temporal máxima para agrupar imagens (5 dias)
+- `MAX_CLOUD_COVERAGE_THRESHOLD`: Cobertura máxima de nuvens permitida (50%)
+- `OVERLAP_QUALITY_WEIGHT`: Peso para qualidade na avaliação de sobreposições (0.3)
 
 ## Parâmetros de Otimização Método Exato CPLEX
 
