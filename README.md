@@ -27,7 +27,7 @@ coverage_otimization/
 │       ├── metadata_utils.py     # Processamento de metadados
 │       ├── plotting_utils.py     # Funções de visualização
 │       └── processing_utils.py   # Funções de processamento principal
-├── submission/
+├── submission/                   # Dir para submissões
 │   ├── artigo-sbpo/              # Arquivos .tex, .pdf e img/ 
 │   └── resumo-sbpo/              # Arquivos .tex, .pdf e img/
 └── results/                      # Diretório de saída para resultados
