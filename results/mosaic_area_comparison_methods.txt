@@ -1,0 +1,124 @@
+COMPARAÇÃO DE MÉTODOS DE CÁLCULO DE COBERTURA - 20 MOSAICOS
+================================================================================
+
+MOSAICOS INDIVIDUAIS:
+Mosaico    % PIE (AOI)    % União Real (AOI)      # Imagens
+---------  -------------  --------------------  -----------
+mosaic_9   89.14%         89.14%                          2
+mosaic_10  89.14%         89.14%                          2
+mosaic_15  89.14%         89.14%                          2
+mosaic_16  89.14%         89.14%                          2
+mosaic_17  89.14%         89.14%                          2
+mosaic_19  89.14%         89.14%                          2
+mosaic_20  89.14%         89.14%                          2
+mosaic_22  89.14%         89.14%                          2
+mosaic_25  89.14%         89.14%                          2
+mosaic_26  89.14%         89.14%                          2
+mosaic_27  89.14%         89.14%                          2
+mosaic_28  89.14%         89.14%                          2
+mosaic_29  89.14%         89.14%                          2
+mosaic_30  89.14%         89.14%                          2
+mosaic_31  89.14%         89.14%                          2
+mosaic_32  89.14%         89.14%                          2
+mosaic_34  89.14%         89.14%                          2
+mosaic_35  89.14%         89.14%                          2
+mosaic_36  89.14%         89.14%                          2
+mosaic_37  89.14%         89.14%                          2
+
+COBERTURA INCREMENTAL (UNIÃO GEOMÉTRICA):
+Mosaico    Cobertura Individual    Incremento Real    Cobertura Acumulada
+---------  ----------------------  -----------------  ---------------------
+mosaic_9   89.14%                  89.14%             89.14%
+mosaic_10  89.14%                  0.00%              89.14%
+mosaic_15  89.14%                  0.00%              89.14%
+mosaic_16  89.14%                  -0.00%             89.14%
+mosaic_17  89.14%                  0.00%              89.14%
+mosaic_19  89.14%                  -0.00%             89.14%
+mosaic_20  89.14%                  -0.00%             89.14%
+mosaic_22  89.14%                  -0.00%             89.14%
+mosaic_25  89.14%                  0.00%              89.14%
+mosaic_26  89.14%                  -0.00%             89.14%
+mosaic_27  89.14%                  0.00%              89.14%
+mosaic_28  89.14%                  0.00%              89.14%
+mosaic_29  89.14%                  -0.00%             89.14%
+mosaic_30  89.14%                  -0.00%             89.14%
+mosaic_31  89.14%                  0.00%              89.14%
+mosaic_32  89.14%                  0.00%              89.14%
+mosaic_34  89.14%                  0.00%              89.14%
+mosaic_35  89.14%                  0.00%              89.14%
+mosaic_36  89.14%                  0.00%              89.14%
+mosaic_37  89.14%                  -0.00%             89.14%
+
+COBERTURA PIE INCREMENTAL:
+Mosaico    PIE Individual %    Incremento PIE %    PIE Acumulado %    PIE Individual km²    Incremento PIE km²    PIE Acumulado km²
+---------  ------------------  ------------------  -----------------  --------------------  --------------------  -------------------
+mosaic_9   89.14%              89.14%              89.14%             3897.17 km²           3897.17 km²           3897.17 km²
+mosaic_10  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_15  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_16  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+mosaic_17  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_19  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+mosaic_20  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+mosaic_22  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+mosaic_25  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_26  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+mosaic_27  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_28  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_29  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+mosaic_30  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+mosaic_31  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_32  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_34  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_35  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_36  89.14%              0.00%               89.14%             3897.17 km²           0.00 km²              3897.17 km²
+mosaic_37  89.14%              -0.00%              89.14%             3897.17 km²           -0.00 km²             3897.17 km²
+
+COMPARAÇÃO DOS MÉTODOS:
++-----------------------------------------------+-----------------+----------------+------------------+
+| Método                                        | Cobertura (%)   | Km²            | Confiabilidade   |
++===============================================+=================+================+==================+
+| --------------------------------------------- | -------------   | -------------  | -------------    |
++-----------------------------------------------+-----------------+----------------+------------------+
+| MILP tradicional (soma PIE - sobreposições)   | -15153.92%      | -662518.15 km² | Baixa            |
++-----------------------------------------------+-----------------+----------------+------------------+
+| PIE Incremental (par a par)                   | 89.14%          | 3897.17 km²    | Média            |
++-----------------------------------------------+-----------------+----------------+------------------+
+| União geométrica incremental                  | 89.14%          | 3897.17 km²    | Alta             |
++-----------------------------------------------+-----------------+----------------+------------------+
+| União geométrica direta                       | 89.14%          | 3897.17 km²    | Alta             |
++-----------------------------------------------+-----------------+----------------+------------------+
+
+SOBREPOSIÇÕES ENTRE MOSAICOS:
+Pares de Mosaicos      Área Sobreposta
+---------------------  -----------------
+mosaic_9 ∩ mosaic_10   3897.17 km²
+mosaic_9 ∩ mosaic_15   3897.17 km²
+mosaic_9 ∩ mosaic_16   3897.17 km²
+mosaic_9 ∩ mosaic_17   3897.17 km²
+mosaic_9 ∩ mosaic_19   3897.17 km²
+mosaic_9 ∩ mosaic_20   3897.17 km²
+mosaic_9 ∩ mosaic_22   3897.17 km²
+mosaic_9 ∩ mosaic_25   3897.17 km²
+mosaic_9 ∩ mosaic_26   3897.17 km²
+mosaic_9 ∩ mosaic_27   3897.17 km²
+mosaic_9 ∩ mosaic_28   3897.17 km²
+mosaic_9 ∩ mosaic_29   3897.17 km²
+mosaic_9 ∩ mosaic_30   3897.17 km²
+mosaic_9 ∩ mosaic_31   3897.17 km²
+mosaic_9 ∩ mosaic_32   3897.17 km²
+mosaic_9 ∩ mosaic_34   3897.17 km²
+mosaic_9 ∩ mosaic_35   3897.17 km²
+mosaic_9 ∩ mosaic_36   3897.17 km²
+mosaic_9 ∩ mosaic_37   3897.17 km²
+mosaic_10 ∩ mosaic_15  3897.17 km²
+
+RESULTADOS FINAIS:
+Métrica                                                         Valor
+--------------------------------------------------------------  --------------
+Área total da AOI                                               4371.93 km²
+Soma das áreas PIE (já com sobreposições internas descontadas)  77943.31 km²
+SOMA das uniões individuais dos mosaicos                        77943.31 km²
+Total de sobreposições entre mosaicos diferentes                740461.46 km²
+FÓRMULA MILP: Soma das PIE - Sobreposições entre mosaicos       -662518.15 km²
+MÉTODO PIE INCREMENTAL: Soma considerando a ordem               3897.17 km²
+MÉTODO GEOMÉTRICO: União total dos mosaicos                     3897.17 km²

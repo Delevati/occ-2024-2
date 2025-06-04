@@ -18,7 +18,7 @@ import itertools
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 JSON_FILE = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG-SP-RJ/cplex_selected_mosaic_groups-MG-SP-RJ-og1g2.json"
 PRECALC_FILE = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG-SP-RJ/greedy/optimization_parameters-MG-SP-RJ-precalc.json"
-SHP_FILE = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/MG-SP-RJ/APA_Mantiqueira_mgrjsp_31983.shp"
+SHP_FILE = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/primarios/MG-SP-RJ/APA_Mantiqueira_mgrjsp_31983.shp"
 IMAGE_DIR = Path("/Volumes/luryand/nova_busca")
 TEMP_DIR = Path("/Volumes/luryand/temp_mosaics")
 OUTPUT_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/results"
@@ -420,7 +420,7 @@ def compare_pie_sum_vs_union_sum(mosaic_indices=None):
         ["Soma das áreas PIE (já com sobreposições internas descontadas)", f"{sum(pie_areas)/1e6:.2f} km²"],
         ["SOMA das uniões individuais dos mosaicos", f"{total_union_sum/1e6:.2f} km²"],
         ["Total de sobreposições entre mosaicos diferentes", f"{total_between_mosaic_overlap/1e6:.2f} km²"],
-        ["FÓRMULA MILP: Soma das PIE - Sobreposições entre mosaicos", f"{total_pie_minus_overlaps/1e6:.2f} km²"],
+        ["Soma das PIE - Sobreposições entre mosaicos", f"{total_pie_minus_overlaps/1e6:.2f} km²"],
         ["MÉTODO PIE INCREMENTAL: Soma considerando a ordem", f"{pie_steps[-1]['pie_acumulado_km2'] if pie_steps else 0:.2f} km²"],
         ["MÉTODO GEOMÉTRICO: União total dos mosaicos", f"{all_union_area/1e6:.2f} km²"]
     ]

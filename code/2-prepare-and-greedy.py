@@ -321,7 +321,7 @@ def calculate_refined_compatibility(base_img: dict, other_img: dict, max_days: i
         'overlap_details': overlap_details
     }
 
-def find_mosaic_combinations(image_metadata: dict, max_days_diff: int) -> list:
+def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
     """
     Encontra combinações potenciais de mosaicos usando um algoritmo guloso.
     """
@@ -557,7 +557,7 @@ def run_processing_pipeline():
     logging.info("\n--- Executando Algoritmo Guloso para Combinações de Mosaicos ---")
     logging.info(f"Imagens centrais disponíveis: {len(image_metadata.get('central', []))}")
     logging.info(f"Imagens complementares disponíveis: {len(image_metadata.get('complement', []))}")
-    good_mosaic_combinations = find_mosaic_combinations(image_metadata, MOSAIC_TIME_WINDOW_DAYS)
+    good_mosaic_combinations = heuristica_gulosa(image_metadata, MOSAIC_TIME_WINDOW_DAYS)
     greedy_end = time.time()
     greedy_time = greedy_end - greedy_start
     logging.info(f"Algoritmo guloso concluído em {greedy_time:.2f} segundos")

@@ -243,7 +243,7 @@ def solve_mosaic_selection_milp(optimization_params):
                 logging.info(f"Interseção estimada entre {g1_id} e {g2_id}: " +
                            f"{intersection_value:.4f} (baseado em {len(shared_images)} imagens compartilhadas)")
     
-    # 4. Aplicar a restrição de cobertura corrigida usando PIE
+    # 4. Aplicar a restrição de cobertura
     coverage_expr = mdl.sum(
         group_coverages[group['group_id']] * y[group['group_id']]
         for group in mosaic_groups if group['group_id'] in y
@@ -290,7 +290,7 @@ def solve_mosaic_selection_milp(optimization_params):
                     f"Qualidade = {quality:.4f}"
                 )
         
-        # Calcular cobertura real considerando interseções (PIE)
+        # Calcular cobertura real considerando interseções
         true_coverage = total_coverage
         
         # Aplicar o Princípio da Inclusão-Exclusão para subtrair interseções
@@ -303,7 +303,7 @@ def solve_mosaic_selection_milp(optimization_params):
         logging.info("\n--- MÉTRICAS DA SOLUÇÃO ---")
         logging.info(f"Número de grupos selecionados: {n}")
         logging.info(f"Cobertura total bruta (soma simples): {total_coverage:.4f}")
-        logging.info(f"Cobertura total real (PIE): {true_coverage:.4f}")
+        logging.info(f"Cobertura total MILP: {true_coverage:.4f}")
         logging.info(f"Cobertura média de nuvens: {total_cloud/n if n else 0:.4f}")
         logging.info(f"Qualidade média: {total_quality/n if n else 0:.4f}")
         logging.info(f"IDs dos grupos selecionados: {selected_group_ids}")
@@ -465,14 +465,14 @@ def validate_cplex_decisions(mdl, solution, y, group_pairs, group_coverages,
             aoi_area = group['geometric_coverage_m2'] / group['geometric_coverage']
             break
             
-    # Ordenar grupos por cobertura PIE (maior primeiro)
+    # Demonstrativo de soma subtração de sobreposição de cobertura
     sorted_groups = sorted(
         [(group_id, group_coverages[group_id]) for group_id in selected_group_ids],
         key=lambda x: x[1], 
         reverse=True
     )
     
-    # Cálculo PIE incremental - cada grupo adiciona apenas sua área única
+    # Cálculo incremental - cada grupo adiciona apenas sua área única
     pie_steps = []
     current_covered_groups = set()
     current_pie_area = 0

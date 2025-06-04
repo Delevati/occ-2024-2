@@ -295,7 +295,7 @@ def filter_high_overlap_images(group_geometries, group_images, aoi_geometry, ima
     
     return filtered_geometries, filtered_images, filtered_weights
 
-def calculate_group_coverage_direct(params):
+def calculate_coverage_twotwo(params):
     """
     Calcula a cobertura dos grupos de mosaicos utilizando o Princípio da Inclusão-Exclusão (PIE) modificado.
     
@@ -533,14 +533,12 @@ def main():
             logging.error("Arquivo de parâmetros não contém 'mosaic_groups'")
             return
             
-        # Calcular cobertura usando o método PIE modificado
-        result = calculate_group_coverage_direct(params)
-        
-        # Salvar os resultados em arquivo
+        # Calcular cobertura usando o método 2a2
+        result = calculate_coverage_twotwo(params)
+
         with open(PRE_CALCULATED_OUTPUT_FILE, 'w') as f:
             json.dump(result, f, indent=2)
-        
-        # Estatísticas finais
+
         success_count = sum(1 for group in result.get('mosaic_groups', []) 
                            if group.get('geometric_coverage', 0) > 0)
         
