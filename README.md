@@ -126,6 +126,10 @@ Para personalizar o comportamento do modelo de otimização CPLEX:
    - Para maximizar cobertura: Aumente `min_total_coverage` (0.90-0.95) e reduza `alpha` (0.2-0.3)
    - Para reduzir grupos de mosaicos: Aumente `alpha` (0.5-0.7)
 
+## Ambientes de Execução
+
+O sistema da Heurística Gulosa foi desenvolvida e testada principalmente em sistema macOS, enquanto os modelos de otimização CPLEX foram executados em ambiente AWS Ubuntu.
+
 ## Requisitos de Sistema
 
 - __Python 3.9+__
