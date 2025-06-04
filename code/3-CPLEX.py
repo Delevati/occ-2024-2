@@ -87,9 +87,10 @@ def solve_mosaic_selection_milp(optimization_params):
     
     mdl = Model(name='mosaic_selection_optimization')
     
-    group_cloud_coverages = {}
-    group_coverages = {}
-    group_qualities = {}
+    # Dicionários para armazenar os parâmetros do modelo
+    group_cloud_coverages = {}  # Corresponde a N_j (cobertura de nuvens do grupo j)
+    group_coverages = {}        # Corresponde a A_j (área/cobertura do grupo j)
+    group_qualities = {}        # Fator para calcular E_j (qualidade efetiva)
 
     logging.info("Analisando métricas dos grupos de mosaico (MILP simplificado)...")
     for group in mosaic_groups:
@@ -119,7 +120,6 @@ def solve_mosaic_selection_milp(optimization_params):
 
     # Variáveis de decisão: y[group_id] = 1 se o grupo for selecionado, 0 caso contrário
     # Estas variáveis binárias representam as decisões fundamentais do modelo (y_j na formulação matemática)
-    # e determinam quais grupos de mosaicos farão parte da solução final
     y = {
         group['group_id']: mdl.binary_var(name=f'y_{group["group_id"]}')
         for group in mosaic_groups
@@ -141,9 +141,11 @@ def solve_mosaic_selection_milp(optimization_params):
         group_coverages[group['group_id']] * group_qualities[group_id] * y[group['group_id']]
         for group in mosaic_groups if group['group_id'] in y
     )
-
+    
+    # Componente 2: α·∑(j∈M) y_j (Penalidade pelo número de grupos)
     penalty_num_groups = alpha * mdl.sum(y[group_id] for group_id in y)
     
+    # Componente 3: γ·∑(j∈M) N_j·y_j (Penalidade pela cobertura de nuvens)
     penalty_cloud_coverage = gamma * mdl.sum(
         group_cloud_coverages[group['group_id']] * y[group['group_id']]
         for group in mosaic_groups
@@ -198,14 +200,14 @@ def solve_mosaic_selection_milp(optimization_params):
     # variáveis de grupos (y_j, y_k)
     # Estas três restrições garantem que o_j,k = 1 se e somente se y_j = y_k = 1
     # Correspondem às restrições:
-    # y_j + y_k - 1 ≤ o_j,k (força o_j,k = 1 quando y_j = y_k = 1)
-    # o_j,k ≤ y_j (impede o_j,k = 1 quando y_j = 0)
-    # o_j,k ≤ y_k (impede o_j,k = 1 quando y_k = 0)
     for (g1_id, g2_id), pair_var in group_pairs.items():
+        # y_j + y_k - 1 ≤ o_j,k (força o_j,k = 1 quando y_j = y_k = 1)
         mdl.add_constraint(y[g1_id] + y[g2_id] - 1 <= pair_var, 
                           ctname=f"pair_linkage_1_{g1_id}_{g2_id}")
+        # o_j,k ≤ y_j (impede o_j,k = 1 quando y_j = 0)
         mdl.add_constraint(pair_var <= y[g1_id], 
                           ctname=f"pair_linkage_2_{g1_id}_{g2_id}")
+        # o_j,k ≤ y_k (impede o_j,k = 1 quando y_k = 0)
         mdl.add_constraint(pair_var <= y[g2_id], 
                           ctname=f"pair_linkage_3_{g1_id}_{g2_id}")
     
@@ -281,13 +283,13 @@ def solve_mosaic_selection_milp(optimization_params):
     
     # 4. Aplicar a restrição de cobertura
     # A expressão de cobertura subtrai as interseções para evitar contagem duplicada
-    # Implementa: ∑(j∈M) A_j·y_j - ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} ≥ min_coverage
+    # Primeira parte: ∑(j∈M) A_j·y_j (soma das coberturas individuais)
     coverage_expr = mdl.sum(
         group_coverages[group['group_id']] * y[group['group_id']]
         for group in mosaic_groups if group['group_id'] in y
     )
     
-    # Subtrair as interseções entre pares de grupos quando ambos são selecionados
+    # Segunda parte: ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} (subtração das interseções)
     for (g1_id, g2_id), intersection in group_intersections.items():
         if intersection > 0:
             coverage_expr -= intersection * group_pairs[(g1_id, g2_id)]

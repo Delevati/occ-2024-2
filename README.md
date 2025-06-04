@@ -9,25 +9,25 @@ Este projeto implementa um pipeline para otimização da seleção de mosaicos d
 ```text
 
 coverage_otimization/
-├── code/                        # Scripts principais de processamento
-│   ├── 1.1-cdse-download.py     # Download inicial de imagens Sentinel-2
-│   ├── 1.1.2-cdse-recapture.py # Recuperação de imagens
+├── code/                         # Scripts principais de processamento
+│   ├── 1.1-cdse-download.py      # Download inicial de imagens Sentinel-2
+│   ├── 1.2-cdse-recapture.py     # Recuperação de imagens
 │   ├── 2-compatibility-greedy.py # Implementação da heurística gulosa
-│   ├── 2.2-calc-area-2a2.py     # Cálculo de cobertura par a par (método 2a2)
-│   ├── 3-CPLEX.py               # Modelo PLIM com IBM CPLEX
-│   ├── APA-input/               # Diretório com shapefiles das áreas de interesse
-│   │   ├── recapture/           # Subdiretório com áreas categorizadas
-│   │   └── primarios/           # Shapefiles originais das AOIs
-│   └── greedy_utils/            # Módulo de utilitários para o algoritmo
+│   ├── 2.2-calc-area-2a2.py      # Cálculo de cobertura par a par (método 2a2)
+│   ├── 3-CPLEX.py                # Modelo PLIM com IBM CPLEX
+│   ├── APA-input/                # Diretório com shapefiles das áreas de interesse
+│   │   ├── recapture/            # Subdiretório com áreas categorizadas
+│   │   └── primarios/            # Shapefiles originais das AOIs
+│   └── greedy_utils/             # Módulo de utilitários para o algoritmo
 │       ├── __init__.py
-│       ├── configuration.py     # Configurações globais e parâmetros
-│       ├── file_utils.py        # Utilitários para manipulação de arquivos
-│       ├── image_processing.py  # Funções de processamento de imagens
-│       ├── json_utils.py        # Utilitários para serialização JSON
-│       ├── metadata_utils.py    # Processamento de metadados
-│       ├── plotting_utils.py    # Funções de visualização
-│       └── processing_utils.py  # Funções de processamento principal
-└── results/                     # Diretório de saída para resultados
+│       ├── configuration.py      # Configurações globais e parâmetros
+│       ├── file_utils.py         # Utilitários para manipulação de arquivos
+│       ├── image_processing.py   # Funções de processamento de imagens
+│       ├── json_utils.py         # Utilitários para serialização JSON
+│       ├── metadata_utils.py     # Processamento de metadados
+│       ├── plotting_utils.py     # Funções de visualização
+│       └── processing_utils.py   # Funções de processamento principal
+└── results/                      # Diretório de saída para resultados
 
 ````
 
