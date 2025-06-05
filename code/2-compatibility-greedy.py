@@ -257,9 +257,9 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
     Implementa um algoritmo guloso para formar grupos de mosaicos otimizados
     a partir de imagens individuais, priorizando cobertura e qualidade.
     
-    Esta heurística implementa uma estratégia gulosa em dois estágios:
+    Esta heurística implementa uma estratégia gulosa:
     
-    FASE PRINCIPAL: Grupos baseados em imagens centrais
+    Grupos baseados em imagens centrais
     Para cada imagem central:
     1. Inicia um grupo de mosaico com a imagem central como base
     2. Ordena candidatas complementares por cobertura * qualidade
@@ -267,11 +267,10 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
        considerando compatibilidade, sobreposição e qualidade
     4. Atualiza incrementalmente a cobertura estimada após cada adição
     
-   FASE SECUNDÁRIA: Grupos baseados apenas em imagens complementares
+    Grupos baseados apenas em imagens complementares
     1. Agrupa imagens complementares por data
     2. Para cada grupo com pelo menos 2 imagens:
        - Seleciona a melhor imagem como base
-       - Aplica o mesmo processo iterativo do estágio 1
     
     A heurística prioriza:
     - Maximizar cobertura geográfica
