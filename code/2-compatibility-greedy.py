@@ -259,7 +259,7 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
     
     Esta heurística implementa uma estratégia gulosa em dois estágios:
     
-    ESTÁGIO 1: Grupos baseados em imagens centrais
+    FASE PRINCIPAL: Grupos baseados em imagens centrais
     Para cada imagem central:
     1. Inicia um grupo de mosaico com a imagem central como base
     2. Ordena candidatas complementares por cobertura * qualidade
@@ -267,7 +267,7 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
        considerando compatibilidade, sobreposição e qualidade
     4. Atualiza incrementalmente a cobertura estimada após cada adição
     
-    ESTÁGIO 2: Grupos baseados apenas em imagens complementares
+   FASE SECUNDÁRIA: Grupos baseados apenas em imagens complementares
     1. Agrupa imagens complementares por data
     2. Para cada grupo com pelo menos 2 imagens:
        - Seleciona a melhor imagem como base
@@ -299,11 +299,10 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
         logging.warning("Nenhuma imagem aceita encontrada para combinações de mosaicos.")
         return []
 
-    # ESTÁGIO 1: Formação de grupos a partir de imagens centrais
-    # Esta é a etapa principal da heurística gulosa, onde cada imagem central
-    # serve como ponto de partida para um grupo potencial de mosaico.
-    # A estratégia gulosa seleciona iterativamente a melhor próxima imagem
-    # baseada na sua contribuição marginal para a cobertura.
+    # FASE PRINCIPAL: Construção de mosaicos com imagens centrais como base
+    # Cada imagem central serve como núcleo para um potencial grupo de mosaico.
+    # O algoritmo seleciona incrementalmente imagens complementares que maximizam
+    # a cobertura efetiva, considerando sobreposição e qualidade.
     processed_centrals = set()
     for central_img in centrals:
         central_key = central_img.get('filename')
@@ -376,11 +375,10 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
             potential_mosaics.append(mosaic_group)
             processed_centrals.add(central_key)
 
-    # ESTÁGIO 2: Formação de grupos apenas com imagens complementares
-    # Esta etapa explora a possibilidade de formar mosaicos de qualidade
-    # usando apenas imagens complementares, agrupadas por data.
-    # Esta abordagem permite aproveitar imagens que não foram classificadas
-    # como centrais mas que em conjunto podem formar mosaicos eficazes.
+    # FASE SECUNDÁRIA: Aproveitamento de imagens complementares
+    # Explora combinações adicionais usando apenas imagens complementares,
+    # agrupadas por proximidade temporal, para formar mosaicos alternativos
+    # que podem preencher lacunas de cobertura.
     complement_groups = defaultdict(list)
     for comp_img in complements:
         if comp_img.get('date'):
