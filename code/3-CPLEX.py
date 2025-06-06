@@ -245,9 +245,13 @@ def solve_mosaic_selection_milp(optimization_params):
                 # Estimativa da interseção baseada em imagens compartilhadas
                 shared_ratio = len(shared_images) / min(len(g1_images), len(g2_images))
                 
-                # Cálculo conservador da interseção
-                smaller_coverage = min(group1['geometric_coverage_m2'], group2['geometric_coverage_m2'])
-                intersection_area = smaller_coverage * shared_ratio
+                # # Cálculo conservador da interseção m²
+                # smaller_coverage = min(group1['geometric_coverage_m2'], group2['geometric_coverage_m2'])
+                # intersection_area = smaller_coverage * shared_ratio
+
+                # Cálculo interseção percentual (%)
+                smaller_coverage_percent = min(group1['geometric_coverage'], group2['geometric_coverage'])
+                intersection_area = smaller_coverage_percent * shared_ratio
 
                 # Logs de diagnóstico para valores intermediários
                 logging.info(f"Diagnóstico interseção {g1_id}-{g2_id}: shared_ratio={shared_ratio:.6f}")

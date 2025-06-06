@@ -377,7 +377,7 @@ def heuristica_gulosa(image_metadata: dict, max_days_diff: int) -> list:
     # FASE SECUNDÁRIA: Aproveitamento de imagens complementares
     # Explora combinações adicionais usando apenas imagens complementares,
     # agrupadas por proximidade temporal, para formar mosaicos alternativos
-    # que podem preencher lacunas de cobertura.
+    # ou podem preencher lacunas de cobertura.
     complement_groups = defaultdict(list)
     for comp_img in complements:
         if comp_img.get('date'):
