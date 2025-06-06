@@ -250,8 +250,8 @@ def solve_mosaic_selection_milp(optimization_params):
                 # intersection_area = smaller_coverage * shared_ratio
 
                 # Cálculo interseção percentual (%)
-                smaller_coverage_percent = min(group1['geometric_coverage'], group2['geometric_coverage'])
-                intersection_area = smaller_coverage_percent * shared_ratio
+                smaller_coverage = min(group1['geometric_coverage'], group2['geometric_coverage'])
+                intersection_area = smaller_coverage * shared_ratio
 
                 # Logs de diagnóstico para valores intermediários
                 logging.info(f"Diagnóstico interseção {g1_id}-{g2_id}: shared_ratio={shared_ratio:.6f}")
