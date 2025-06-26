@@ -1,0 +1,16 @@
+{
+  "theoretical_analysis": {
+    "raw_coverage": 34.34183372156016,
+    "total_intersections": 1.4143746816395606e-09,
+    "MILP_coverage": 34.34183372014578,
+    "intersections_count": 1035,
+    "significant_intersections": 0,
+    "intersection_impact_percent": 4.118518227964051e-09
+  },
+  "solution_analysis": {
+    "raw_coverage": 0.9252156253772296,
+    "MILP_coverage": 0.9252156253772296,
+    "possible_pairs": 0,
+    "calculation_method": "MILP incremental"
+  }
+}

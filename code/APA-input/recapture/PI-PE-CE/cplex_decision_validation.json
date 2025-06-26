@@ -1,0 +1,530 @@
+{
+  "objective": {
+    "total_value": 0.5252156253772295,
+    "components": {
+      "coverage_quality": 0.9252156253772296,
+      "num_groups_penalty": 0.4,
+      "cloud_penalty": 0.0
+    }
+  },
+  "constraints": {
+    "cloud_threshold": [],
+    "exclusivity": [],
+    "coverage_MILP": {
+      "method": "incremental_MILP",
+      "true_coverage": 0.9252156253772296,
+      "min_required": 0.85,
+      "slack": 0.07521562537722959,
+      "satisfied": true,
+      "MILP_steps": [
+        {
+          "group_id": "mosaic_9",
+          "MILP_individual_pct": 92.52156253772296,
+          "MILP_incremento_pct": 92.52156253772296,
+          "MILP_incremento_km2": 9768.889384448754
+        }
+      ]
+    },
+    "logical_pairs": [
+      {
+        "groups": [
+          "mosaic_1",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_2",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_3",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_4",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_5",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_6",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_7",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_8",
+          "mosaic_9"
+        ],
+        "y1": false,
+        "y2": true,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_10"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_11"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_12"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_13"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_14"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_15"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_16"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_17"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_18"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_19"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_20"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_21"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_22"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_23"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_24"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_25"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_26"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_27"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_28"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_29"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_30"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_31"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_32"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_33"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_34"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_35"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_36"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_37"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_38"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_39"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_40"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_41"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_42"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_43"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_44"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_45"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      },
+      {
+        "groups": [
+          "mosaic_9",
+          "mosaic_46"
+        ],
+        "y1": true,
+        "y2": false,
+        "pair_value": 0,
+        "satisfied": true
+      }
+    ]
+  },
+  "group_analysis": {
+    "mosaic_9": {
+      "selected": true,
+      "coverage": 0.9252156253772296,
+      "cloud": 0.0,
+      "quality": 1.0,
+      "objective_contribution": 0.5252156253772295
+    },
+    "mosaic_1": {
+      "selected": false,
+      "coverage": 0.6724281736914515,
+      "cloud": 0.0025254586015312857,
+      "quality": 1.0,
+      "potential_contribution": 0.2704078068102264,
+      "rejection_reason": "Prov\u00e1vel conflito de exclusividade ou substitu\u00eddo por grupos melhores"
+    },
+    "mosaic_2": {
+      "selected": false,
+      "coverage": 0.7239716841742361,
+      "cloud": 9.959752639583443e-07,
+      "quality": 1.0,
+      "potential_contribution": 0.3239708873940249,
+      "rejection_reason": "Prov\u00e1vel conflito de exclusividade ou substitu\u00eddo por grupos melhores"
+    },
+    "mosaic_3": {
+      "selected": false,
+      "coverage": 0.7239716841742361,
+      "cloud": 0.0025943910657034923,
+      "quality": 1.0,
+      "potential_contribution": 0.32189617132167325,
+      "rejection_reason": "Prov\u00e1vel conflito de exclusividade ou substitu\u00eddo por grupos melhores"
+    },
+    "mosaic_4": {
+      "selected": false,
+      "coverage": 0.7239716841742361,
+      "cloud": 0.007010120314368694,
+      "quality": 1.0,
+      "potential_contribution": 0.3183635879227411,
+      "rejection_reason": "Prov\u00e1vel conflito de exclusividade ou substitu\u00eddo por grupos melhores"
+    },
+    "mosaic_5": {
+      "selected": false,
+      "coverage": 0.7239716841742361,
+      "cloud": 0.0002793710615403156,
+      "quality": 1.0,
+      "potential_contribution": 0.3237481873250038,
+      "rejection_reason": "Prov\u00e1vel conflito de exclusividade ou substitu\u00eddo por grupos melhores"
+    }
+  }
+}
