@@ -337,11 +337,11 @@ def solve_and_extract_results(mdl, y, mosaic_groups, metrics, group_pairs):
     mdl.context.solver.log_output = True
     mdl.context.solver.warning_level = 0
 
-    mdl.parameters.output.writelevel.set(4)
-    mdl.parameters.simplex.display.set(2)
-    mdl.parameters.mip.display.set(5)
-    mdl.parameters.mip.interval.set(1)
-    mdl.parameters.mip.strategy.file.set(3)
+    # mdl.parameters.output.writelevel.set(4)
+    # mdl.parameters.simplex.display.set(2)
+    # mdl.parameters.mip.display.set(5)
+    # mdl.parameters.mip.interval.set(1)
+    # mdl.parameters.mip.strategy.file.set(3)
     
     # Resolver o modelo
     logging.info("Iniciando resolução do modelo CPLEX...")

@@ -11,35 +11,28 @@ apresent/
 
 # article extensions
 submission/*
-!submission/artigo-sbpo/
 
-# Dentro de 'submission/artigo-sbpo', ignorar tudo por padrão
-submission/artigo-sbpo/*
+# REGRAS PARA A PASTA artigo-sbpo-multiple-results
+!submission/artigo-sbpo-multiple-results/
+submission/artigo-sbpo-multiple-results/*
+!submission/artigo-sbpo-multiple-results/artigo-sbpo.tex
+!submission/artigo-sbpo-multiple-results/artigo-sbpo.pdf
+!submission/artigo-sbpo-multiple-results/img/
+!submission/artigo-sbpo-multiple-results/img/**
 
-# Não ignorar os arquivos .tex e .pdf específicos
-!submission/artigo-sbpo/artigo-sbpo.tex
-!submission/artigo-sbpo/artigo-sbpo.pdf
-
-# Não ignorar a pasta 'img' e todo o seu conteúdo
-!submission/artigo-sbpo/img/
-!submission/artigo-sbpo/img/**
-
-# resume extensions
-!submission/artigo-sbpo/img/
-!submission/artigo-sbpo/img/**
+# REGRAS PARA A PASTA artigo-sbpo-one-result
+!submission/artigo-sbpo-one-result/
+submission/artigo-sbpo-one-result/*
+!submission/artigo-sbpo-one-result/artigo-sbpo.tex
+!submission/artigo-sbpo-one-result/artigo-sbpo.pdf
+!submission/artigo-sbpo-one-result/img/
+!submission/artigo-sbpo-one-result/img/**
 
 # REGRAS PARA A PASTA resumo-sbpo
-# Não ignorar o subdiretório 'resumo-sbpo'
 !submission/resumo-sbpo/
-
-# Dentro de 'submission/resumo-sbpo', ignorar tudo por padrão
 submission/resumo-sbpo/*
-
-# Não ignorar os arquivos .tex e .pdf específicos
 !submission/resumo-sbpo/resumo-sbpo.tex
 !submission/resumo-sbpo/resumo-sbpo.pdf
-
-# Não ignorar a pasta 'img' e todo o seu conteúdo em resumo-sbpo
 !submission/resumo-sbpo/img/
 !submission/resumo-sbpo/img/**
 
