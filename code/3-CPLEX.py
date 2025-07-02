@@ -14,16 +14,17 @@ import json
 from docplex.mp.model import Model
 from collections import defaultdict
 import logging
+from cplex_utils.save_log import save_selected_mosaics_log
 # from cplex_utils.validation import validate_cplex_decisions
 
 logging.basicConfig(level=logging.INFO, 
                    format='%(asctime)s - %(levelname)s - %(message)s',
                    handlers=[logging.StreamHandler()])
 
-METADATA_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/PI-PE-CE/greedy"
-OUTPUT_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/PI-PE-CE"
-OPTIMIZATION_PARAMS_FILE = os.path.join(METADATA_DIR, 'optimization_parameters-PI-PE-CE-precalc.json')
-CPLEX_RESULTS_FILE = os.path.join(OUTPUT_DIR, 'cplex_selected_mosaic_groups-PI-PE-CE-og1g2.json')
+METADATA_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/AL/greedy"
+OUTPUT_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/AL"
+OPTIMIZATION_PARAMS_FILE = os.path.join(METADATA_DIR, 'optimization_parameters-AL-precalc.json')
+CPLEX_RESULTS_FILE = os.path.join(OUTPUT_DIR, 'cplex_selected_mosaic_groups-AL-og1g2.json')
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def prepare_model_data(optimization_params):
@@ -522,7 +523,7 @@ def main():
 
     if selected_mosaic_groups:
         save_cplex_results(selected_mosaic_groups, CPLEX_RESULTS_FILE)
-        
+        save_selected_mosaics_log(selected_mosaic_groups, input_file_path=OPTIMIZATION_PARAMS_FILE)
     #     if model_vars:
     #         logging.info("\n=== INICIANDO VALIDAÇÃO DETALHADA DAS DECISÕES ===")
     #         validation_results = validate_cplex_decisions(

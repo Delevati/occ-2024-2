@@ -15,25 +15,28 @@ coverage_otimization/
 │   ├── 2-compatibility-greedy.py # Implementação da heurística gulosa
 │   ├── 2.2-calc-area-2a2.py      # Cálculo de cobertura par a par (método 2a2)
 │   ├── 3-CPLEX.py                # Modelo PLIM com IBM CPLEX
-│   ├── external_utils/           # Utilitários externos / não usados em scripts principais
 │   ├── APA-input/                # Diretório com shapefiles das áreas de interesse
 │   │   ├── recapture/            # Subdiretório com áreas categorizadas
 │   │   └── primarios/            # Shapefiles originais das AOIs
 │   ├── cplex_utils/              # Módulo de utilitários para o algoritmo CPLEX
 │   │   ├── validation.py         # Utilitário de resultados do modelo
-│   └── greedy_utils/             # Módulo de utilitários para o algoritmo Guloso
-│       ├── __init__.py
-│       ├── configuration.py      # Configurações globais e parâmetros
-│       ├── file_utils.py         # Utilitários para manipulação de arquivos
-│       ├── image_processing.py   # Funções de processamento de imagens
-│       ├── json_utils.py         # Utilitários para serialização JSON
-│       ├── metadata_utils.py     # Processamento de metadados
-│       ├── plotting_utils.py     # Funções de visualização
-│       └── processing_utils.py   # Funções de processamento principal
+│   │   └── save_log.py           # Utilitário para logs de mosaicos selecionados
+│   ├── greedy_utils/             # Módulo de utilitários para o algoritmo Guloso
+│   │   ├── __init__.py
+│   │   ├── configuration.py      # Configurações globais e parâmetros
+│   │   ├── file_utils.py         # Utilitários para manipulação de arquivos
+│   │   ├── image_processing.py   # Funções de processamento de imagens
+│   │   ├── json_utils.py         # Utilitários para serialização JSON
+│   │   ├── metadata_utils.py     # Processamento de metadados
+│   │   ├── plotting_utils.py     # Funções de visualização
+│   │   └── processing_utils.py   # Funções de processamento principal
+│   └── output_log_cplex/         # Logs e JSONs de mosaicos selecionados pelo CPLEX
+├── external_utils/               # Utilitários externos / não usados em scripts principais
 ├── submission/                   # Dir para submissões
 │   ├── artigo-sbpo/              # Arquivos .tex, .pdf e img/ 
 │   └── resumo-sbpo/              # Arquivos .tex, .pdf e img/
 └── results/                      # Diretório de saída para resultados
+
 
 ````
 

@@ -1,0 +1,11 @@
+{
+  "mosaic_groups": [
+    {
+      "group_id": "selected_mosaics_MG",
+      "images": [
+        "S2A_MSIL2A_20240907T135701_N0511_R067_T21KVA_20240907T193405.SAFE.zip",
+        "S2B_MSIL2A_20240902T135709_N0511_R067_T21KVA_20240902T180147.SAFE.zip"
+      ]
+    }
+  ]
+}

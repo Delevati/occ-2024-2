@@ -1,0 +1,69 @@
+[
+  {
+    "group_id": "mosaic_1",
+    "type": "mixed_mosaic",
+    "images": [
+      "S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip",
+      "S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip"
+    ],
+    "estimated_coverage": 1.0,
+    "quality_factor": 0.9999643968695879,
+    "avg_cloud_coverage": 6.887743681037263e-05,
+    "time_window_start": "2025-03-10T13:39:01.025000",
+    "time_window_end": "2025-03-15T13:38:39.024000",
+    "contains_sar": true,
+    "overlap_details": [
+      {
+        "base_image": "S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip",
+        "other_image": "S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip",
+        "overlap_geometry_wgs84": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ],
+              [
+                -55.954525201930416,
+                -30.817102390629277
+              ],
+              [
+                -55.96499374517167,
+                -29.826412766355038
+              ],
+              [
+                -54.82905929595871,
+                -29.81262820115272
+              ],
+              [
+                -54.80711785755525,
+                -30.80276283743252
+              ]
+            ]
+          ]
+        },
+        "cloud_cover_base_in_overlap": 0.0001409086233954101,
+        "cloud_cover_other_in_overlap": 1.393492390536196e-06,
+        "prioritized_image_filename": "S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip"
+      }
+    ],
+    "geometric_coverage": 0.9892997964632398,
+    "geometric_coverage_m2": 3146938075.4126844,
+    "total_individual_area": 6293876150.825369,
+    "total_pairwise_overlap": 3146938075.4126844,
+    "real_coverage_area": 3146938075.4126844,
+    "real_coverage_ratio": 0.9892997964632398,
+    "pie_coverage_area": 3146938075.4126844,
+    "pie_coverage_ratio": 0.9892997964632398,
+    "pairwise_intersections": [
+      {
+        "images": [
+          0,
+          1
+        ],
+        "area": 3146938075.4126844
+      }
+    ]
+  }
+]

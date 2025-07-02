@@ -1,0 +1,78 @@
+
+==================================================
+EXECUÇÃO: 2025-07-02 11:44:43
+ÁREA: BA
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/BA/greedy/optimization_parameters-BA-precalc.json
+MOSAICOS SELECIONADOS: 1
+--------------------------------------------------
+Mosaico: mosaic_1
+  Imagens (1):
+    - S2B_MSIL2A_20240524T125309_N0510_R052_T24KVG_20240524T163238.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-07-02 11:59:19
+ÁREA: RS
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/RS/greedy/optimization_parameters-RS-precalc.json
+MOSAICOS SELECIONADOS: 1
+--------------------------------------------------
+Mosaico: mosaic_1
+  Imagens (2):
+    - S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip
+    - S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-07-02 11:59:59
+ÁREA: MG
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG/greedy/optimization_parameters-MG-precalc.json
+MOSAICOS SELECIONADOS: 1
+--------------------------------------------------
+Mosaico: mosaic_1
+  Imagens (2):
+    - S2A_MSIL2A_20240907T135701_N0511_R067_T21KVA_20240907T193405.SAFE.zip
+    - S2B_MSIL2A_20240902T135709_N0511_R067_T21KVA_20240902T180147.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-07-02 12:00:45
+ÁREA: MG-SP-RJ
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG-SP-RJ/greedy/optimization_parameters-MG-SP-RJ-precalc.json
+MOSAICOS SELECIONADOS: 1
+--------------------------------------------------
+Mosaico: mosaic_13
+  Imagens (2):
+    - S2A_MSIL2A_20240823T131241_N0511_R138_T23KMR_20240823T194758.SAFE.zip
+    - S2B_MSIL2A_20240818T131249_N0511_R138_T23KNR_20240818T144136.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-07-02 12:01:43
+ÁREA: PI-PE-CE
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/PI-PE-CE/greedy/optimization_parameters-PI-PE-CE-precalc.json
+MOSAICOS SELECIONADOS: 1
+--------------------------------------------------
+Mosaico: mosaic_9
+  Imagens (3):
+    - S2A_MSIL2A_20241009T130241_N0511_R095_T24MUS_20241009T175142.SAFE.zip
+    - S2A_MSIL2A_20241009T130241_N0511_R095_T24MVS_20241009T175142.SAFE.zip
+    - S2A_MSIL2A_20241009T130241_N0511_R095_T24MUT_20241009T175142.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-07-02 12:02:10
+ÁREA: AL
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/AL/greedy/optimization_parameters-AL-precalc.json
+MOSAICOS SELECIONADOS: 1
+--------------------------------------------------
+Mosaico: mosaic_1
+  Imagens (2):
+    - S2A_MSIL2A_20240903T124321_N0511_R009_T24LZQ_20240903T165646.SAFE.zip
+    - S2A_MSIL2A_20240903T124321_N0511_R009_T24LZR_20240903T165646.SAFE.zip
+------------------------------
+==================================================
