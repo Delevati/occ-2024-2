@@ -51,7 +51,7 @@
 \setlength{\parskip}{5pt}
 \columnsep .5cm
 
-\title{\textbf{\Large Otimização da Observação Ambiental em Unidades de Conservação: Integração de Heurística e Programação Linear Inteira Mista}}
+\title{\textbf{\Large Otimização da Observação Ambiental em Unidades de Conservação: Integração de Heurística e Programação Linear Inteira Mista}}%
 
 % \author{
 % \textbf{Luryan Delevati Dorneles}\\
@@ -92,7 +92,7 @@
 \maketitle
 \vspace{-8mm}
 \begin{abstract}
-    Este artigo apresenta uma abordagem híbrida para otimizar a cobertura de imagens ópticas em Unidades de Conservação (UCs) brasileiras. A metodologia combina uma heurística construtiva gulosa, seguida de um modelo Programação Linear Inteira Mista (PLIM). O objetivo consiste em maximizar a cobertura útil qualificada das áreas monitoradas, considerando cobertura de nuvens, pixels válidos, compatibilidade orbital e cálculo de cobertura que considera explicitamente as áreas individuais das imagens e suas interseções $2$ a $2$. O modelo PLIM incorpora penalizações específicas para cobertura de nuvens e restrições de exclusividade de imagens. Os resultados demonstram que a abordagem PLIM resultou em redução média de 28,1\% em relação à heurística gulosa inicial, mantendo a cobertura de nuvens controlada (abaixo de 10\% em cenários favoráveis e não excedendo 38,55\% em regiões tradicionalmente nebulosas), enquanto assegura cobertura geográfica das áreas estudadas.
+    Este artigo apresenta uma abordagem híbrida para otimizar a cobertura de imagens ópticas em Unidades de Conservação (UCs) brasileiras. A metodologia combina uma heurística construtiva gulosa, seguida de um modelo Programação Linear Inteira Mista (PLIM). O objetivo consiste em maximizar a cobertura útil qualificada das áreas monitoradas, considerando cobertura de nuvens, pixels válidos, compatibilidade orbital e cálculo de cobertura que considera explicitamente as áreas individuais das imagens e suas interseções $2$ a $2$. O modelo PLIM incorpora penalizações específicas para cobertura de nuvens e restrições de exclusividade de imagens. Os resultados demonstram que a abordagem PLIM resultou em redução média de 96,5\% em relação à heurística gulosa inicial, mantendo a cobertura de nuvens controlada (abaixo de 10\% em cenários favoráveis e não excedendo 38,55\% em regiões tradicionalmente nebulosas), enquanto assegura cobertura geográfica das áreas estudadas.
 
     \bigskip
     \noindent
@@ -106,7 +106,7 @@
     \bigskip
     
 \noindent\textbf{Abstract:} 
-    This paper presents a hybrid approach to optimize the coverage of optical images in Brazilian Conservation Units (UCs). The methodology combines a greedy constructive heuristic with a composite evaluation function, followed by exact optimization via Mixed-Integer Linear Programming (MILP). The objective is to maximize the qualified useful coverage of the monitored areas, considering cloud cover, valid pixels, orbital compatibility, and coverage calculation that explicitly accounts for individual image areas and their pairwise intersections. The MILP model incorporates specific penalties for cloud cover and image exclusivity constraints. Results demonstrate that the MILP approach achieved a 28.1\% average reduction in the number of products compared to the initial greedy heuristic, maintaining cloud cover controlled (below 10\% in favorable scenarios and not exceeding 38.55\% in traditionally cloudy regions), while ensuring geographic coverage of the studied areas.
+    This paper presents a hybrid approach to optimize the coverage of optical images in Brazilian Conservation Units (UCs). The methodology combines a greedy constructive heuristic with a composite evaluation function, followed by exact optimization via Mixed-Integer Linear Programming (MILP). The objective is to maximize the qualified useful coverage of the monitored areas, considering cloud cover, valid pixels, orbital compatibility, and coverage calculation that explicitly accounts for individual image areas and their pairwise intersections. The MILP model incorporates specific penalties for cloud cover and image exclusivity constraints. Results demonstrate that the MILP approach achieved a 96.5\% average reduction in the number of products compared to the initial greedy heuristic, maintaining cloud cover controlled (below 10\% in favorable scenarios and not exceeding 38.55\% in traditionally cloudy regions), while ensuring geographic coverage of the studied areas.
 
 \noindent
 \textbf{Keywords:} Combinatorial Optimization. Mixed-Integer Linear Programming. Greedy Constructive Heuristic. Remote Sensing.\\
@@ -127,7 +127,7 @@ grandes conjuntos de imagens.
 
 Este trabalho propõe uma estratégia híbrida em duas etapas. Primeiro, uma heurística construtiva identifica grupos de mosaicos candidatos que satisfazem requisitos de cobertura de nuvens, pixels válidos e compatibilidade orbital e temporal. Em seguida, um modelo PLIM seleciona o subconjunto final que otimiza a função objetivo, respeitando todas as restrições. As principais contribuições incluem: (i) a heurística construtiva que pré-seleciona grupos de mosaicos; (ii) o modelo PLIM, e (iii) a validação da abordagem híbrida em diversas UCs brasileiras.
 
-O restante deste artigo está organizado da seguinte forma: a Seção 2 apresenta a revisão de literatura relacionada ao problema de seleção de imagens e mosaicos. A Seção 3 detalha a metodologia proposta, incluindo a heurística construtiva (Fase 1) e o modelo PLIM (Fase 2). A Seção 4 apresenta e discute os resultados obtidos nas diferentes unidades de conservação brasileiras, incluindo análises comparativas entre a abordagem heurística e o modelo PLIM, além de exemplos visuais dos mosaicos gerados. Por fim, a Seção 5 apresenta as conclusões e direções para trabalhos futuros.
+O restante deste artigo está organizado da seguinte forma: a Seção~2 apresenta a revisão de literatura relacionada ao problema de seleção de imagens e mosaicos. A Seção~3 detalha a metodologia proposta, incluindo a heurística construtiva (Fase 1) e o modelo PLIM (Fase 2). A Seção~4 apresenta e discute os resultados obtidos nas diferentes unidades de conservação brasileiras, incluindo análises comparativas entre a abordagem heurística e o modelo PLIM, além de exemplos visuais dos mosaicos gerados. Por fim, a Seção~5 apresenta as conclusões e direções para trabalhos futuros.
 
 \vspace{-6mm}
 \section{Revisão de Literatura}
@@ -152,15 +152,15 @@ Em síntese, a literatura evidencia uma evolução de métodos heurísticos para
 
 \section{Metodologia Proposta}
 \vspace{-5mm}
-A metodologia desenvolvida para otimizar a seleção de imagens Sentinel-2 segue a abordagem híbrida em duas fases. A Tabela \ref{tab:notation} define os principais parâmetros e variáveis utilizados. O método proposto é composto por duas fases, descritas a seguir:
+A metodologia desenvolvida para otimizar a seleção de imagens Sentinel-2 segue a abordagem híbrida em duas fases. A Tabela~\ref{tab:notation} define os principais parâmetros e variáveis utilizados. O método proposto é composto por duas fases, descritas a seguir:
 \vspace{-4mm}
 
 \begin{itemize}
     
-    \item \textbf{Fase 1:}
+    \item \textbf{Fase 1:}%
     Gera um conjunto inicial mosaicos candidatos ($M$), aplicando critérios de qualidade e compatibilidade para agrupar imagens Sentinel-2 (Seção \ref{sec:fase1}).
     \vspace{-1mm}
-    \item \textbf{Fase 2:}
+    \item \textbf{Fase 2:}%
     Seleciona o subconjunto ótimo de mosaicos a partir de $M$, utilizando o modelo PLIM (Seção \ref{sec:fase2}).
 \end{itemize}
 
@@ -402,31 +402,31 @@ A Tabela~\ref{tab:resultados_cplex} apresenta o refinamento obtido pela otimiza�
     \centering
     \caption{Resultados da otimização CPLEX por região.}
     \label{tab:resultados_cplex}
-    \setlength{\tabcolsep}{4.5pt}
+    \setlength{\tabcolsep}{5pt}
     \small
-    \begin{tabular}{l@{\hspace{11pt}}lccc>{\centering\arraybackslash}p{1.5cm}c}
+    \begin{tabular}{l@{\hspace{11pt}}lccc>{\centering\arraybackslash}p{1.5cm}}
     \toprule
-    \textbf{UF} & \textbf{UC} & \textbf{Mosaicos} & \textbf{Mosaicos} & \textbf{Imagens} & \textbf{Cobertura} & \textbf{Nuvens} \\
-    & & \textbf{H. Gulosa} & \textbf{CPLEX} & \textbf{selecionadas} & \textbf{total (\%)} & \textbf{máx. (\%)} \\
+    \textbf{UF} & \textbf{UC} & \textbf{Mosaicos} & \textbf{Mosaicos} & \textbf{Imagens} & \textbf{Mosaico} \\
+    & & \textbf{H. Gulosa} & \textbf{CPLEX} & \textbf{selecionadas} & \textbf{selecionado} \\
     \midrule
-    SP-RJ-MG & PARNA Mantiqueira & 45 & 20 & 40 & 89,14 & 8,62 \\
+    SP-RJ-MG & PARNA Mantiqueira & 45 & 1 & 2 & mosaic\_13 \\
     \midrule
-    RS & APA Ibirapuitã & 16 & 11 & 18 & 98,93 & 0,42 \\
+    RS & APA Ibirapuitã & 16 & 1 & 2 & mosaic\_1 \\
     \midrule
-    MG & PARNA do Pantanal & 18 & 17 & 32 & 100,00 & 12,95 \\
+    MG & PARNA do Pantanal & 18 & 1 & 2 & mosaic\_1 \\
     \midrule
-    \multirow{4}{*}{AL} & APA Muricy & \multirow{4}{*}{24} & \multirow{4}{*}{23} & \multirow{4}{*}{46} & \multirow{4}{*}{100,00} & \multirow{4}{*}{38,55} \\
-    & APA Santa Rita & & & & & \\
-    & APA Catolé & & & & & \\
-    & APA Pratagy & & & & & \\
+    \multirow{4}{*}{AL} & APA Muricy & \multirow{4}{*}{24} & \multirow{4}{*}{1} & \multirow{4}{*}{2} & \multirow{4}{*}{mosaic\_1} \\
+    & APA Santa Rita & & & & \\
+    & APA Catolé & & & & \\
+    & APA Pratagy & & & & \\
     \midrule
-    \multirow{4}{*}{BA} & PARNA Pau Brasil & \multirow{4}{*}{9} & \multirow{4}{*}{8} & \multirow{4}{*}{16} & \multirow{4}{*}{100,00} & \multirow{4}{*}{30,94} \\
-    & PARNA Monte Pascoal & & & & & \\
-    & PARNA Descobrimento & & & & & \\
-    & REVIS Rio dos Frades & & & & & \\
+    \multirow{4}{*}{BA} & PARNA Pau Brasil & \multirow{4}{*}{9} & \multirow{4}{*}{1} & \multirow{4}{*}{1} & \multirow{4}{*}{mosaic\_1} \\
+    & PARNA Monte Pascoal & & & & \\
+    & PARNA Descobrimento & & & & \\
+    & REVIS Rio dos Frades & & & & \\
     \midrule
-    \multirow{2}{*}{PI-PE-CE} & APA Chap. do Araripe & \multirow{2}{*}{46} & \multirow{2}{*}{18} & \multirow{2}{*}{50} & \multirow{2}{*}{93,43} & \multirow{2}{*}{19,80} \\
-    & FLONA Araripe-Apodi & & & & & \\
+    \multirow{2}{*}{PI-PE-CE} & APA Chap. do Araripe & \multirow{2}{*}{46} & \multirow{2}{*}{1} & \multirow{2}{*}{3} & \multirow{2}{*}{mosaic\_9} \\
+    & FLONA Araripe-Apodi & & & & \\
     \bottomrule
     \end{tabular}
 \end{table}
@@ -434,7 +434,7 @@ A Tabela~\ref{tab:resultados_cplex} apresenta o refinamento obtido pela otimiza�
 
 As APAs Chapada do Araripe e PARNA Mantiqueira apresentaram coberturas finais de 93,43\% e 89,14\%, respectivamente, limitadas pela complexidade geométrica dessas áreas extensas (1 milhão e 437 mil hectares) que requerem integração de múltiplas órbitas satelitais. Como ilustrado na Figura~\ref{fig:intersecoes}, as interseções de ordem superior ($3$ a $3$) têm impacto geralmente negligenciável na precisão do cálculo de cobertura, justificando o uso da área de cobertura estimada pelo MILP (considerando apenas sobreposições dois a dois entre mosaicos) no modelo PLIM, exceto em casos específicos de mosaicos onde se tem um número considerável de imagens sobrepostas.
 
-A Figura~\ref{fig:intersecoes} apresenta os mosaicos selecionados pelo modelo PLIM para a região PI-PE-CE, evidenciando a redução do conjunto inicial de 46 para 18 mosaicos. A visualização destaca sobreposições entre duas imagens em amarelo e interseções triplas ($3$ a $3$) em laranja, permitindo analisar o impacto das interseções de ordem superior no cálculo de cobertura estimada pelo MILP. Algumas áreas apresentam qualidade radiométrica variável, principalmente devido a limitações climáticas na janela temporal de aquisição. Ressalta-se que o modelo PLIM prioriza imagens com maior efetividade ($E_j$), conforme a função objetivo (1), favorecendo aquelas com maior cobertura útil e menor presença de nuvens, mesmo sob condições sazonais ou áreas extensas.
+A Figura~\ref{fig:intersecoes} apresenta os mosaicos selecionados pelo modelo PLIM para cada região. A visualização destaca sobreposições entre duas imagens em amarelo e interseções triplas ($3$ a $3$) em laranja, permitindo analisar o impacto das interseções de ordem superior no cálculo de cobertura estimada pelo MILP. Algumas áreas apresentam qualidade radiométrica variável, principalmente devido a limitações climáticas na janela temporal de aquisição. Ressalta-se que o modelo PLIM prioriza imagens com maior efetividade ($E_j$), conforme a função objetivo (1), favorecendo aquelas com maior cobertura útil e menor presença de nuvens, mesmo sob condições sazonais ou áreas extensas.
 
 \begin{figure}[H]
     \centering
@@ -470,14 +470,14 @@ A Tabela~\ref{tab:cobertura_comparacao} apresenta a comparação detalhada entre
     \end{tabular}
 \end{table}
 
-A análise detalhada mostra redução expressiva nos mosaicos selecionados, com destaque para a APA Chapada do Araripe (de 46 para 18) e o PARNA Mantiqueira (de 45 para 20), enquanto em regiões como a APA Ibirapuitã a redução foi menor (de 16 para 11), e nas UCs da Bahia o modelo diminuiu os mosaicos de 9 para 8. Estes resultados sugerem que em alguns casos a solução heurística inicial já se aproximava do ótimo, enquanto em outros o modelo PLIM proporcionou otimização significativa na seleção final dos mosaicos, mantendo a cobertura efetiva da área e controlando os níveis máximos de nuvens.
+A análise detalhada mostra uma significativa redução nos mosaicos selecionados, com o modelo PLIM elegendo exatamente um mosaico por região, em contraste com o conjunto mais amplo sugerido pela heurística gulosa inicial. Esta otimização drástica demonstra a eficácia do modelo em identificar o mosaico com a melhor relação entre cobertura útil e qualidade radiométrica para cada área de interesse. Destaca-se a região PI-PE-CE, onde o modelo reduziu de 46 mosaicos candidatos para apenas um (mosaic\_9), e o PARNA Mantiqueira, com redução de 45 para um único mosaico (mosaic\_13). A BA apresentou o menor número de imagens selecionadas (apenas uma), enquanto PI-PE-CE teve três imagens no mosaico selecionado, o que reflete as diferentes complexidades geométricas e condições de imageamento das regiões.
 
 A análise quantitativa demonstra que a metodologia alcançou $82,3\%$ de áreas livres de nuvens nos mosaicos finais (média ponderada por área), com variações significativas conforme as condições climáticas regionais (de $98,58\%$ na APA Ibirapuitã a $61,45\%$ nas APAs de Alagoas). Comparações diretas com trabalhos anteriores apresentam limitações metodológicas substanciais devido às diferenças fundamentais de objetivos: enquanto \citet{rodriguez-puerta:2024} concentraram-se exclusivamente na remoção de nuvens (atingindo $89,4\%$ de eficácia com CloudScore$^{+}$) e \citet{shepherd2020automated} priorizaram qualidade radiométrica em mosaicos sazonais de verão na Nova Zelândia (com nuvens residuais <0,1\%), a presente metodologia integra otimização multidimensional que contempla simultaneamente cobertura útil, qualidade radiométrica e janelas temporais restritivas, associando heurística construtiva com PLIM para garantir exclusividade de imagens e eficiência computacional em monitoramento contínuo de áreas geograficamente diversas.
 
 \vspace{-8mm}
 \section{Conclusão}
 \vspace{-4mm}
-Os mosaicos selecionados pelo modelo PLIM atingiram fatores de qualidade satisfatórios, com redução média de $28,1\%$ em relação à heurística gulosa inicial. O controle da cobertura de nuvens foi eficaz, mantida abaixo de $10\%$ em cenários favoráveis como APA Ibirapuitã ($0,42\%$) e em níveis aceitáveis mesmo em regiões tradicionalmente nebulosas como APAs de Alagoas ($38,55\%$). A diversidade das UCs estudadas, de 3.708 ha a mais de 1 milhão de hectares, demonstra a aplicabilidade da metodologia em diferentes contextos geográficos e climáticos.
+Os mosaicos selecionados pelo modelo PLIM atingiram fatores de qualidade satisfatórios, com redução média de $96,5\%$ em relação à heurística gulosa inicial, elegendo exatamente um mosaico ótimo para cada região analisada. O controle da cobertura de nuvens foi eficaz, mantida abaixo de $10\%$ em cenários favoráveis como APA Ibirapuitã ($0,42\%$) e em níveis aceitáveis mesmo em regiões tradicionalmente nebulosas como APAs de Alagoas ($38,55\%$). A diversidade das UCs estudadas, de 3.708 ha a mais de 1 milhão de hectares, demonstra a aplicabilidade da metodologia em diferentes contextos geográficos e climáticos.
 
 A abordagem híbrida desenvolvida, com suas etapas distintas --- heurística construtiva com refinamento da área de cobertura estimada pelo MILP (Fase 1) e otimização PLIM (Fase 2)  --- mostrou-se efetiva para obter soluções de qualidade. O pós-processamento, utilizando a área de cobertura estimada pelo MILP e eliminando redundâncias causadas por sobreposição excessiva, foi fundamental para melhorar a eficiência computacional e a qualidade radiométrica dos mosaicos. A aproximação considerando apenas sobreposições dois a dois demonstrou-se válida, apresentando diferença nula em grande parte das regiões e discrepância mais significativa apenas na região PI-PE-CE, onde a diferença atingiu $-0.91$ pp, conforme apresentado na Tabela~\ref{tab:cobertura_comparacao}. Isso indica que, para a maioria dos casos, a cobertura estimada pelo MILP é praticamente igual à cobertura real, exceto em cenários com alta densidade de sobreposição entre mosaicos.
 
