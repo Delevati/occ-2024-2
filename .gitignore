@@ -3,12 +3,31 @@ __pycache__/
 *.py[cod
 *$py.class
 
+# Ignorar qualquer pasta chamada cplex_env em qualquer lugar
+**/cplex_env/
+
+# Ignorar qualquer pasta chamada .venv em qualquer lugar
+**/.venv/
+
+# Ignorar resultados grandes
+results/final_mosaics-old/
+
+# Ignorar ambientes virtuais comuns
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
 # folders
-cplex_env/
 primarios/
 backup/
 apresent/
 conda/
+results/final_mosaics-old/
+
 
 # article extensions
 submission/*
@@ -68,6 +87,10 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+
+results/final_mosaics-old/
+*.tif
+**/*.tif
 
 # Installer logs
 pip-log.txt
