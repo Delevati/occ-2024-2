@@ -1,0 +1,219 @@
+{
+  "metadata": {
+    "area_name": "PI-PE-CE",
+    "timestamp": "20250810_145356",
+    "total_mosaics": 6
+  },
+  "mosaic_groups": [
+    {
+      "group_id": "mosaic_9",
+      "images": [
+        "S2A_MSIL2A_20241009T130241_N0511_R095_T24MUS_20241009T175142.SAFE.zip",
+        "S2A_MSIL2A_20241009T130241_N0511_R095_T24MVS_20241009T175142.SAFE.zip",
+        "S2A_MSIL2A_20241009T130241_N0511_R095_T24MUT_20241009T175142.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9252156253772296,
+        "cloud_coverage": 0.0,
+        "quality": 1.0
+      },
+      "intersections": {
+        "mosaic_10": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_11": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_13": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_31": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_33": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_10",
+      "images": [
+        "S2A_MSIL2A_20241029T130251_N0511_R095_T24MUS_20241029T160945.SAFE.zip",
+        "S2A_MSIL2A_20241029T130251_N0511_R095_T24MVS_20241029T160945.SAFE.zip",
+        "S2A_MSIL2A_20241029T130251_N0511_R095_T24MUT_20241029T160945.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9252156253772296,
+        "cloud_coverage": 0.0019625692576299173,
+        "quality": 0.9993458102474566
+      },
+      "intersections": {
+        "mosaic_9": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_11": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_13": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_31": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_33": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_11",
+      "images": [
+        "S2B_MSIL2A_20240825T130249_N0511_R095_T24MUS_20240825T140941.SAFE.zip",
+        "S2B_MSIL2A_20240825T130249_N0511_R095_T24MUT_20240825T140941.SAFE.zip",
+        "S2B_MSIL2A_20240825T130249_N0511_R095_T24MVS_20240825T140941.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9252156253772296,
+        "cloud_coverage": 0.014989178728757093,
+        "quality": 0.9907957772565972
+      },
+      "intersections": {
+        "mosaic_9": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_10": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_13": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_31": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_33": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_13",
+      "images": [
+        "S2B_MSIL2A_20250313T130249_N0511_R095_T24MUS_20250313T195042.SAFE.zip",
+        "S2B_MSIL2A_20250313T130249_N0511_R095_T24MUT_20250313T195042.SAFE.zip",
+        "S2B_MSIL2A_20250313T130249_N0511_R095_T24MVS_20250313T195042.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9252156253772296,
+        "cloud_coverage": 0.030276883807317117,
+        "quality": 0.9804772653124124
+      },
+      "intersections": {
+        "mosaic_9": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_10": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_11": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_31": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_33": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_31",
+      "images": [
+        "S2B_MSIL2A_20240904T130249_N0511_R095_T24MUT_20240904T151216.SAFE.zip",
+        "S2B_MSIL2A_20240904T130249_N0511_R095_T24MUS_20240904T151216.SAFE.zip",
+        "S2B_MSIL2A_20240904T130249_N0511_R095_T24MVS_20240904T151216.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9252156253772297,
+        "cloud_coverage": 0.0002793710615403156,
+        "quality": 0.999906831478282
+      },
+      "intersections": {
+        "mosaic_9": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_10": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_11": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_13": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_33": {
+          "intersection_area": 0.9252156253772297,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_33",
+      "images": [
+        "S2C_MSIL2A_20250216T130311_N0511_R095_T24MUT_20250216T161854.SAFE.zip",
+        "S2C_MSIL2A_20250216T130311_N0511_R095_T24MUS_20250216T161854.SAFE.zip",
+        "S2C_MSIL2A_20250216T130311_N0511_R095_T24MVS_20250216T161854.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9252156253772297,
+        "cloud_coverage": 0.03256021793388705,
+        "quality": 0.9857715558322879
+      },
+      "intersections": {
+        "mosaic_9": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_10": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_11": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_13": {
+          "intersection_area": 0.9252156253772296,
+          "shared_ratio": 0
+        },
+        "mosaic_31": {
+          "intersection_area": 0.9252156253772297,
+          "shared_ratio": 0
+        }
+      }
+    }
+  ]
+}

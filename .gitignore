@@ -8,6 +8,7 @@ cplex_env/
 primarios/
 backup/
 apresent/
+conda/
 
 # article extensions
 submission/*
@@ -20,13 +21,13 @@ submission/artigo-sbpo-multiple-results/*
 !submission/artigo-sbpo-multiple-results/img/
 !submission/artigo-sbpo-multiple-results/img/**
 
-# REGRAS PARA A PASTA artigo-sbpo-one-result
-!submission/artigo-sbpo-one-result/
-submission/artigo-sbpo-one-result/*
-!submission/artigo-sbpo-one-result/artigo-sbpo.tex
-!submission/artigo-sbpo-one-result/artigo-sbpo.pdf
-!submission/artigo-sbpo-one-result/img/
-!submission/artigo-sbpo-one-result/img/**
+# REGRAS PARA A PASTA artigo-sbpo-result
+!submission/artigo-sbpo-result/
+submission/artigo-sbpo-result/*
+!submission/artigo-sbpo-result/artigo-sbpo.tex
+!submission/artigo-sbpo-result/artigo-sbpo.pdf
+!submission/artigo-sbpo-result/img/
+!submission/artigo-sbpo-result/img/**
 
 # REGRAS PARA A PASTA resumo-sbpo
 !submission/resumo-sbpo/

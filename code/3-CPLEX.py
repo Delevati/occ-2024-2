@@ -2,12 +2,17 @@
 Modelo de Otimização para Seleção de Mosaicos com CPLEX
 =======================================================
 
-Este script implementa um modelo de otimização matemática usando programação
-linear inteira mista (MILP) para selecionar o conjunto ótimo de grupos de mosaicos
-que maximizam a cobertura efetiva da área de interesse (AOI).
+Este script implementa a Fase 2 da metodologia híbrida descrita no artigo:
+primeiro, uma heurística gulosa (Fase 1, ver Algoritmo~1 do artigo) gera grupos
+de mosaicos candidatos, e em seguida este modelo de Programação Linear Inteira
+Mista (PLIM) seleciona o subconjunto ótimo de mosaicos, maximizando a cobertura
+útil qualificada e penalizando a presença de nuvens, conforme a Equação (1) e
+restrições (2)--(5) do artigo.
 
-O modelo utiliza método de cobertura MILP para calcular a cobertura sem duplicação
-de áreas sobrepostas, considerando a geometria espacial das imagens na representação da AOI.
+O modelo utiliza o método de cobertura MILP para calcular a cobertura sem
+duplicação de áreas sobrepostas, considerando a geometria espacial dos mosaicos
+e restrições de exclusividade de imagens, sobreposição mínima e limite máximo de
+mosaicos, conforme detalhado na Seção~3.2 do artigo.
 """
 import os
 import json
@@ -15,25 +20,30 @@ from docplex.mp.model import Model
 from collections import defaultdict
 import logging
 from cplex_utils.save_log import save_selected_mosaics_log
-# from cplex_utils.validation import validate_cplex_decisions
 
 logging.basicConfig(level=logging.INFO, 
                    format='%(asctime)s - %(levelname)s - %(message)s',
                    handlers=[logging.StreamHandler()])
 
-METADATA_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/AL/greedy"
-OUTPUT_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/AL"
-OPTIMIZATION_PARAMS_FILE = os.path.join(METADATA_DIR, 'optimization_parameters-AL-precalc.json')
-CPLEX_RESULTS_FILE = os.path.join(OUTPUT_DIR, 'cplex_selected_mosaic_groups-AL-og1g2.json')
+METADATA_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG-SP-RJ/greedy"
+OUTPUT_DIR = "/Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG-SP-RJ"
+OPTIMIZATION_PARAMS_FILE = os.path.join(METADATA_DIR, 'optimization_parameters-MG-SP-RJ-precalc.json')
+CPLEX_RESULTS_FILE = os.path.join(OUTPUT_DIR, 'cplex_selected_mosaic_groups-MG-SP-RJ-og1og2.json')
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# MIN_TOTAL_COVERAGE = 0.85  # Cobertura restrição 4
 
 def prepare_model_data(optimization_params):
     """
-    Extrai e prepara todos os dados necessários para o modelo.
-    
+    Extrai e prepara todos os dados necessários para o modelo PLIM (Fase 2).
+
+    Esta função corresponde à preparação dos parâmetros e variáveis descritos na
+    Tabela~1 do artigo, a partir dos grupos de mosaicos candidatos gerados pela
+    heurística gulosa (Fase 1).
+
     Args:
         optimization_params (dict): Parâmetros de otimização
-        
+
     Returns:
         tuple: (lista de grupos de mosaicos, dicionário com métricas)
     """
@@ -94,11 +104,12 @@ def prepare_model_data(optimization_params):
 
 def create_optimization_model(mosaic_groups):
     """
-    Cria o modelo de otimização base e as variáveis de decisão.
-    
+    Cria o modelo PLIM (Fase 2) e as variáveis de decisão binárias y_j,
+    conforme a Equação (1) e restrição (5) do artigo.
+
     Args:
         mosaic_groups (list): Lista de grupos de mosaicos
-        
+
     Returns:
         tuple: (modelo CPLEX, variáveis de decisão y)
     """
@@ -111,16 +122,18 @@ def create_optimization_model(mosaic_groups):
         for group in mosaic_groups
     }
 
-    # aqui foi o ajuste apos apresentacao, eu quero apenas a melhor decisao, não todas.
-    # Restrição limitante == 1: Selecionar exatamente O grupo de mosaico que melhor atende
-    # aos critérios de cobertura e qualidade, sem duplicação de áreas
-    mdl.add_constraint(mdl.sum(y[group_id] for group_id in y) == 1, ctname="select_one_group")
-    return mdl, y
+    return mdl, y 
 
 def define_objective_function(mdl, y, mosaic_groups, metrics):
     """
-    Define a função objetivo do modelo.
-    
+    Define a função objetivo do modelo PLIM, conforme Equação (1) do artigo:
+    max ∑(j∈M) E_j·y_j - γ·∑(j∈M) N_j·y_j
+
+    Onde:
+    - E_j: cobertura efetiva qualificada do mosaico j
+    - N_j: máxima cobertura de nuvens do mosaico j
+    - γ: peso de penalização para nuvens
+
     Args:
         mdl (Model): Modelo CPLEX
         y (dict): Variáveis de decisão
@@ -132,64 +145,65 @@ def define_objective_function(mdl, y, mosaic_groups, metrics):
     group_cloud_coverages = metrics["group_cloud_coverages"]
     
     # Pesos para a função objetivo
-    alpha = 0.4  # Penalidade por número de grupos
-    gamma = 0.8  # Penalidade por cobertura de nuvens
+    gamma = 3.7  # Penalidade por cobertura de nuvens
 
-    # Função objetivo: Maximiza cobertura e qualidade, penalizando número de grupos e nuvens
-    # Esta implementação corresponde à equação: 
-    # max ∑(j∈M) E_j·y_j - α·∑(j∈M) y_j - γ·∑(j∈M) N_j·y_j
-    # 
+    # Função objetivo:
+    # max ∑(j∈M) E_j·y_j - γ·∑(j∈M) N_j·y_j
+
     # Decomposição da função objetivo em suas três componentes:
-    # 1. Benefício: Cobertura efetiva qualificada (E_j·y_j)
-    # 2. Penalidade 1: Número de grupos selecionados (α·y_j)
-    # 3. Penalidade 2: Cobertura de nuvens nos grupos selecionados (γ·N_j·y_j)
+    # Termo 1. Benefício: Cobertura efetiva qualificada (E_j·y_j)
     total_coverage_quality = mdl.sum(
         group_coverages[group['group_id']] * group_qualities[group['group_id']] * y[group['group_id']]
         for group in mosaic_groups if group['group_id'] in y
     )
     
-    # Componente 2: α·∑(j∈M) y_j (Penalidade pelo número de grupos)
-    penalty_num_groups = alpha * mdl.sum(y[group_id] for group_id in y)
-    
-    # Componente 3: γ·∑(j∈M) N_j·y_j (Penalidade pela cobertura de nuvens)
+    # Termo 3: γ·∑(j∈M) N_j·y_j (Penalidade pela cobertura de nuvens)
     penalty_cloud_coverage = gamma * mdl.sum(
         group_cloud_coverages[group['group_id']] * y[group['group_id']]
         for group in mosaic_groups
         if group['group_id'] in y
     )
 
-    mdl.maximize(total_coverage_quality - penalty_num_groups - penalty_cloud_coverage)
-    logging.info(f"Função objetivo: Maximizar (Cobertura * Qualidade) - {alpha}(Num Grupos) - {gamma}(Cobertura de Nuvens)")
+    mdl.maximize(total_coverage_quality - penalty_cloud_coverage)
+    logging.info(f"Função objetivo: Maximizar (Cobertura * Qualidade) - {gamma}(Cobertura de Nuvens)")
 
 def add_model_constraints(mdl, y, mosaic_groups, metrics):
     """
-    Adiciona todas as restrições ao modelo.
-    
+    Adiciona as restrições do modelo PLIM, conforme Equações (2)--(4) do artigo:
+
+    - Restrição (2): Limite máximo de mosaicos selecionados
+    - Restrição (3): Exclusividade de imagens (cada imagem em no máximo um mosaico)
+    - Restrição (4): Impede seleção conjunta de mosaicos com sobreposição < θ
+
     Args:
         mdl (Model): Modelo CPLEX
         y (dict): Variáveis de decisão
         mosaic_groups (list): Lista de grupos de mosaicos
         metrics (dict): Métricas dos grupos
-        
+
     Returns:
-        dict: Variáveis auxiliares para pares de grupos
+        dict: Variáveis auxiliares para pares de grupos (não utilizadas nesta versão)
     """
     group_coverages = metrics["group_coverages"]
     group_cloud_coverages = metrics["group_cloud_coverages"]
     image_to_groups = metrics["image_to_groups"]
-    
-    # RESTRIÇÃO 1: Limite de cobertura de nuvens
-    # Exclui automaticamente grupos com cobertura de nuvens acima do threshold
-    # Corresponde à restrição: N_j > threshold → y_j = 0
+
+    # RESTRIÇÃO 1: Exclui grupos com cobertura de nuvens acima do threshold.
+    # Para cada grupo j, se N_j > threshold, então y_j = 0.
     cloud_threshold = 0.40
     for group_id, cloud_coverage in group_cloud_coverages.items():
         if cloud_coverage > cloud_threshold and group_id in y:
             mdl.add_constraint(y[group_id] == 0, ctname=f"exclude_high_cloud_{group_id}")
 
-    # RESTRIÇÃO 2: Exclusividade - cada imagem pode aparecer em no máximo um grupo selecionado
+
+    # RESTRIÇÃO 2: Limite máximo de mosaicos selecionados.
+    # Garante que no máximo N_max mosaicos podem ser escolhidos.
+    # ∑_{j ∈ M} y_j ≤ 6
+    mdl.add_constraint(mdl.sum(y[group_id] for group_id in y) <= 6, ctname="max_num_groups")
+
+    # RESTRIÇÃO 3: Exclusividade de imagem.
     # Garante que uma mesma imagem não seja utilizada em diferentes grupos na solução final
-    # Corresponde à restrição: ∑(j∈M(i)) y_j ≤ 1, ∀i ∈ I'
-    # onde M(i) é o conjunto de grupos que contêm a imagem i
+    # ∑(j∈M(i)) y_j ≤ 1, ∀i ∈ I'
     for image_filename, groups_with_image in image_to_groups.items():
         if len(groups_with_image) > 1:
             clean_name = image_filename.replace('.', '_').replace('-', '_')[:30]
@@ -198,136 +212,37 @@ def add_model_constraints(mdl, y, mosaic_groups, metrics):
                 ctname=f"exclusivity_{clean_name}"
             )
     
-    # RESTRIÇÃO 3: Cobertura mínima total da AOI considerando interseções entre grupos
-    # Implementa o Princípio da Inclusão-Exclusão (MILP) para evitar contagem duplicada de áreas
-    # Corresponde à restrição: ∑(j∈M) A_j·y_j - ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} ≥ min_coverage
-    min_total_coverage = 0.85  # 85% de cobertura mínima
-    
-    # 1. Criar variáveis binárias para rastrear pares de grupos selecionados (o_j,k)
-    # Estas variáveis auxiliares são usadas para contabilizar interseções apenas quando
-    # ambos os grupos são selecionados, linearizando a expressão não-linear y_j × y_k
-    group_pairs = {}
-    for i, group1 in enumerate(mosaic_groups):
-        g1_id = group1['group_id']
-        for j, group2 in enumerate(mosaic_groups[i+1:], i+1):
-            g2_id = group2['group_id']
-            pair_name = f"o_{g1_id}_{g2_id}"
-            group_pairs[(g1_id, g2_id)] = mdl.binary_var(name=pair_name)
-    
-    # 2. Restrições de linearização para relacionar variáveis de pares (o_j,k) com 
-    # variáveis de grupos (y_j, y_k)
-    # Estas três restrições garantem que o_j,k = 1 se e somente se y_j = y_k = 1
-    # Correspondem às restrições:
-    for (g1_id, g2_id), pair_var in group_pairs.items():
-        # y_j + y_k - 1 ≤ o_j,k (força o_j,k = 1 quando y_j = y_k = 1)
-        mdl.add_constraint(y[g1_id] + y[g2_id] - 1 <= pair_var, 
-                          ctname=f"pair_linkage_1_{g1_id}_{g2_id}")
-        # o_j,k ≤ y_j (impede o_j,k = 1 quando y_j = 0)
-        mdl.add_constraint(pair_var <= y[g1_id], 
-                          ctname=f"pair_linkage_2_{g1_id}_{g2_id}")
-        # o_j,k ≤ y_k (impede o_j,k = 1 quando y_k = 0)
-        mdl.add_constraint(pair_var <= y[g2_id], 
-                          ctname=f"pair_linkage_3_{g1_id}_{g2_id}")
-    
-    # 3. Calcular interseções entre pares de grupos
-    # Esta seção estima áreas de interseção entre grupos baseando-se na 
-    # proporção de imagens compartilhadas e em dados geométricos disponíveis
+    # Calcular interseções entre pares de grupos (I_{j,k})
     global group_intersections
-    group_intersections.clear()
-    
-    # Obter a área total da AOI
-    aoi_area = 1.0
-    for group in mosaic_groups:
-        if 'geometric_coverage_m2' in group and 'geometric_coverage' in group:
-            aoi_area = group['geometric_coverage_m2'] / group['geometric_coverage']
-            break
-    
-    logging.info(f"Área da AOI estimada: {aoi_area:.2f} m²")
-    
-    significant_intersections = []
-    
+    group_intersections = {}
     for i, group1 in enumerate(mosaic_groups):
         g1_id = group1['group_id']
-        g1_images = set(group1.get('images', []))
-        
+        coverage1 = group1.get('geometric_coverage', 0)
         for j, group2 in enumerate(mosaic_groups[i+1:], i+1):
             g2_id = group2['group_id']
-            g2_images = set(group2.get('images', []))
-            
-            # Se não há imagens compartilhadas, a interseção é zero
-            shared_images = g1_images.intersection(g2_images)
-            if not shared_images:
-                group_intersections[(g1_id, g2_id)] = 0
-                continue
-                
-            # Calcular a interseção entre os grupos
-            if ('geometric_coverage_m2' in group1 and 'geometric_coverage_m2' in group2):
-                # Estimativa da interseção baseada em imagens compartilhadas
-                shared_ratio = len(shared_images) / min(len(g1_images), len(g2_images))
-                
-                # Cálculo interseção percentual (%)
-                smaller_coverage = min(group1['geometric_coverage'], group2['geometric_coverage'])
-                intersection_area = smaller_coverage * shared_ratio
-
-                # Logs de diagnóstico para valores intermediários
-                logging.info(f"Diagnóstico interseção {g1_id}-{g2_id}: shared_ratio={shared_ratio:.6f}")
-                logging.info(f"Diagnóstico interseção {g1_id}-{g2_id}: smaller_coverage={smaller_coverage:.6f}")
-                logging.info(f"Diagnóstico interseção {g1_id}-{g2_id}: intersection_area={intersection_area:.6f}")
-                logging.info(f"Diagnóstico interseção {g1_id}-{g2_id}: aoi_area={aoi_area:.6f}")
-                
-                # Normalizar pela área da AOI
-                if aoi_area < 0.001:
-                    logging.warning(f"Área AOI muito pequena: {aoi_area}. Usando valor padrão.")
-                    aoi_area = 1.0
-
-                intersection_value = intersection_area / aoi_area
-                group_intersections[(g1_id, g2_id)] = intersection_value
-                
-                if intersection_value > 0.01:  # Interseção maior que 1%
-                    significant_intersections.append((g1_id, g2_id, intersection_value))
-
-                logging.info(f"Interseção entre {g1_id} e {g2_id}: {len(shared_images)} imagens, " +
-                        f"área estimada: {intersection_area:.6f} m² ({intersection_value:.8f} da AOI)")
-            else:
-                # Estimativa simplificada se não houver dados geométricos disponíveis
-                shared_ratio = len(shared_images) / len(g1_images.union(g2_images))
-                intersection_value = min(
-                    group_coverages[g1_id], group_coverages[g2_id]
-                ) * shared_ratio * 0.5  # Fator conservador
-                
-                group_intersections[(g1_id, g2_id)] = intersection_value
-                
-                logging.info(f"Interseção estimada entre {g1_id} e {g2_id}: " +
-                           f"{intersection_value:.4f} (baseado em {len(shared_images)} imagens compartilhadas)")
+            coverage2 = group2.get('geometric_coverage', 0)
+            intersection_value = min(coverage1, coverage2)
+            group_intersections[(g1_id, g2_id)] = intersection_value
     
-    # 4. Aplicar a restrição de cobertura
-    # A expressão de cobertura subtrai as interseções para evitar contagem duplicada
-    # Primeira parte: ∑(j∈M) A_j·y_j (soma das coberturas individuais)
-    coverage_expr = mdl.sum(
-        group_coverages[group['group_id']] * y[group['group_id']]
-        for group in mosaic_groups if group['group_id'] in y
-    )
-    
-    # Segunda parte: ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} (subtração das interseções)
+    # RESTRIÇÃO 4: Sobreposição mínima entre mosaicos selecionados
     for (g1_id, g2_id), intersection in group_intersections.items():
-        if intersection > 0:
-            coverage_expr -= intersection * group_pairs[(g1_id, g2_id)]
-    
-    mdl.add_constraint(coverage_expr >= min_total_coverage, ctname="minimum_total_coverage")
+        if intersection < 0.80:
+            mdl.add_constraint(y[g1_id] + y[g2_id] <= 1, ctname=f"min_overlap_{g1_id}_{g2_id}")
 
-    return group_pairs
+    return {}
 
 def solve_and_extract_results(mdl, y, mosaic_groups, metrics, group_pairs):
     """
-    Resolve o modelo e extrai os resultados.
-    
+    Resolve o modelo PLIM (Fase 2) e extrai os grupos de mosaicos selecionados,
+    calculando as métricas finais conforme apresentado nas Tabelas~3 e~4 do artigo.
+
     Args:
         mdl (Model): Modelo CPLEX
         y (dict): Variáveis de decisão
         mosaic_groups (list): Lista de grupos de mosaicos
         metrics (dict): Métricas dos grupos
         group_pairs (dict): Variáveis para pares de grupos
-        
+
     Returns:
         tuple: (grupos selecionados, métricas da solução)
     """
@@ -338,12 +253,6 @@ def solve_and_extract_results(mdl, y, mosaic_groups, metrics, group_pairs):
     mdl.context.solver.log_output = True
     mdl.context.solver.warning_level = 0
 
-    # mdl.parameters.output.writelevel.set(4)
-    # mdl.parameters.simplex.display.set(2)
-    # mdl.parameters.mip.display.set(5)
-    # mdl.parameters.mip.interval.set(1)
-    # mdl.parameters.mip.strategy.file.set(3)
-    
     # Resolver o modelo
     logging.info("Iniciando resolução do modelo CPLEX...")
     solution = mdl.solve()
@@ -396,8 +305,6 @@ def solve_and_extract_results(mdl, y, mosaic_groups, metrics, group_pairs):
         logging.info(f"Qualidade média: {total_quality/n if n else 0:.4f}")
         logging.info(f"IDs dos grupos selecionados: {selected_group_ids}")
         
-        min_total_coverage = 0.85  # Mesmo valor usado nas restrições
-        
         model_vars = {
             "mdl": mdl,
             "solution": solution,
@@ -406,8 +313,8 @@ def solve_and_extract_results(mdl, y, mosaic_groups, metrics, group_pairs):
             "group_coverages": group_coverages,
             "group_cloud_coverages": group_cloud_coverages,
             "group_intersections": group_intersections,
+            "group_qualities": group_qualities,
             "selected_group_ids": selected_group_ids,
-            "min_total_coverage": min_total_coverage,
             "mosaic_groups": mosaic_groups
         }
         
@@ -418,11 +325,12 @@ def solve_and_extract_results(mdl, y, mosaic_groups, metrics, group_pairs):
 
 def calculate_group_coverage(group):
     """
-    Extrai o valor de cobertura geométrica pré-calculada de um grupo de mosaico.
-    
+    Extrai o valor de cobertura geométrica pré-calculada de um grupo de mosaico,
+    conforme definido como A_j na Tabela~1 do artigo.
+
     Args:
         group (dict): Dicionário contendo metadados do grupo de mosaico
-        
+
     Returns:
         float: Valor de cobertura geométrica do grupo
     """
@@ -433,34 +341,12 @@ def calculate_group_coverage(group):
 
 def solve_mosaic_selection_milp(optimization_params):
     """
-    Implementa e resolve o modelo de Programação Linear Inteira Mista (PLIM)
-    para seleção ótima de grupos de mosaicos.
-    
-    Este modelo implementa o problema de cobertura de Áreas de Interesse (AOI)
-    usando o Princípio de Inclusão-Exclusão (MILP) para contabilizar corretamente
-    as sobreposições entre grupos de mosaicos. A formulação matemática segue:
-    
-    Maximize: ∑(j∈M) E_j·y_j - α·∑(j∈M) y_j - γ·∑(j∈M) N_j·y_j
-    
-    Sujeito a:
-    - Restrições de nuvens: N_j > threshold → y_j = 0
-    - Exclusividade: ∑(j∈M(i)) y_j ≤ 1, ∀i ∈ I'
-    - Cobertura mínima: ∑(j∈M) A_j·y_j - ∑(j,k∈M,j<k) I_{j,k}·o_{j,k} ≥ min_coverage
-    - Restrições de linearização: y_j + y_k - 1 ≤ o_{j,k}, o_{j,k} ≤ y_j, o_{j,k} ≤ y_k
-    
-    Onde:
-    - E_j: Qualidade efetiva do grupo j (cobertura × qualidade)
-    - y_j: Variável binária de decisão (1 se grupo j é selecionado, 0 caso contrário)
-    - α: Penalidade por número de grupos
-    - γ: Penalidade por cobertura de nuvens
-    - N_j: Cobertura de nuvens do grupo j
-    - A_j: Área de cobertura do grupo j
-    - I_{j,k}: Interseção entre grupos j e k
-    - o_{j,k}: Variável auxiliar para interseções (1 se ambos j e k selecionados)
-    
+    Implementa e resolve o modelo PLIM (Fase 2) para seleção ótima de grupos de mosaicos,
+    conforme metodologia do artigo (Seção~3.2).
+
     Args:
         optimization_params (dict): Parâmetros contendo grupos de mosaicos e metadados
-        
+
     Returns:
         tuple: (lista de grupos selecionados, variáveis do modelo para validação)
     """
@@ -488,8 +374,9 @@ def solve_mosaic_selection_milp(optimization_params):
 
 def save_cplex_results(selected_groups, output_filepath):
     """
-    Salva os resultados da otimização CPLEX em um arquivo JSON.
-    
+    Salva os resultados da otimização PLIM (Fase 2) em um arquivo JSON,
+    conforme apresentado nas tabelas de resultados do artigo.
+
     Args:
         selected_groups (list): Lista de grupos de mosaicos selecionados
         output_filepath (str): Caminho para o arquivo de saída
@@ -502,10 +389,10 @@ def save_cplex_results(selected_groups, output_filepath):
 
 def main():
     """
-    Função principal que coordena o fluxo de otimização:
-    1. Carrega parâmetros pré-calculados
-    2. Resolve o modelo MILP usando CPLEX
-    3. Salva os resultados e realiza validações detalhadas
+    Função principal: executa a Fase 2 da metodologia híbrida do artigo.
+    1. Carrega parâmetros e grupos candidatos da heurística gulosa (Fase 1)
+    2. Resolve o modelo PLIM (Fase 2)
+    3. Salva e valida os resultados conforme métricas do artigo
     """
     logging.info("=== INICIANDO OTIMIZAÇÃO CPLEX COM MÉTODO ===")
     
@@ -523,33 +410,19 @@ def main():
 
     if selected_mosaic_groups:
         save_cplex_results(selected_mosaic_groups, CPLEX_RESULTS_FILE)
-        save_selected_mosaics_log(selected_mosaic_groups, input_file_path=OPTIMIZATION_PARAMS_FILE)
-    #     if model_vars:
-    #         logging.info("\n=== INICIANDO VALIDAÇÃO DETALHADA DAS DECISÕES ===")
-    #         validation_results = validate_cplex_decisions(
-    #             model_vars["mdl"], 
-    #             model_vars["solution"], 
-    #             model_vars["y"], 
-    #             model_vars["group_pairs"], 
-    #             model_vars["group_coverages"],
-    #             model_vars["group_cloud_coverages"], 
-    #             model_vars["group_intersections"],
-    #             model_vars["selected_group_ids"], 
-    #             model_vars["min_total_coverage"], 
-    #             model_vars["mosaic_groups"],
-    #             CPLEX_RESULTS_FILE
-    #         )
-            
-    #         complete_results = {
-    #             "selected_groups": selected_mosaic_groups,
-    #             "validation": validation_results
-    #         }
-            
-    #         complete_results_file = os.path.join(os.path.dirname(CPLEX_RESULTS_FILE), 'cplex_complete_results.json')
-    #         with open(complete_results_file, 'w') as f:
-    #             json.dump(complete_results, f, indent=2)
-    # else:
-    #     logging.warning("Nenhum grupo de mosaico selecionado pela otimização")
+        metrics = {
+            "group_coverages": model_vars["group_coverages"],
+            "group_cloud_coverages": model_vars["group_cloud_coverages"],
+            "group_qualities": model_vars.get("group_qualities", {})
+        }
+        
+        # Chamar save_selected_mosaics_log com os parâmetros adicionais
+        save_selected_mosaics_log(
+            selected_mosaic_groups, 
+            input_file_path=OPTIMIZATION_PARAMS_FILE,
+            metrics=metrics,
+            group_intersections=model_vars["group_intersections"],
+        )
 
     logging.info("=== OTIMIZAÇÃO CPLEX CONCLUÍDA ===")
 

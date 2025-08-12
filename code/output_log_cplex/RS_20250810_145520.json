@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "area_name": "RS",
+    "timestamp": "20250810_145520",
+    "total_mosaics": 6
+  },
+  "mosaic_groups": [
+    {
+      "group_id": "mosaic_1",
+      "images": [
+        "S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip",
+        "S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9892997964632398,
+        "cloud_coverage": 6.887743681037263e-05,
+        "quality": 0.9999643968695879
+      },
+      "intersections": {
+        "mosaic_2": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_8": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_9": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_2",
+      "images": [
+        "S2A_MSIL2A_20241021T133831_N0511_R124_T21JXG_20241021T181351.SAFE.zip",
+        "S2B_MSIL2A_20241016T133839_N0511_R124_T21JXG_20241016T202419.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9892997964632398,
+        "cloud_coverage": 0.007340549052661009,
+        "quality": 0.9962820852465424
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_8": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_9": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_3",
+      "images": [
+        "S2B_MSIL2A_20250404T133829_N0511_R124_T21JXG_20250404T184437.SAFE.zip",
+        "S2C_MSIL2A_20250330T133901_N0511_R124_T21JXG_20250330T201214.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9892997964632398,
+        "cloud_coverage": 0.03361945955956961,
+        "quality": 0.9831880176594661
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_2": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_8": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_9": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_6",
+      "images": [
+        "S2B_MSIL2A_20241205T133839_N0511_R124_T21JXG_20241205T185708.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9892997964632398,
+        "cloud_coverage": 0.0,
+        "quality": 0.8085514005688473
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_2": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_8": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_9": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_9",
+      "images": [
+        "S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T180449.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9892997964632398,
+        "cloud_coverage": 0.0,
+        "quality": 0.7308433852407599
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_2": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        },
+        "mosaic_8": {
+          "intersection_area": 0.9892997964632398,
+          "shared_ratio": 0
+        }
+      }
+    }
+  ]
+}

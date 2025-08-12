@@ -1,0 +1,154 @@
+{
+  "metadata": {
+    "area_name": "BA",
+    "timestamp": "20250810_145822",
+    "total_mosaics": 5
+  },
+  "mosaic_groups": [
+    {
+      "group_id": "mosaic_1",
+      "images": [
+        "S2B_MSIL2A_20240524T125309_N0510_R052_T24KVG_20240524T163238.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9999999999999991,
+        "cloud_coverage": 0.009293116573758012,
+        "quality": 0.9864508028158177
+      },
+      "intersections": {
+        "mosaic_2": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_5": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_2",
+      "images": [
+        "S2A_MSIL2A_20240718T125311_N0510_R052_T24KVG_20240718T173458.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9999999999999991,
+        "cloud_coverage": 0.002137103705704673,
+        "quality": 0.8857111079043961
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_5": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_3",
+      "images": [
+        "S2B_MSIL2A_20250409T125309_N0511_R052_T24KVG_20250409T143608.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9999999999999991,
+        "cloud_coverage": 0.11025699270646595,
+        "quality": 0.8037953390142678
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_2": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_5": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_5",
+      "images": [
+        "S2A_MSIL2A_20241205T125311_N0511_R052_T24KVG_20241205T155449.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9999999999999991,
+        "cloud_coverage": 0.16237874806610839,
+        "quality": 0.7483827692514728
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_2": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_6": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        }
+      }
+    },
+    {
+      "group_id": "mosaic_6",
+      "images": [
+        "S2B_MSIL2A_20250310T125309_N0511_R052_T24KVG_20250310T143949.SAFE.zip"
+      ],
+      "metrics": {
+        "coverage": 0.9999999999999991,
+        "cloud_coverage": 0.18444782790206526,
+        "quality": 0.7464970837236022
+      },
+      "intersections": {
+        "mosaic_1": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_2": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_3": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        },
+        "mosaic_5": {
+          "intersection_area": 0.9999999999999991,
+          "shared_ratio": 0
+        }
+      }
+    }
+  ]
+}

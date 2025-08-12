@@ -1,78 +1,275 @@
 
 ==================================================
-EXECUÇÃO: 2025-07-02 11:44:43
-ÁREA: BA
-ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/BA/greedy/optimization_parameters-BA-precalc.json
-MOSAICOS SELECIONADOS: 1
---------------------------------------------------
-Mosaico: mosaic_1
-  Imagens (1):
-    - S2B_MSIL2A_20240524T125309_N0510_R052_T24KVG_20240524T163238.SAFE.zip
-------------------------------
-==================================================
-
-==================================================
-EXECUÇÃO: 2025-07-02 11:59:19
-ÁREA: RS
-ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/RS/greedy/optimization_parameters-RS-precalc.json
-MOSAICOS SELECIONADOS: 1
---------------------------------------------------
-Mosaico: mosaic_1
-  Imagens (2):
-    - S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip
-    - S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip
-------------------------------
-==================================================
-
-==================================================
-EXECUÇÃO: 2025-07-02 11:59:59
-ÁREA: MG
-ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG/greedy/optimization_parameters-MG-precalc.json
-MOSAICOS SELECIONADOS: 1
---------------------------------------------------
-Mosaico: mosaic_1
-  Imagens (2):
-    - S2A_MSIL2A_20240907T135701_N0511_R067_T21KVA_20240907T193405.SAFE.zip
-    - S2B_MSIL2A_20240902T135709_N0511_R067_T21KVA_20240902T180147.SAFE.zip
-------------------------------
-==================================================
-
-==================================================
-EXECUÇÃO: 2025-07-02 12:00:45
-ÁREA: MG-SP-RJ
-ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG-SP-RJ/greedy/optimization_parameters-MG-SP-RJ-precalc.json
-MOSAICOS SELECIONADOS: 1
---------------------------------------------------
-Mosaico: mosaic_13
-  Imagens (2):
-    - S2A_MSIL2A_20240823T131241_N0511_R138_T23KMR_20240823T194758.SAFE.zip
-    - S2B_MSIL2A_20240818T131249_N0511_R138_T23KNR_20240818T144136.SAFE.zip
-------------------------------
-==================================================
-
-==================================================
-EXECUÇÃO: 2025-07-02 12:01:43
+EXECUÇÃO: 2025-08-10 14:53:56
 ÁREA: PI-PE-CE
 ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/PI-PE-CE/greedy/optimization_parameters-PI-PE-CE-precalc.json
-MOSAICOS SELECIONADOS: 1
+MOSAICOS SELECIONADOS: 6
 --------------------------------------------------
 Mosaico: mosaic_9
+  Cobertura: 0.9252, Nuvens: 0.0000, Qualidade: 1.0000
   Imagens (3):
     - S2A_MSIL2A_20241009T130241_N0511_R095_T24MUS_20241009T175142.SAFE.zip
     - S2A_MSIL2A_20241009T130241_N0511_R095_T24MVS_20241009T175142.SAFE.zip
     - S2A_MSIL2A_20241009T130241_N0511_R095_T24MUT_20241009T175142.SAFE.zip
 ------------------------------
+Mosaico: mosaic_10
+  Cobertura: 0.9252, Nuvens: 0.0020, Qualidade: 0.9993
+  Imagens (3):
+    - S2A_MSIL2A_20241029T130251_N0511_R095_T24MUS_20241029T160945.SAFE.zip
+    - S2A_MSIL2A_20241029T130251_N0511_R095_T24MVS_20241029T160945.SAFE.zip
+    - S2A_MSIL2A_20241029T130251_N0511_R095_T24MUT_20241029T160945.SAFE.zip
+------------------------------
+Mosaico: mosaic_11
+  Cobertura: 0.9252, Nuvens: 0.0150, Qualidade: 0.9908
+  Imagens (3):
+    - S2B_MSIL2A_20240825T130249_N0511_R095_T24MUS_20240825T140941.SAFE.zip
+    - S2B_MSIL2A_20240825T130249_N0511_R095_T24MUT_20240825T140941.SAFE.zip
+    - S2B_MSIL2A_20240825T130249_N0511_R095_T24MVS_20240825T140941.SAFE.zip
+------------------------------
+Mosaico: mosaic_13
+  Cobertura: 0.9252, Nuvens: 0.0303, Qualidade: 0.9805
+  Imagens (3):
+    - S2B_MSIL2A_20250313T130249_N0511_R095_T24MUS_20250313T195042.SAFE.zip
+    - S2B_MSIL2A_20250313T130249_N0511_R095_T24MUT_20250313T195042.SAFE.zip
+    - S2B_MSIL2A_20250313T130249_N0511_R095_T24MVS_20250313T195042.SAFE.zip
+------------------------------
+Mosaico: mosaic_31
+  Cobertura: 0.9252, Nuvens: 0.0003, Qualidade: 0.9999
+  Imagens (3):
+    - S2B_MSIL2A_20240904T130249_N0511_R095_T24MUT_20240904T151216.SAFE.zip
+    - S2B_MSIL2A_20240904T130249_N0511_R095_T24MUS_20240904T151216.SAFE.zip
+    - S2B_MSIL2A_20240904T130249_N0511_R095_T24MVS_20240904T151216.SAFE.zip
+------------------------------
+Mosaico: mosaic_33
+  Cobertura: 0.9252, Nuvens: 0.0326, Qualidade: 0.9858
+  Imagens (3):
+    - S2C_MSIL2A_20250216T130311_N0511_R095_T24MUT_20250216T161854.SAFE.zip
+    - S2C_MSIL2A_20250216T130311_N0511_R095_T24MUS_20250216T161854.SAFE.zip
+    - S2C_MSIL2A_20250216T130311_N0511_R095_T24MVS_20250216T161854.SAFE.zip
+------------------------------
 ==================================================
 
 ==================================================
-EXECUÇÃO: 2025-07-02 12:02:10
+EXECUÇÃO: 2025-08-10 14:54:09
 ÁREA: AL
 ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/AL/greedy/optimization_parameters-AL-precalc.json
-MOSAICOS SELECIONADOS: 1
+MOSAICOS SELECIONADOS: 4
 --------------------------------------------------
 Mosaico: mosaic_1
+  Cobertura: 1.0000, Nuvens: 0.0690, Qualidade: 0.9485
   Imagens (2):
     - S2A_MSIL2A_20240903T124321_N0511_R009_T24LZQ_20240903T165646.SAFE.zip
     - S2A_MSIL2A_20240903T124321_N0511_R009_T24LZR_20240903T165646.SAFE.zip
+------------------------------
+Mosaico: mosaic_2
+  Cobertura: 1.0000, Nuvens: 0.1627, Qualidade: 0.8543
+  Imagens (2):
+    - S2A_MSIL2A_20241212T124251_N0511_R009_T24LZQ_20241212T151445.SAFE.zip
+    - S2A_MSIL2A_20241212T124251_N0511_R009_T24LZR_20241212T151445.SAFE.zip
+------------------------------
+Mosaico: mosaic_3
+  Cobertura: 1.0000, Nuvens: 0.2155, Qualidade: 0.8270
+  Imagens (2):
+    - S2C_MSIL2A_20250411T124311_N0511_R009_T24LZQ_20250411T170106.SAFE.zip
+    - S2C_MSIL2A_20250411T124311_N0511_R009_T24LZR_20250411T170106.SAFE.zip
+------------------------------
+Mosaico: mosaic_5
+  Cobertura: 1.0000, Nuvens: 0.1879, Qualidade: 0.7766
+  Imagens (2):
+    - S2A_MSIL2A_20250324T124331_N0511_R009_T24LZQ_20250324T151715.SAFE.zip
+    - S2A_MSIL2A_20250324T124331_N0511_R009_T24LZR_20250324T151715.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-08-10 14:54:32
+ÁREA: RS
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/RS/greedy/optimization_parameters-RS-precalc.json
+MOSAICOS SELECIONADOS: 6
+--------------------------------------------------
+Mosaico: mosaic_1
+  Cobertura: 0.9893, Nuvens: 0.0001, Qualidade: 1.0000
+  Imagens (2):
+    - S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip
+    - S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip
+------------------------------
+Mosaico: mosaic_2
+  Cobertura: 0.9893, Nuvens: 0.0073, Qualidade: 0.9963
+  Imagens (2):
+    - S2A_MSIL2A_20241021T133831_N0511_R124_T21JXG_20241021T181351.SAFE.zip
+    - S2B_MSIL2A_20241016T133839_N0511_R124_T21JXG_20241016T202419.SAFE.zip
+------------------------------
+Mosaico: mosaic_3
+  Cobertura: 0.9893, Nuvens: 0.0336, Qualidade: 0.9832
+  Imagens (2):
+    - S2B_MSIL2A_20250404T133829_N0511_R124_T21JXG_20250404T184437.SAFE.zip
+    - S2C_MSIL2A_20250330T133901_N0511_R124_T21JXG_20250330T201214.SAFE.zip
+------------------------------
+Mosaico: mosaic_6
+  Cobertura: 0.9893, Nuvens: 0.0000, Qualidade: 0.8086
+  Imagens (1):
+    - S2B_MSIL2A_20241205T133839_N0511_R124_T21JXG_20241205T185708.SAFE.zip
+------------------------------
+Mosaico: mosaic_9
+  Cobertura: 0.9893, Nuvens: 0.0000, Qualidade: 0.7308
+  Imagens (1):
+    - S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T180449.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-08-10 14:55:20
+ÁREA: RS
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/RS/greedy/optimization_parameters-RS-precalc.json
+MOSAICOS SELECIONADOS: 6
+--------------------------------------------------
+Mosaico: mosaic_1
+  Cobertura: 0.9893, Nuvens: 0.0001, Qualidade: 1.0000
+  Imagens (2):
+    - S2B_MSIL2A_20250315T133839_N0511_R124_T21JXG_20250315T200012.SAFE.zip
+    - S2C_MSIL2A_20250310T133901_N0511_R124_T21JXG_20250310T190817.SAFE.zip
+------------------------------
+Mosaico: mosaic_2
+  Cobertura: 0.9893, Nuvens: 0.0073, Qualidade: 0.9963
+  Imagens (2):
+    - S2A_MSIL2A_20241021T133831_N0511_R124_T21JXG_20241021T181351.SAFE.zip
+    - S2B_MSIL2A_20241016T133839_N0511_R124_T21JXG_20241016T202419.SAFE.zip
+------------------------------
+Mosaico: mosaic_3
+  Cobertura: 0.9893, Nuvens: 0.0336, Qualidade: 0.9832
+  Imagens (2):
+    - S2B_MSIL2A_20250404T133829_N0511_R124_T21JXG_20250404T184437.SAFE.zip
+    - S2C_MSIL2A_20250330T133901_N0511_R124_T21JXG_20250330T201214.SAFE.zip
+------------------------------
+Mosaico: mosaic_6
+  Cobertura: 0.9893, Nuvens: 0.0000, Qualidade: 0.8086
+  Imagens (1):
+    - S2B_MSIL2A_20241205T133839_N0511_R124_T21JXG_20241205T185708.SAFE.zip
+------------------------------
+Mosaico: mosaic_8
+  Cobertura: 0.9893, Nuvens: 0.0000, Qualidade: 0.7326
+  Imagens (1):
+    - S2A_MSIL2A_20250109T133831_N0511_R124_T21JXG_20250109T172416.SAFE.zip
+------------------------------
+Mosaico: mosaic_9
+  Cobertura: 0.9893, Nuvens: 0.0000, Qualidade: 0.7308
+  Imagens (1):
+    - S2A_MSIL2A_20241031T133831_N0511_R124_T21JXG_20241031T180449.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-08-10 14:58:22
+ÁREA: BA
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/BA/greedy/optimization_parameters-BA-precalc.json
+MOSAICOS SELECIONADOS: 5
+--------------------------------------------------
+Mosaico: mosaic_1
+  Cobertura: 1.0000, Nuvens: 0.0093, Qualidade: 0.9865
+  Imagens (1):
+    - S2B_MSIL2A_20240524T125309_N0510_R052_T24KVG_20240524T163238.SAFE.zip
+------------------------------
+Mosaico: mosaic_2
+  Cobertura: 1.0000, Nuvens: 0.0021, Qualidade: 0.8857
+  Imagens (1):
+    - S2A_MSIL2A_20240718T125311_N0510_R052_T24KVG_20240718T173458.SAFE.zip
+------------------------------
+Mosaico: mosaic_3
+  Cobertura: 1.0000, Nuvens: 0.1103, Qualidade: 0.8038
+  Imagens (1):
+    - S2B_MSIL2A_20250409T125309_N0511_R052_T24KVG_20250409T143608.SAFE.zip
+------------------------------
+Mosaico: mosaic_5
+  Cobertura: 1.0000, Nuvens: 0.1624, Qualidade: 0.7484
+  Imagens (1):
+    - S2A_MSIL2A_20241205T125311_N0511_R052_T24KVG_20241205T155449.SAFE.zip
+------------------------------
+Mosaico: mosaic_6
+  Cobertura: 1.0000, Nuvens: 0.1844, Qualidade: 0.7465
+  Imagens (1):
+    - S2B_MSIL2A_20250310T125309_N0511_R052_T24KVG_20250310T143949.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-08-10 14:58:37
+ÁREA: MG
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG/greedy/optimization_parameters-MG-precalc.json
+MOSAICOS SELECIONADOS: 6
+--------------------------------------------------
+Mosaico: mosaic_1
+  Cobertura: 1.0000, Nuvens: 0.0000, Qualidade: 1.0000
+  Imagens (2):
+    - S2A_MSIL2A_20240907T135701_N0511_R067_T21KVA_20240907T193405.SAFE.zip
+    - S2B_MSIL2A_20240902T135709_N0511_R067_T21KVA_20240902T180147.SAFE.zip
+------------------------------
+Mosaico: mosaic_2
+  Cobertura: 1.0000, Nuvens: 0.0000, Qualidade: 1.0000
+  Imagens (1):
+    - S2B_MSIL2A_20240803T135709_N0511_R067_T21KVA_20240803T180059.SAFE.zip
+------------------------------
+Mosaico: mosaic_3
+  Cobertura: 1.0000, Nuvens: 0.0000, Qualidade: 1.0000
+  Imagens (1):
+    - S2A_MSIL2A_20240719T135701_N0510_R067_T21KVA_20240719T193907.SAFE.zip
+------------------------------
+Mosaico: mosaic_4
+  Cobertura: 1.0000, Nuvens: 0.0000, Qualidade: 0.9998
+  Imagens (1):
+    - S2A_MSIL2A_20240818T135701_N0511_R067_T21KVA_20240818T212251.SAFE.zip
+------------------------------
+Mosaico: mosaic_5
+  Cobertura: 1.0000, Nuvens: 0.0000, Qualidade: 0.9993
+  Imagens (1):
+    - S2A_MSIL2A_20240530T135711_N0510_R067_T21KVA_20240530T205154.SAFE.zip
+------------------------------
+Mosaico: mosaic_6
+  Cobertura: 1.0000, Nuvens: 0.0000, Qualidade: 0.9990
+  Imagens (1):
+    - S2B_MSIL2A_20240614T135709_N0510_R067_T21KVA_20240614T173321.SAFE.zip
+------------------------------
+==================================================
+
+==================================================
+EXECUÇÃO: 2025-08-10 15:00:03
+ÁREA: MG-SP-RJ
+ARQUIVO: /Users/luryand/Documents/encode-image/coverage_otimization/code/APA-input/recapture/MG-SP-RJ/greedy/optimization_parameters-MG-SP-RJ-precalc.json
+MOSAICOS SELECIONADOS: 6
+--------------------------------------------------
+Mosaico: mosaic_13
+  Cobertura: 0.8914, Nuvens: 0.0000, Qualidade: 1.0000
+  Imagens (2):
+    - S2A_MSIL2A_20240823T131241_N0511_R138_T23KMR_20240823T194758.SAFE.zip
+    - S2B_MSIL2A_20240818T131249_N0511_R138_T23KNR_20240818T144136.SAFE.zip
+------------------------------
+Mosaico: mosaic_14
+  Cobertura: 0.8914, Nuvens: 0.0065, Qualidade: 0.9964
+  Imagens (2):
+    - S2B_MSIL2A_20241007T131239_N0511_R138_T23KMR_20241007T151224.SAFE.zip
+    - S2A_MSIL2A_20241002T131241_N0511_R138_T23KNR_20241002T172745.SAFE.zip
+------------------------------
+Mosaico: mosaic_15
+  Cobertura: 0.8914, Nuvens: 0.0000, Qualidade: 0.9949
+  Imagens (2):
+    - S2B_MSIL2A_20240619T131249_N0510_R138_T23KMR_20240619T152201.SAFE.zip
+    - S2B_MSIL2A_20240619T131249_N0510_R138_T23KNR_20240619T152201.SAFE.zip
+------------------------------
+Mosaico: mosaic_16
+  Cobertura: 0.8914, Nuvens: 0.0000, Qualidade: 0.9729
+  Imagens (2):
+    - S2A_MSIL2A_20240803T131241_N0511_R138_T23KMR_20240803T195252.SAFE.zip
+    - S2A_MSIL2A_20240803T131241_N0511_R138_T23KNR_20240803T195252.SAFE.zip
+------------------------------
+Mosaico: mosaic_17
+  Cobertura: 0.8914, Nuvens: 0.0021, Qualidade: 0.9587
+  Imagens (2):
+    - S2A_MSIL2A_20240724T131241_N0511_R138_T23KMR_20240724T213752.SAFE.zip
+    - S2A_MSIL2A_20240724T131241_N0511_R138_T23KNR_20240724T213752.SAFE.zip
+------------------------------
+Mosaico: mosaic_20
+  Cobertura: 0.8914, Nuvens: 0.0186, Qualidade: 0.9433
+  Imagens (2):
+    - S2A_MSIL2A_20240902T131241_N0511_R138_T23KMR_20240902T194346.SAFE.zip
+    - S2B_MSIL2A_20240828T131249_N0511_R138_T23KNR_20240828T142300.SAFE.zip
 ------------------------------
 ==================================================
