@@ -39,6 +39,9 @@
 \setlength{\belowrulesep}{0.2ex}
 \setlength{\cmidrulewidth}{0.3pt}
 
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[C]{\includegraphics[scale=0.32]{sbpo2025-header-logo.png}}
@@ -71,9 +74,9 @@ Av. Lourival Melo Mota, S/n --- Tabuleiro do Martins, Maceió --- AL\\
 \begin{document}
 \vspace{-5mm}
 \maketitle
-\vspace{-8mm}
+\vspace{-10mm}
 \begin{abstract}
-    Este artigo apresenta uma abordagem híbrida para otimizar a cobertura de imagens ópticas em Unidades de Conservação (UCs) brasileiras. A metodologia combina uma heurística gulosa, seguida de um modelo Programação Linear Inteira Mista (PLIM). O objetivo consiste em maximizar a cobertura útil qualificada das áreas monitoradas, considerando cobertura de nuvens, pixels válidos, compatibilidade orbital e consistência temporal para análise sequencial de uma mesma região. O modelo PLIM incorpora penalizações específicas para cobertura de nuvens e restrições de exclusividade de imagens, enquanto garante sobreposição adequada entre mosaicos selecionados. Os resultados demonstram que a abordagem PLIM resultou em redução média de 96,2\% em relação à heurística gulosa inicial, mantendo a cobertura de nuvens controlada (abaixo de 10\% em cenários favoráveis e não excedendo 23,68\% em regiões tradicionalmente nebulosas), enquanto assegura cobertura geográfica das áreas estudadas.
+    Este artigo apresenta um método híbrido para otimizar a cobertura de imagens ópticas em Unidades de Conservação (UCs), com foco na seleção de diferentes mosaicos de uma mesma área em diferentes períodos para acompanhar sua evolução multitemporal. A metodologia combina heurística gulosa e Programação Linear Inteira Mista (PLIM). O objetivo é maximizar a cobertura útil qualificada das áreas monitoradas, considerando nuvens, pixels válidos, compatibilidade orbital e consistência para análise multitemporal da mesma região. O modelo PLIM aplica penalizações para nuvens e restrições de exclusividade de imagens, além de garantir sobreposição adequada entre mosaicos. Os resultados mostram que a PLIM reduziu em média 96,2\% o número de produtos em relação à heurística inicial, mantendo cobertura de nuvens controlada (abaixo de 10\% em cenários favoráveis e não excedendo 23,68\% em regiões nebulosas), com cobertura geográfica e análise multitemporal das áreas estudadas.
 
     \bigskip
     \noindent
@@ -87,7 +90,7 @@ Av. Lourival Melo Mota, S/n --- Tabuleiro do Martins, Maceió --- AL\\
     \bigskip
     
 \noindent\textbf{Abstract:} 
-    This paper presents a hybrid approach to optimize the coverage of optical images in Brazilian Conservation Units (UCs). The methodology combines a greedy constructive heuristic with a composite evaluation function, followed by exact optimization via Mixed-Integer Linear Programming (MILP). The objective is to maximize the qualified useful coverage of the monitored areas, considering cloud cover, valid pixels, orbital compatibility, and temporal consistency for sequential analysis of the same region. The MILP model incorporates specific penalties for cloud cover and image exclusivity constraints, while ensuring adequate overlap between selected mosaics. Results demonstrate that the PLIM approach achieved a 96.2\% average reduction in the number of products compared to the initial greedy heuristic, maintaining cloud cover controlled (below 10\% in favorable scenarios and not exceeding 23.68\% in traditionally cloudy regions), while ensuring geographic coverage of the studied areas.
+    This paper presents a hybrid method to optimize the coverage of optical images in Conservation Units (UCs), focusing on selecting different mosaics of the same area in different periods to monitor its multitemporal evolution. The methodology combines a greedy heuristic and Mixed-Integer Linear Programming (MILP). The objective is to maximize qualified useful coverage of monitored areas, considering cloud cover, valid pixels, orbital compatibility, and consistency for multitemporal analysis of the same region. The MILP model applies penalties for clouds and image exclusivity constraints, ensuring adequate overlap between mosaics. Results show that MILP reduced the number of products by an average of 96.2\% compared to the initial heuristic, keeping cloud cover below 10\% in favorable scenarios and not exceeding 23.68\% in cloudy regions, with geographic coverage and multitemporal analysis of the studied areas.
 
 \noindent
 \textbf{Keywords:} Combinatorial Optimization. Mixed-Integer Linear Programming. Greedy Constructive Heuristic. Remote Sensing.\\
@@ -96,13 +99,11 @@ Av. Lourival Melo Mota, S/n --- Tabuleiro do Martins, Maceió --- AL\\
 
 \section{Introdução}
 \vspace{-5mm}
-O monitoramento de Unidades de Conservação (UCs) necessita de imagens ópticas de alta resolução. O programa Copernicus, através dos satélites Sentinel-2, proporciona um recurso valioso com imagens multiespectrais de até 10 metros de resolução e frequente revisita \citep{schuster:2020}. Contudo, a cobertura de nuvens, a qualidade dos pixels e a sobreposição entre cenas prejudicam a consistência dos mosaicos \citep{rodriguez-puerta:2024}.
+O monitoramento de Unidades de Conservação (UCs) é fundamental para a gestão ambiental, proteção da biodiversidade e suporte à tomada de decisão em políticas públicas. Imagens ópticas de alta resolução, como as fornecidas pelo programa Copernicus/Sentinel-2, permitem acompanhar mudanças ambientais, identificar ameaças como desmatamento e incêndios, e avaliar a efetividade de ações de conservação. No entanto, desafios como cobertura de nuvens, qualidade dos pixels e sobreposição entre cenas dificultam a geração de mosaicos consistentes ao longo do tempo \citep{rodriguez-puerta:2024}.
 
-A literatura apresenta diferentes variantes para o problema de mosaicos. Diversas abordagens buscam maximizar a área útil coberta, enquanto outras minimizam o número de mosaicos necessários. Alguns métodos penalizam imagens com maior presença de nuvens ou estabelecem limites mínimos de cobertura da área.
+Diante desses desafios, o trabalho tem como objetivo garantir o monitoramento eficiente e contínuo de áreas de interesse ambiental, superando limitações como cobertura de nuvens, sobreposição inadequada e inconsistências temporais. Para isso, propõe-se a seleção de mosaicos que permitam acompanhar a evolução multitemporal dessas áreas, maximizando a cobertura útil e a qualidade das imagens, considerando restrições de nuvens, pixels válidos e compatibilidade temporal.
 
-O método proposto maximiza a cobertura útil qualificada com penalização para presença de nuvens, visando identificar o subconjunto ótimo para áreas de conservação. A abordagem, validada com imagens Sentinel-2, aplica-se a diversos sensores ópticos que fornecem dados sobre cobertura de nuvens e qualidade de pixels. A função objetivo prioriza cobertura geográfica útil e qualidade, enquanto as restrições asseguram a sobreposição mínima entre mosaicos, cobertura mínima e exclusividade de imagens nos grupos.
-
-Este trabalho propõe uma estratégia híbrida em duas etapas. Primeiro, uma heurística gulosa identifica grupos de mosaicos candidatos que satisfazem requisitos de cobertura de nuvens, pixels válidos e compatibilidade orbital e temporal. Em seguida, um modelo PLIM seleciona o subconjunto final que otimiza a função objetivo, respeitando todas as restrições. O objetivo final é alcançar mosaicos limpos o suficiente para uma análise espacial e temporal consistente ao longo de um período, permitindo o monitoramento efetivo das unidades de conservação, com a seleção de uma sequência de mosaicos que apresentam uma área de cobertura em comum ao longo do tempo. As principais contribuições incluem: (i) a heurística gulosa que pré-seleciona grupos de mosaicos; (ii) o modelo PLIM que garante consistência entre mosaicos sequenciais, e (iii) a validação da abordagem híbrida em diversas UCs brasileiras.
+Este trabalho propõe uma estratégia híbrida em duas etapas. Primeiro, uma heurística gulosa identifica grupos de mosaicos candidatos que satisfazem requisitos de cobertura de nuvens, pixels válidos e compatibilidade orbital e temporal. Em seguida, um modelo PLIM seleciona o subconjunto final que otimiza a função objetivo, respeitando todas as restrições. O objetivo final é alcançar mosaicos limpos o suficiente para uma análise espacial e temporal consistente, permitindo o monitoramento efetivo das unidades de conservação. As principais contribuições incluem: (i) a heurística gulosa que pré-seleciona grupos de mosaicos; (ii) o modelo PLIM que garante consistência entre mosaicos sequenciais; e (iii) a validação da abordagem híbrida em diversas UCs brasileiras, com resultados que demonstram significativa redução no número de mosaicos necessários e controle efetivo da cobertura de nuvens.
 
 O restante deste artigo está organizado da seguinte forma: a Seção~2 apresenta a revisão de literatura relacionada ao problema de seleção de imagens e mosaicos. A Seção~3 detalha a metodologia proposta, incluindo a heurística gulosa (Fase 1) e o modelo PLIM (Fase 2). A Seção~4 apresenta e discute os resultados obtidos nas diferentes unidades de conservação brasileiras, incluindo análises comparativas entre a abordagem heurística e o modelo PLIM, além de exemplos visuais dos mosaicos gerados. Por fim, a Seção~5 apresenta as conclusões e direções para trabalhos futuros.
 \vspace{-6mm}
@@ -110,9 +111,7 @@ O restante deste artigo está organizado da seguinte forma: a Seção~2 apresent
 \vspace{-3mm}
 A composição de mosaicos ópticos para monitoramento ambiental enfrenta desafios como cobertura de nuvens, qualidade radiométrica dos pixels e inconsistências de sobreposição entre cenas. Métodos heurísticos predominavam inicialmente, com combinação de detecção de nuvens e técnicas de composição temporal para a geração de produtos livres de nuvens \citep{kempeneers:2017}.
 
-Para formalizar matematicamente a seleção de imagens, a literatura recorre ao problema do 
-\emph{minimum axis-parallel rectangle cover of a rectilinear polygon without holes}, 
-classificado como NP-difícil \citep{KumarRamesh1995, masek1978}. Esta complexidade implica em esforço computacional exponencial para soluções exatas diretas em grandes conjuntos de imagens.
+Para formalizar matematicamente a seleção de imagens, a literatura recorre ao problema do \emph{minimum axis-parallel rectangle cover of a rectilinear polygon without holes}, classificado como NP-difícil \citep{KumarRamesh1995, masek1978}. Esta complexidade implica que são conhecidos algoritmos exponenciais para a solução exata de tais problemas. 
 
 Na evolução dos modelos exatos, \citet{combarro-simon-constraint-2023} propuseram dois modelos baseado em \textit{Constraint Programming} (CP) e outro em PLIM, testados em instâncias realistas de até 200 imagens. Os resultados comprovaram a viabilidade do PLIM aplicado diretamente ao conjunto total de polígonos gerados pela discretização geométrica. A metodologia apresentada por esses autores inclui apenas o pré-processamento por interseção de polígonos e a incorporação de nuvens como elementos do universo de cobertura, sem fases heurísticas ou penalizações arbitrárias.
 
@@ -122,16 +121,18 @@ A literatura apresenta estratégias específicas para mosaicos com imagens Senti
 
 Em conservação ambiental, \citet{beyer:2016} aplicaram PLIM para priorização espacial com resultados superiores aos métodos heurísticos. \citet{schuster:2020} confirmaram a vantagem de solucionadores exatos de PLIM sobre \textit{simulated annealing}. \citet{rodriguez-puerta:2024} identificaram ruídos radiométricos em mosaicos Sentinel-2, problemas abordados no presente modelo via penalizações na função objetivo.
 
-Em síntese, a literatura evidencia uma evolução de métodos heurísticos para modelos exatos e abordagens híbridas. A metodologia proposta apresenta uma abordagem em duas fases --- heurística gulosa (incluindo uma etapa de pós-processamento) seguida do PLIM --- para seleção de mosaicos em UCs brasileiras.
+% Em síntese, a literatura evidencia uma evolução de métodos heurísticos para modelos exatos e abordagens híbridas. A metodologia proposta apresenta uma abordagem em duas fases --- heurística gulosa (incluindo uma etapa de pós-processamento) seguida do PLIM --- para seleção de mosaicos em UCs brasileiras.
+Em síntese, a literatura evidencia uma evolução de métodos heurísticos para modelos exatos e abordagens híbridas. Essa trajetória reflete a busca por soluções que não apenas maximizem a cobertura útil, mas também permitam selecionar sequências de mosaicos multitemporais permitindo a observação contínua da área de interesse. A metodologia proposta apresenta uma abordagem em duas fases --- heurística gulosa, seguida do PLIM --- para seleção de mosaicos em UCs brasileiras, alinhando-se ao objetivo de possibilitar a análise multitemporal e comparativa das regiões monitoradas.
 
 \vspace{-7mm}
 
 \section{Metodologia Proposta}
 \vspace{-5mm}
-A metodologia desenvolvida para otimizar a seleção de imagens Sentinel-2 segue a abordagem híbrida em duas fases. A Tabela~\ref{tab:notation} define os principais parâmetros e variáveis utilizados. O método proposto é composto por duas fases, descritas a seguir:
+A metodologia proposta foi desenvolvida para otimizar a seleção de mosaicos Sentinel-2 de modo a viabilizar análises multitemporais das regiões de interesse. O objetivo central é garantir que, para cada período analisado, os mosaicos selecionados apresentem continuidade espacial suficiente e qualidade adequada, permitindo comparações confiáveis das mesmas áreas ao longo do tempo. Para isso, são consideradas restrições de sobreposição mínima entre mosaicos, compatibilidade temporal entre imagens e critérios rigorosos de cobertura útil e presença de nuvens. A Tabela~\ref{tab:notation} define os principais parâmetros e variáveis utilizados. O método proposto é composto por duas fases:
 
-A estratégia em duas fases contribui para a eficiência computacional e para a qualidade dos resultados. Sem o pré-processamento heurístico, a resolução direta via PLIM apresentaria dificuldades para conjuntos grandes de imagens, considerando a natureza NP-difícil do problema de cobertura. Modelar diretamente fatores de qualidade radiométrica, compatibilidade temporal e características de cada imagem aumentaria o número de variáveis e restrições no PLIM, dificultando a resolução do problema para instâncias reais. A heurística gulosa filtra e agrupa imagens segundo critérios de efetividade, cobertura útil, qualidade radiométrica e compatibilidade temporal, reduzindo o espaço de busca para o modelo exato. Essa redução permite a resolução em tempo adequado e incorpora restrições operacionais difíceis de representar diretamente no PLIM. A estratégia híbrida combina aspectos metodológicos que favorecem soluções adequadas em termos de cobertura geográfica e consistência temporal para o problema de otimização de mosaicos para monitoramento ambiental.
-\vspace{-4mm}
+% A estratégia em duas fases contribui para a eficiência computacional e a qualidade dos resultados, especialmente para acompanhar as mudanças espaciais ao longo dos períodos analisados. Sem o pré-processamento heurístico, a resolução direta via PLIM seria inviável para conjuntos grandes de imagens, devido à natureza NP-difícil do problema e ao aumento de variáveis e restrições ao modelar fatores como qualidade e compatibilidade temporal. A heurística gulosa filtra e agrupa imagens por efetividade, cobertura útil, qualidade e compatibilidade temporal, reduzindo o espaço de busca para o modelo exato. Isso viabiliza a resolução em tempo adequado e incorpora restrições operacionais difíceis de representar no PLIM. Assim, a estratégia híbrida favorece soluções que garantem cobertura geográfica e consistência temporal, permitindo o acompanhamento multitemporal da evolução das áreas monitoradas.
+A estratégia contribui tanto para a eficiência computacional quanto para a qualidade dos resultados ao lidar com mudanças espaciais ao longo dos períodos. Embora a resolução direta via PLIM para conjuntos extensos represente um desafio devido à explosão combinatória do problema, avanços recentes em técnicas de otimização podem tornar essa abordagem mais viável no futuro. Trabalhos futuros podem investigar modelos PLIM aplicados diretamente, sem a etapa heurística inicial. No método atual, a heurística gulosa filtra e agrupa imagens por efetividade, cobertura, qualidade e compatibilidade, reduzindo o espaço de busca para o modelo exato e permitindo incorporar restrições operacionais de difícil representação no PLIM puro. Dessa forma, a estratégia híbrida favorece soluções com cobertura geográfica e consistência temporal adequadas, viabilizando o acompanhamento multitemporal das áreas monitoradas.
+\vspace{-5mm}
 
 \begin{itemize}
     \item \textbf{Fase 1:}%
@@ -215,14 +216,15 @@ A estratégia em duas fases contribui para a eficiência computacional e para a 
 \vspace{-11mm}
 \subsection{Fase 1: Heurística Gulosa}\label{sec:fase1}
 \vspace{-4mm}
-O Algoritmo~\ref{alg:heuristica-gulosa} exibe o pseudocódigo da heurística principal. Ela inicia com a classificação das imagens candidatas e calcula a cobertura efetiva de cada imagem como o produto entre a área geográfica da imagem sobre o território de interesse e a proporção de pixels válidos. Pixels não válidos correspondem a regiões sem dados. Durante a formação dos grupos de mosaicos, imagens são incluídas desde que contribuam com pelo menos $\Delta A^{\min}$ (5\%) de cobertura adicional e atendam à compatibilidade temporal, enquanto a meta global de cobertura ($A_M^{\text{alvo}}$) permanece em 85\%.
-
-Após a geração dos grupos candidatos pela heurística principal (Fase 1), o modelo PLIM utiliza o cálculo de sobreposição dois a dois entre mosaicos apenas para garantir que a seleção final não inclua mosaicos com sobreposição inferior ao limiar estabelecido. A cobertura apresentada nos resultados corresponde à área efetivamente coberta pelos mosaicos selecionados.
-
+% O Algoritmo~\ref{alg:heuristica-gulosa} exibe o pseudocódigo da heurística principal. Ela inicia com a classificação das imagens candidatas e calcula a cobertura efetiva de cada imagem como o produto entre a área geográfica da imagem sobre o território de interesse e a proporção de pixels válidos. Pixels não válidos correspondem a regiões sem dados. Durante a formação dos grupos de mosaicos, imagens são incluídas desde que contribuam com pelo menos $\Delta A^{\min}$ (5\%) de cobertura adicional e atendam à compatibilidade temporal, enquanto a meta global de cobertura ($A_M^{\text{alvo}}$) permanece em 85\%.\\
+% % \vspace{-2mm}
+% Após a geração dos grupos candidatos pela heurística principal (Fase 1), o modelo PLIM utiliza o cálculo de sobreposição dois a dois entre mosaicos apenas para garantir que a seleção final não inclua mosaicos com sobreposição inferior ao limiar estabelecido. A cobertura apresentada nos resultados corresponde à área efetivamente coberta pelos mosaicos selecionados.
+O Algoritmo~\ref{alg:heuristica-gulosa} apresenta o pseudocódigo da heurística principal, que começa classificando as imagens candidatas e calculando a cobertura efetiva de cada uma como o produto entre a área geográfica sobre o território de interesse e a proporção de pixels válidos (regiões sem dados são consideradas não válidas). Na formação dos grupos de mosaicos, imagens são incluídas se contribuírem com pelo menos $\Delta A^{\min}$ (5\%) de cobertura adicional e atenderem à compatibilidade temporal, mantendo a meta global de cobertura ($A_M^{\text{alvo}}$) em 85\%. Após a geração dos grupos candidatos (Fase 1), o modelo PLIM calcula a sobreposição entre mosaicos apenas para garantir que a seleção final não inclua mosaicos com sobreposição inferior ao limiar estabelecido. A cobertura apresentada nos resultados corresponde à área efetivamente coberta pelos mosaicos selecionados.
 \vspace{-3mm}
 % No preâmbulo do documento:
 \algnewcommand\Input{\item[\textbf{Entrada:}]}
 \algnewcommand\Output{\item[\textbf{Saída:}]}
+
 
 % No algoritmo:
 \begin{algorithm}[H]
@@ -236,12 +238,13 @@ Após a geração dos grupos candidatos pela heurística principal (Fase 1), o m
     \While{há regiões de $A$ não cobertas}
         \State{Inicializar $M_{novo} \gets \emptyset$}
         \State{Para cada imagem $i \in I$: calcular $E_i = A_i \cdot P_i \cdot Q_i$}
-        \State{Selecionar $i^* \in I$ | $E_{i^*} = \max_{i \in I} E_i$}
+        \State{Selecionar $i^* = \argmax_{i \in I} E_i$}
         \State{Adicionar imagem $i^*$ ao mosaico $M_{novo}$}
         \State{Definir $I_{comp} \gets \{i \in I : |t_i - t_{i^*}| \leq \Delta T_{\max}\}$}
         \While{$I_{comp} \neq \emptyset$ e cobertura pode ser melhorada}
             \State{Para cada imagem $i \in I_{comp}$: calcular $E_i = A_i \cdot P_i \cdot Q_i$}
-            \State{Selecionar $i^* \in I_{comp}$ | $E_{i^*} = \max_{i \in I_{comp}} E_i$ e atenda critérios de sobreposição}
+            \State{Definir $I'_{comp} = \{i \in I_{comp} : i \text{ atenda critérios de sobreposição}\}$}
+            \State{Selecionar $i^* = \argmax_{i \in I'_{comp}} E_i$}
             \If{$i^*$ aumenta a cobertura em pelo menos $\Delta A^{\min}$}
                 \State{Adicionar $i^*$ ao mosaico $M_{novo}$}
                 \State{Atualizar $I_{comp} \gets \{i \in I_{comp} : |t_i - t_j| \leq \Delta T_{\max}$ para todo $j \in M_{novo}\}$}
@@ -258,6 +261,7 @@ Após a geração dos grupos candidatos pela heurística principal (Fase 1), o m
     \State{\Return $M$}
     \end{algorithmic}
 \end{algorithm}
+
 \vspace{-5mm}
 O processo de seleção maximiza a cobertura efetiva e qualidade dos mosaicos que atendam às restrições de janela temporal e incremento mínimo de cobertura. Conforme as linhas 19-22 do Algoritmo~1, implementa-se flexibilização da meta de cobertura ($A_M^{\text{alvo}} = 85\%$) quando não há imagens compatíveis adicionais, aceitando mosaicos que atendam ao limiar mínimo ($A_M^{\min} = 2\%$). Esta adaptação preserva janelas temporais valiosas que, mesmo com cobertura geográfica subótima, seriam perdidas em áreas com restrições orbitais ou condições atmosféricas adversas.
 \vspace{-5mm}
@@ -269,11 +273,12 @@ O modelo proposto para seleção ótima de grupos de mosaicos é apresentado aba
     \text{s.a.} \quad & \sum_{j \in M} y_j \leq N_{\max} & \tag{2} \\
     & \sum_{j \in M(i)} y_j \leq 1 & \quad \forall i \in I' \tag{3}\\
     & y_j + y_k \leq 1 & \quad \forall j, k \in M, j < k \mid I_{j,k} < \theta \tag{4}\\
-    & y_j \in \{0,1\} & \quad \forall j in M \tag{5}
+    & y_j \in \{0,1\} & \quad \forall j \in M \tag{5}
 \end{alignat}
 
 \vspace{-2mm}
-A função objetivo (1) busca maximizar a soma da cobertura útil e qualificada dos mosaicos selecionados, penalizando a presença de nuvens. O termo $\gamma$ foi ajustado empiricamente para priorizar mosaicos com menor cobertura de nuvens. O modelo impõe restrições para limitar o número máximo de mosaicos ($N_{\max}$), garantir que cada imagem seja utilizada em no máximo um mosaico e impedir a seleção conjunta de mosaicos com sobreposição inferior a $\theta$. Assim, o número de mosaicos é controlado diretamente pela restrição~(2), enquanto a função objetivo prioriza a maximização da cobertura útil e a minimização da presença de nuvens.
+% A função objetivo (1) busca maximizar a soma da cobertura útil e qualificada dos mosaicos selecionados, penalizando a presença de nuvens. O termo $\gamma$ foi ajustado empiricamente para priorizar mosaicos com menor cobertura de nuvens. O modelo impõe restrições para limitar o número máximo de mosaicos ($N_{\max}$), garantir que cada imagem seja utilizada em no máximo um mosaico e impedir a seleção conjunta de mosaicos com sobreposição inferior a $\theta$. Assim, o número de mosaicos é controlado diretamente pela restrição~(2), enquanto a função objetivo prioriza a maximização da cobertura útil e a minimização da presença de nuvens.
+A função objetivo (1) busca maximizar a soma da cobertura útil e qualificada dos mosaicos selecionados, penalizando a presença de nuvens. O termo $\gamma$ foi ajustado empiricamente para priorizar mosaicos com menor cobertura de nuvens. O modelo impõe restrições para limitar o número máximo de mosaicos ($N_{\max}$), garantir que cada imagem seja utilizada em no máximo um mosaico e impedir a seleção de mosaicos que tenham sobreposição menor que $\theta$, para assegurar que os mosaicos selecionados mantenham continuidade espacial suficiente para análise multitemporal. Assim, o número de mosaicos é controlado diretamente pela restrição~(2), enquanto a função objetivo prioriza a maximização da cobertura útil e a minimização da presença de nuvens.
 
 \textbf{Termo 1 - Benefício da cobertura útil:} $\sum_{j \in M} E_j \cdot y_j$
 \begin{itemize}[noitemsep, topsep=0pt]
@@ -291,7 +296,7 @@ O modelo PLIM incorpora quatro restrições que garantem a qualidade e viabilida
 
 As restrições (3) implementam o princípio de exclusividade das imagens, onde $I'$ representa o conjunto de todas as imagens presentes em pelo menos um mosaico candidato gerado na Fase 1. Esta condição assegura que cada imagem pertença a no máximo um mosaico selecionado, o que elimina redundâncias desnecessárias na solução final e otimiza a consistência radiométrica entre produtos temporais adjacentes.
 
-A restrição (4) impede que dois mosaicos com sobreposição inferior a $\theta$ sejam selecionados juntos. Esta restrição serve para garantir que os mosaicos selecionados cubram áreas suficientemente similares, permitindo análises temporais sobre a mesma região. O limiar $\theta$ foi ajustado para 80\%, assegurando que qualquer sequência de mosaicos escolhida mantenha continuidade espacial suficiente para monitoramento efetivo. Na implementação, o indicador de sobreposição $I_{j,k}$ é calculado como o valor mínimo entre as coberturas dos mosaicos envolvidos, ou seja, $I_{j,k} = \min(A_j, A_k)$, o que representa a interseção conservadora entre as áreas cobertas pelos mosaicos.
+As restrições (4) impedem que dois mosaicos com sobreposição inferior a $\theta$ (80\%) sejam selecionados juntos. Essa restrição serve para garantir que os mosaicos escolhidos representem áreas suficientemente similares, garantindo a comparação entre diferentes momentos para a área monitorada. Ao exigir uma sobreposição mínima, assegura-se que a sequência de mosaicos selecionada mantenha continuidade espacial adequada, o que é essencial para comparações temporais confiáveis e para a visualização consistente da mesma área em diferentes períodos. Dessa forma, a restrição está diretamente alinhada ao objetivo central do trabalho, que é possibilitar o acompanhamento da evolução de áreas de interesse por meio da seleção dos melhores mosaicos em diferentes momentos.
 
 O modelo se completa com as restrições (5), que definem o caráter binário das variáveis de decisão. Cada mosaico deve ser integralmente incluído ou excluído da solução final, mantendo a consistência dos mosaicos resultantes.
 \vspace{-7mm}
@@ -375,7 +380,7 @@ A Tabela~\ref{tab:resultados_greedy} apresenta os resultados da heurística gulo
 \normalsize  % Restaura o tamanho normal da fonte para o texto que segue
 \renewcommand{\arraystretch}{1}  % Restaura o espaçamento normal entre linhas
 \vspace{-3mm}
-A distribuição temporal dos mosaicos refletiu limitações climáticas específicas de cada região: na APA Ibirapuitã (RS), condições de nebulosidade resultaram em 16 mosaicos selecionados pela heurística gulosa com cobertura máxima de nuvens de 10,77\%, enquanto no PARNA Mantiqueira, a maior disponibilidade de imagens permitiu a geração de 45 grupos com presença de nuvens de até 37,83\%.
+A distribuição multitemporal dos mosaicos refletiu limitações climáticas específicas de cada região: na APA Ibirapuitã (RS), condições de nebulosidade resultaram em 16 mosaicos selecionados pela heurística gulosa com cobertura máxima de nuvens de 10,77\%, enquanto no PARNA Mantiqueira, a maior disponibilidade de imagens permitiu a geração de 45 grupos com presença de nuvens de até 37,83\%.
 
 A Tabela~\ref{tab:resultados_cplex} apresenta o refinamento obtido pela otimização PLIM em comparação com a heurística inicial. As colunas mostram: a unidade federativa (UF); a quantidade de mosaicos selecionados; a quantidade de imagens contidas em cada mosaico; os IDs dos mosaicos selecionados pelo modelo; e as unidades de conservação correspondentes. Os resultados demonstram uma significativa redução no número de grupos selecionados, com o modelo elegendo entre 4 e 6 mosaicos por região, mantendo cobertura total acima de 89\% em todas as áreas estudadas.
 \vspace{-5mm}
@@ -400,20 +405,20 @@ A Tabela~\ref{tab:resultados_cplex} apresenta o refinamento obtido pela otimiza�
 \end{table}
 \vspace{-4mm}
 
-A Figura~\ref{fig:intersecoes} ilustra os mosaicos ótimos selecionados para a região de MT (PARNA do Pantanal), evidenciando que todos os mosaicos finais estão livres de nuvens, conforme os parâmetros do modelo.
-
-A visualização permite observar a configuração espacial dos mosaicos ótimos, destacando que o modelo priorizou imagens com maior efetividade ($E_j$) e ausência de nuvens, conforme a função objetivo (1). As imagens exibidas correspondem diretamente aos mosaicos listados na Tabela~\ref{tab:resultados_cplex}, refletindo a solução final otimizada para a área de interesse. Eventuais variações de qualidade radiométrica ou pequenas lacunas de cobertura são resultado das restrições climáticas e geométricas, mas o método garantiu cobertura útil e controle total de nuvens para MT.
+% A Figura~\ref{fig:intersecoes} ilustra os mosaicos ótimos selecionados para a região de MT (PARNA do Pantanal), evidenciando que todos os mosaicos finais estão livres de nuvens, conforme os parâmetros do modelo.
+% A visualização permite observar a configuração espacial dos mosaicos ótimos, destacando que o modelo priorizou imagens com maior efetividade ($E_j$) e ausência de nuvens, conforme a função objetivo (1). As imagens exibidas correspondem diretamente aos mosaicos listados na Tabela~\ref{tab:resultados_cplex}, refletindo a solução final otimizada para a área de interesse. Eventuais variações de qualidade radiométrica ou pequenas lacunas de cobertura são resultado das restrições climáticas e geométricas, mas o método garantiu cobertura útil e controle total de nuvens para MT.
+A Figura~\ref{fig:intersecoes} apresenta os mosaicos ótimos selecionados para a região de MT (PARNA do Pantanal), resultado da aplicação do modelo proposto. Essa seleção permite visualizar e analisar a evolução multitemporal da mesma área, utilizando mosaicos livres de nuvens e com alta efetividade ($E_j$), conforme a função objetivo (1). Assim, é possível garantir continuidade espacial e qualidade para o monitoramento temporal, mesmo diante de restrições climáticas e geométricas.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{./img/mosaic_mg_plot.jpg}
-    \caption{Sequência de mosaicos selecionados pelo CPLEX para a região de MT (PARNA do Pantanal). As imagens mostram os mosaicos escolhidos pelo modelo conforme listados na Tabela~\ref{tab:resultados_cplex}, todos livres de nuvens, apresentando uma sequência temporal com sobreposição espacial acima de 80\% e características radiométricas adequadas para análise temporal da área de conservação.}
+    \caption{Mosaicos selecionados pelo modelo CPLEX para a região de MT (PARNA do Pantanal), conforme listados na Tabela~\ref{tab:resultados_cplex}. A sequência apresenta sobreposição espacial mínima de 80\% e características radiométricas adequadas para análise multitemporal.}
     \label{fig:intersecoes}
 \end{figure}
 
 \vspace{-5mm}
 
-A Tabela~\ref{tab:cobertura_comparacao} apresenta, para cada região, a cobertura real obtida após o pós-processamento, o maior percentual de nuvens e o menor fator de qualidade entre os mosaicos selecionados pelo modelo CPLEX. Estes valores representam, respectivamente, os cenários mais desafiadores de cada região quanto à presença de nuvens e à qualidade radiométrica.
+A Tabela~\ref{tab:cobertura_comparacao} apresenta, para cada região, a cobertura real, o maior percentual de nuvens e o menor fator de qualidade entre os mosaicos selecionados pelo modelo CPLEX. Estes valores representam, respectivamente, os cenários mais desafiadores de cada região quanto à presença de nuvens e à qualidade radiométrica.
 
 \vspace{-6mm}
 \begin{table}[H]
@@ -443,13 +448,14 @@ A análise detalhada mostra uma significativa redução nos mosaicos candidatos,
 
 Destaca-se a região PI-PE-CE, onde o modelo reduziu de 46 mosaicos candidatos para 6 (incluindo os mosaicos 9, 10, 11, 13, 31 e 33), e o PARNA Mantiqueira na região MG-SP-RJ, com redução de 45 para 6 mosaicos selecionados (incluindo os mosaicos 13-17 e 20). A BA apresentou o menor número de imagens por mosaico selecionado (apenas uma), enquanto PI-PE-CE teve três imagens em cada mosaico selecionado, o que reflete as diferentes complexidades geométricas e condições de imageamento das regiões.
 
-A análise quantitativa demonstra que a metodologia alcançou excelentes resultados de áreas livres de nuvens nos mosaicos finais, com média superior a 98\% (considerando a ponderação por área), e variações conforme as condições climáticas regionais (de 98,93\% na APA Ibirapuitã a 78,45\% nas APAs de Alagoas). A Figura~\ref{fig:all_outputs} apresenta a visualização espacial de todos os mosaicos selecionados pelo modelo CPLEX para cada região. Esta visualização mostra como a abordagem proposta selecionou sequências de mosaicos que mantêm consistência espacial ao longo do tempo, permitindo a análise temporal das áreas monitoradas.
+A análise quantitativa demonstra que a metodologia alcançou excelentes resultados de áreas livres de nuvens nos mosaicos finais, com média superior a 98\% (considerando a ponderação por área), e variações conforme as condições climáticas regionais (de 98,93\% na APA Ibirapuitã a 78,45\% nas APAs de Alagoas). A Figura~\ref{fig:all_outputs} apresenta a visualização espacial de todos os mosaicos selecionados pelo modelo CPLEX para cada região. Esta visualização mostra como a abordagem proposta selecionou sequências de mosaicos que mantêm consistência espacial multitemporal, permitindo a análise multitemporal das áreas monitoradas.
 
 Comparações diretas com trabalhos anteriores apresentam limitações metodológicas substanciais devido às diferenças fundamentais de objetivos: enquanto \citet{rodriguez-puerta:2024} concentraram-se exclusivamente na remoção de nuvens (atingindo $89,4\%$ de eficácia com CloudScore$^{+}$) e \citet{shepherd2020automated} priorizaram qualidade radiométrica em mosaicos sazonais de verão na Nova Zelândia (com nuvens residuais <0,1\%), a presente metodologia integra otimização multidimensional que contempla simultaneamente cobertura útil, qualidade radiométrica e sequências temporais consistentes, associando heurística gulosa com PLIM para garantir exclusividade de imagens e eficiência computacional em monitoramento contínuo de áreas geograficamente diversas.
+
 \vspace{-2mm}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/all_selection.jpg}
+    \includegraphics[width=0.65\textwidth]{img/all_selection.jpg}
     \caption{Visualização de todos os mosaicos selecionados pelo modelo CPLEX para cada região. As áreas aparecem reduzidas devido à sobreposição e escala, servindo apenas para referência geral da distribuição espacial das soluções.}
     \label{fig:all_outputs}
 \end{figure}
@@ -458,9 +464,9 @@ Comparações diretas com trabalhos anteriores apresentam limitações metodoló
 \vspace{-8mm}
 \section{Conclusão}
 \vspace{-4mm}
-Os mosaicos selecionados pelo modelo PLIM atingiram fatores de qualidade satisfatórios, com redução média de $96,2\%$ em relação à heurística gulosa inicial, selecionando entre 4 e 6 mosaicos por região. O controle da cobertura de nuvens foi eficaz, mantida abaixo de 10\% em cenários favoráveis como APA Ibirapuitã (3,36\%) e em níveis aceitáveis mesmo em regiões tradicionalmente nebulosas como a APA Muricy (21,55\%). A diversidade das UCs estudadas, de 3.708 ha a mais de 1 milhão de hectares, demonstra a aplicabilidade da metodologia em diferentes contextos geográficos e climáticos.
+O trabalho atendeu ao objetivo de proporcionar uma solução eficiente para o monitoramento ambiental em Unidades de Conservação, permitindo a seleção de sequências de mosaicos que garantem cobertura útil, qualidade radiométrica e continuidade espacial multitemporal. Os mosaicos selecionados pelo modelo PLIM atingiram fatores de qualidade satisfatórios, com redução média de $96,2\%$ em relação à heurística gulosa inicial, selecionando entre 4 e 6 mosaicos por região. O controle da cobertura de nuvens foi eficaz, mantida abaixo de 10\% em cenários favoráveis como APA Ibirapuitã (3,36\%) e em níveis aceitáveis mesmo em regiões tradicionalmente nebulosas como a APA Muricy (21,55\%). A diversidade das UCs estudadas, de 3.708 ha a mais de 1 milhão de hectares, demonstra a aplicabilidade da metodologia em diferentes contextos geográficos e climáticos.
 
-A abordagem híbrida desenvolvida, com suas etapas distintas --- heurística gulosa (Fase 1) e otimização PLIM (Fase 2) --- mostrou-se efetiva para obter soluções de qualidade. O algoritmo PLIM garante que os mosaicos selecionados mantenham sobreposição espacial de pelo menos 80\%, permitindo análises temporais consistentes sobre as mesmas regiões ao longo do tempo.
+A abordagem híbrida desenvolvida, com suas etapas distintas --- heurística gulosa (Fase 1) e otimização PLIM (Fase 2) --- mostrou-se efetiva para obter soluções de qualidade. O algoritmo PLIM garante que os mosaicos selecionados mantenham sobreposição espacial de pelo menos 80\%, permitindo análises multitemporais consistentes sobre as mesmas regiões.
 
 A incorporação de penalizações específicas para cobertura de nuvens na função objetivo do modelo PLIM resultou em soluções otimizadas, com 202 imagens selecionadas no total. Mesmo nas áreas com maior complexidade geométrica, como a APA Chapada do Araripe e o PARNA Mantiqueira, o método alcançou coberturas satisfatórias de 92,52\% e 89,14\%, respectivamente.
 

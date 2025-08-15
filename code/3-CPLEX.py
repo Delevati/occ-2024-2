@@ -32,6 +32,7 @@ CPLEX_RESULTS_FILE = os.path.join(OUTPUT_DIR, 'cplex_selected_mosaic_groups-MG-S
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # MIN_TOTAL_COVERAGE = 0.85  # Cobertura restrição 4
+theta_sobreposicao = 0.80
 
 def prepare_model_data(optimization_params):
     """
@@ -167,7 +168,7 @@ def define_objective_function(mdl, y, mosaic_groups, metrics):
     mdl.maximize(total_coverage_quality - penalty_cloud_coverage)
     logging.info(f"Função objetivo: Maximizar (Cobertura * Qualidade) - {gamma}(Cobertura de Nuvens)")
 
-def add_model_constraints(mdl, y, mosaic_groups, metrics):
+def add_model_constraints(mdl, y, mosaic_groups, metrics, theta_sobreposicao):
     """
     Adiciona as restrições do modelo PLIM, conforme Equações (2)--(4) do artigo:
 
@@ -226,7 +227,7 @@ def add_model_constraints(mdl, y, mosaic_groups, metrics):
     
     # RESTRIÇÃO 4: Sobreposição mínima entre mosaicos selecionados
     for (g1_id, g2_id), intersection in group_intersections.items():
-        if intersection < 0.80:
+        if intersection < theta_sobreposicao:
             mdl.add_constraint(y[g1_id] + y[g2_id] <= 1, ctname=f"min_overlap_{g1_id}_{g2_id}")
 
     return {}
