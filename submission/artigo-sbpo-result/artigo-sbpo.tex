@@ -111,7 +111,7 @@ O restante deste artigo está organizado da seguinte forma: a Seção~2 apresent
 \vspace{-3mm}
 A composição de mosaicos ópticos para monitoramento ambiental enfrenta desafios como cobertura de nuvens, qualidade radiométrica dos pixels e inconsistências de sobreposição entre cenas. Métodos heurísticos predominavam inicialmente, com combinação de detecção de nuvens e técnicas de composição temporal para a geração de produtos livres de nuvens \citep{kempeneers:2017}.
 
-Para formalizar matematicamente a seleção de imagens, a literatura recorre ao problema do \emph{minimum axis-parallel rectangle cover of a rectilinear polygon without holes}, classificado como NP-difícil \citep{KumarRamesh1995, masek1978}. Esta complexidade implica que são conhecidos algoritmos exponenciais para a solução exata de tais problemas. 
+Para formalizar matematicamente a seleção de imagens, a literatura recorre ao problema do \emph{minimum axis-parallel rectangle cover of a rectilinear polygon without holes}, classificado como NP-difícil \citep{KumarRamesh1995, masek1978}. Esta complexidade implica que apenas são conhecidos algoritmos exponenciais para a solução exata de tais problemas. 
 
 Na evolução dos modelos exatos, \citet{combarro-simon-constraint-2023} propuseram dois modelos baseado em \textit{Constraint Programming} (CP) e outro em PLIM, testados em instâncias realistas de até 200 imagens. Os resultados comprovaram a viabilidade do PLIM aplicado diretamente ao conjunto total de polígonos gerados pela discretização geométrica. A metodologia apresentada por esses autores inclui apenas o pré-processamento por interseção de polígonos e a incorporação de nuvens como elementos do universo de cobertura, sem fases heurísticas ou penalizações arbitrárias.
 
@@ -184,9 +184,8 @@ A estratégia contribui tanto para a eficiência computacional quanto para a qua
     \midrule
     $M_{novo}$ & Mosaico em construção durante a execução da heurística \\
     $I_{comp}$ & Conjunto temporário de imagens compatíveis durante construção do mosaico \\
-    $A_i^{eff}$ & Cobertura efetiva da imagem $i$ ($A_i \times P_i$) \\
     $Q_i$      & Fator de qualidade da imagem $i$ ($(1 - N_i) \times P_i$) \\
-    $E_i$      & Efetividade da imagem $i$ para seleção heurística ($A_i^{eff} \times Q_i$) \\
+    $E_i$      & Efetividade da imagem $i$ para seleção heurística ($A_i \times P_i \times Q_i$) \\
     $\Delta A^{\min}$ & Incremento mínimo de cobertura para novas imagens no mosaico (5\%)\\
     $A_M^{\text{alvo}}$ & Cobertura alvo para considerar um mosaico completo (85\%) \\
     $A_M^{\min}$ & Cobertura mínima exigida para um mosaico ser considerado viável (2\%) \\[1pt]
@@ -208,7 +207,7 @@ A estratégia contribui tanto para a eficiência computacional quanto para a qua
     $E_j$      & Cobertura efetiva total do mosaico $j$ \\
     $\gamma$   & Peso de penalização para a cobertura máxima de nuvens \\
     $I_{j,k}$  & Indicador de sobreposição entre os mosaicos $j$ e $k$ sobre a área de interesse $A$ \\
-    $\theta$   & Limiar mínimo de sobreposição para seleção conjunta de mosaicos \\
+    $\theta$   & Limiar mínimo de sobreposição para seleção conjunta de mosaicos (80\%) \\
     $N_{\max}$ & Número máximo de mosaicos permitidos na solução final \\
     $y_j$      & Variável de decisão binária: 1 se o mosaico $j$ é selecionado, 0 caso contrário \\
 \end{longtable}
