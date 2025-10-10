@@ -60,7 +60,7 @@
 \setbeamerfont{subtitle}{size=\normalsize}
 \setbeamerfont{frametitle}{size=\large,series=\bfseries}
 
-% Logo no header - MAS sem interferir no conteúdo 
+% Logo no header - sem quebra de content
 \addtobeamertemplate{frametitle}{}{%
   \begin{tikzpicture}[remember picture,overlay]
     \node[anchor=north east] at ($(current page.north east) + (-0.5cm,0.2cm)$) 
@@ -122,10 +122,13 @@
     \begin{column}{0.35\textwidth}
         \begin{tikzpicture}
             \node[draw,circle,minimum size=2cm,fill=ufal!20,text width=1.8cm,align=center,font=\scriptsize] 
-                {1.941\\Imagens\\Candidatas};
-            \draw[->,thick,ufal] (0,-1.5) -- (0,-2.2);
-            \node[draw,circle,minimum size=1.5cm,fill=success!20,text width=1.3cm,align=center,font=\scriptsize] 
-                at (0,-2.8) {6\\Mosaicos\\Finais};
+                (inicio) {1.941\\Imagens\\Candidatas};
+            \draw[->,thick,ufal] (inicio) -- (0,-1.8);
+            \node[draw,circle,minimum size=1.6cm,fill=orange!20,text width=1.4cm,align=center,font=\scriptsize] 
+                (heuristica) at (0,-2.4) {524\\Imagens\\Filtradas};
+            \draw[->,thick,orange] (heuristica) -- (0,-3.6);
+            \node[draw,circle,minimum size=1.4cm,fill=success!20,text width=1.2cm,align=center,font=\scriptsize] 
+                (final) at (0,-4.2) {~74\\Imagens\\Utilizadas};
         \end{tikzpicture}
     \end{column}
 \end{columns}
@@ -141,7 +144,7 @@
 \vspace{0.2cm}
 \begin{columns}[T,onlytextwidth]
     \begin{column}{0.55\textwidth}
-        \includegraphics[width=\textwidth,height=3.2cm,keepaspectratio]{img/mosaic_example.jpg}
+        \includegraphics[width=\textwidth,height=4.0cm,keepaspectratio]{img/mosaic_example.jpg}
     \end{column}
     \begin{column}{0.45\textwidth}
         \begin{itemize}
@@ -154,8 +157,8 @@
         
         \vspace{0.4cm}
         \begin{center}
-            \tikz{\node[draw,rounded corners,fill=success!15,text width=3.8cm,align=center,font=\footnotesize] 
-                {\textbf{Problema:} Seleção combinatória complexa};}
+            \tikz{\node[draw,rounded corners,fill=success!15,text width=5.0cm,align=center,font=\footnotesize] 
+                {\textbf{Problema NP-difícil:} (Kumar \& Ramesh, 1995; Masek, 1978)};}
         \end{center}
     \end{column}
 \end{columns}
@@ -194,8 +197,9 @@
 
 % Slide 5: Visualização dos problemas na prática
 \begin{frame}{Problemas Visuais: Nuvens e Cobertura}
+\vspace{-0.5cm}
 \begin{center}
-    \includegraphics[width=0.8\textwidth,height=4.8cm,keepaspectratio]{img/visualizacao_clouds_and_outfovcorner.jpg}
+    \includegraphics[width=0.45\textwidth]{img/visualizacao_clouds_and_outfovcorner.jpg}
 \end{center}
 \vspace{-0.2cm}
 \begin{center}
@@ -203,13 +207,42 @@
 \end{center}
 \end{frame}
 
+% Slide 19: Comparação com Literatura
+\begin{frame}{Contexto e Perspectiva Científica}
+\vspace{-0.2cm}
+\begin{center}
+\textbf{Visão da otimização multidimensional:}
+\end{center}
+
+\begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+        \textbf{\color{ufal}Trabalhos relacionados:}
+        \begin{itemize}
+            \item Rodriguez-Puerta et al\@.: Apenas remoção de nuvens (89,4\%)
+            \item Shepherd et al\@.: Qualidade radiométrica sazonal (<0,1\% nuvens)
+            \item Combarro-Simon: Heurística gulosa simples
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+        \textbf{\color{success}Contribuições desta Pesquisa:}
+        \begin{itemize}
+            \item Otimização multidimensional
+            \item Sequências temporais consistentes
+            \item Heurística + PLIM híbrida
+            \item Exclusividade de imagens
+        \end{itemize}
+    \end{column}
+\end{columns}
+\end{frame}
+
 % Slide 6: Áreas de estudo
 \begin{frame}{Unidades de Conservação Estudadas}
-\vspace{-0.3cm}
+\vspace{-0.6cm}
 \begin{center}
     \textbf{\large 13 UCs em 9 Estados Brasileiros}
 \end{center}
 
+\vspace{-0.6cm}
 \begin{columns}[c]
     \begin{column}{0.35\textwidth}
         \includegraphics[width=\textwidth,height=3.5cm,keepaspectratio]{img/mosaic_top1_output-each-area.jpg}
@@ -303,11 +336,10 @@
 \end{frame}
 
 % Slide 8: Tabela de Notação
-\begin{frame}{Notação Principal do Modelo}
+\begin{frame}{Notação}
 \vspace{-0.2cm}
 \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-        \textbf{\color{ufal}Dados de Entrada:}
         \begin{itemize}
             \item $I$ = Imagens Sentinel-2 candidatas
             \item $A$ = Área de Interesse (UC)
@@ -318,14 +350,13 @@
         \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
-        \textbf{\color{success}Variáveis do Modelo:}
         \begin{itemize}
             \item $E_i$ = Efetividade da imagem $i$
-            \item $M$ = Conjunto de mosaicos candidatos
-            \item $E_j$ = Cobertura efetiva do mosaico $j$
-            \item $N_j$ = Cobertura máxima de nuvens
-            \item $y_j$ = Variável binária de seleção
-            \item $\gamma$ = Peso de penalização
+            \item $M_{novo}$ = Mosaico em construção
+            \item $I_{comp}$ = Imagens compatíveis temporais
+            \item $\Delta A^{\min}$ = Incremento mínimo (5\%)
+            \item $A_M^{\text{alvo}}$ = Cobertura alvo (85\%)
+            \item $Q_i$ = Fator de qualidade da imagem $i$
         \end{itemize}
     \end{column}
 \end{columns}
@@ -380,9 +411,56 @@ Inicializar $M \gets \emptyset$; filtrar $I$ com $N_i \leq N_M^{\max}$
 \end{algorithm}
 \end{frame}
 
-% Slide 10: Função objetivo simplificada
-\begin{frame}{Função Objetivo e Restrições}
+% novo slide 10: resultados heuristica
+\begin{frame}{Resultados da Heurística Gulosa}
+\vspace{-0.3cm}
+\begin{center}
+\textbf{Mosaicos candidatos gerados por região:}
+\end{center}
+
+\begin{center}
+\footnotesize
+\begin{tabular}{llcccc}
+\toprule
+\textbf{UF} & \textbf{UC} & \textbf{Área (ha)} & \textbf{Imagens} & \textbf{Mosaicos} & \textbf{Nuvens} \\
+ & & & \textbf{(aceitas)} & \textbf{H. Gulosa} & \textbf{máx. (\%)} \\
+\midrule
+MG-SP-RJ & PARNA Mantiqueira & 437.192 & 179 & 45 & 37,83 \\
+RS & APA Ibirapuitã & 318.767 & 54 & 16 & 10,77 \\
+MT & PARNA do Pantanal & 33.800 & 52 & 18 & 9,12 \\
+AL & APAs (4 unidades) & 163.956 & 80 & 24 & 38,91 \\
+BA & PARNAs + REVIS (4 unid.) & 64.687 & 37 & 9 & 38,68 \\
+PI-PE-CE & APA + FLONA (2 unid.) & 1.058.380 & 106 & 46 & 26,77 \\
+\midrule
+\textbf{Total} & \textbf{13 UCs} & \textbf{2.076.762} & \textbf{524} & \textbf{158} & \textbf{---} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+\begin{itemize}
+\item \textbf{Entrada:} 1.941 imagens → \textbf{Filtradas:} 508 imagens aceitas
+\item \textbf{Gerados:} 158 mosaicos candidatos pela heurística
+\item \textbf{Variação climática:} De 9,12\% (MT) até 38,91\% (AL) de nuvens
+\end{itemize}
+\end{frame}
+
+% slide novo: variavel do modelo 
+\begin{frame}{Variáveis do Modelo PLIM}
 \vspace{-0.2cm}
+    \begin{itemize}
+        \item $y_j$ = Variável binária de seleção do mosaico $j$
+        \item $E_j$ = Cobertura efetiva do mosaico $j$
+        \item $N_j$ = Proporção de nuvens do mosaico $j$
+        \item $\gamma$ = Peso de penalização por nuvens
+        \item $N_{\max}$ = Número máximo de mosaicos
+        \item $I_{j,k}$ = Sobreposição entre mosaicos $j$ e $k$
+    \end{itemize}
+\end{frame}
+
+% Slide 11: Função objetivo
+\begin{frame}{Modelo PLIM:\@ Função Objetivo e Restrições}
+\vspace{-1.0cm}
 \begin{center}
     \colorbox{ufal!10}{\parbox{8cm}{\centering
         \textbf{Maximizar:}\\[0.2cm]
@@ -393,16 +471,15 @@ Inicializar $M \gets \emptyset$; filtrar $I$ com $N_i \leq N_M^{\max}$
 \vspace{0.3cm}
 \textbf{Componentes da função objetivo:}
 \begin{itemize}
-    \item \textbf{Termo 1:} Benefício da cobertura útil ($E_j$)
+    \item \textbf{Termo 1:} Efetividade da cobertura útil ($E_j$)
     \item \textbf{Termo 2:} Penalização por nuvens ($\gamma \times N_j$)
-    \item Peso $\gamma$ ajustado empiricamente
 \end{itemize}
 
 \vspace{0.2cm}
 \footnotesize\textbf{Resultado:} Prioriza mosaicos com alta cobertura e baixa nebulosidade
 \end{frame}
 
-% Slide 11: Detalhamento das Restrições do Modelo PLIM
+% Slide 12: Detalhamento das Restrições do Modelo PLIM
 \begin{frame}{Restrições do Modelo PLIM}
 \vspace{-0.2cm}
 \textbf{Restrições principais do modelo de otimização:}
@@ -428,50 +505,7 @@ Inicializar $M \gets \emptyset$; filtrar $I$ com $N_i \leq N_M^{\max}$
 \end{enumerate}
 \end{frame}
 
-% Slide 12: Visão Ampla
-\begin{frame}{Visão Geral: Dados e Algoritmo}
-\vspace{-0.4cm}
-
-\begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-        \textbf{\color{ufal}Dados de Entrada:}
-        \begin{itemize}
-            \item \textbf{1.941 imagens} Sentinel-2 (junho/2024--abril/2025)
-            \item Filtros: max 40\% nuvens, min 2\% cobertura
-            \item \textbf{Janela temporal:} 5 dias
-            \item \textbf{13 Unidades de Conservação}
-        \end{itemize}
-        
-        \vspace{0.3cm}
-        \textbf{\color{success}Processamento:}
-        \begin{itemize}
-            \item Efetividade: $E_i = A_i \times P_i \times Q_i$
-            \item Seleção gulosa por janela temporal
-            \item Otimização via PLIM
-        \end{itemize}
-    \end{column}
-    
-    \begin{column}{0.48\textwidth}
-        \textbf{\color{accent}Critérios de Qualidade:}
-        \begin{itemize}
-            \item Cobertura mínima: 85\%
-            \item Sobreposição entre mosaicos: $\geq$ 80\%
-            \item Exclusividade de imagens
-            \item Penalização por nuvens ($\gamma$)
-        \end{itemize}
-        
-        \vspace{0.3cm}
-        \textbf{\color{ufal}Saída Esperada:}
-        \begin{itemize}
-            \item 6 mosaicos por região
-            \item Sequência temporal consistente
-            \item Alta redução dos dados de entrada
-        \end{itemize}
-    \end{column}
-\end{columns}
-\end{frame}
-
-% Slide 13: Resultados Experimentais
+% Slide 14: Resultados Experimentais
 \begin{frame}{Resultados Heurística vs PLIM}
 \vspace{-0.2cm}
 \begin{center}
@@ -497,38 +531,10 @@ PI-PE-CE    & 46 & 6 & 87,0\% \\
 
 \vspace{0.3cm}
 \footnotesize
-\textbf{Destaque:} Eficiência de 96,2\% na otimização pelo modelo PLIM, com PI-PE-CE e MG-SP-RJ apresentando maior redução absoluta\@.
+\textbf{Destaque:} Redução de 96,2\% das imagens iniciais, com PI-PE-CE e MG-SP-RJ apresentando maior redução absoluta\@.
 \end{frame}
 
-% Slide 14: Resultados mais impactantes - SIMPLIFICADO
-\begin{frame}{Resultados: Redução Significativa}
-\begin{columns}
-    \begin{column}{0.5\textwidth}
-        \begin{center}
-        \begin{tabular}{lcc}
-        \textbf{Região/Estado} & \textbf{Candidatos} & \textbf{Selecionados} \\
-        \midrule
-        MG-SP-RJ    & 45 & 6 \\
-        RS          & 16 & 5 \\
-        MT          & 18 & 6 \\
-        AL          & 24 & 4 \\
-        BA          & 9  & 5 \\
-        PI-PE-CE    & 46 & 6 \\
-        \end{tabular}
-        \end{center}
-    \end{column}
-    \begin{column}{0.45\textwidth}
-        \begin{center}
-            \begin{tikzpicture}
-                \node[draw,circle,fill=success!20,minimum size=2cm,font=\Large\bfseries] {96,2\%};
-            \end{tikzpicture}
-            \textbf{Redução Média}
-        \end{center}
-    \end{column}
-\end{columns}
-\end{frame}
-
-% Slide 15: Resultados Detalhados por Região
+% Slide 16: Resultados Detalhados por Região
 \begin{frame}{Qualidade dos Mosaicos Selecionados}
 \vspace{-0.2cm}
 \begin{center}
@@ -559,7 +565,7 @@ MT      & 100,00 & 0,00  & 99,90 \\
 \end{itemize}
 \end{frame}
 
-% Slide 16: Visualização Espacial Completa
+% Slide 17: Visualização Espacial Completa
 \begin{frame}{Visualização dos Mosaicos Selecionados}
 \begin{center}
     \includegraphics[width=0.75\textwidth,height=5.5cm,keepaspectratio]{img/all_selection.jpg}
@@ -571,7 +577,39 @@ MT      & 100,00 & 0,00  & 99,90 \\
 \end{center}
 \end{frame}
 
-% Slide 17: Impacto compacto
+% Slide 15: Comparação Visual
+% ...existing code...
+
+% Slide 15: Comparação Visual
+\begin{frame}{Comparação Visual: Qualidade das Imagens}
+\vspace{-0.9cm}
+\begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \begin{center}
+            \includegraphics[width=\textwidth,height=4.5cm,keepaspectratio]{img/comparacao/imagem-clean.png}\\[0.2cm]
+            {\footnotesize\textbf{Imagem Limpa} --- Alta qualidade}
+        \end{center}
+        
+        \vspace{-0.2cm}
+        \begin{center}
+            \colorbox{ufal!10}{\parbox{0.9\textwidth}{\centering
+                \footnotesize\textbf{Objetivo:} Selecionar automaticamente as melhores imagens para cada período, evitando qualidade intermediária e problemas como nuvens/dados faltantes
+            }}
+        \end{center}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+        \vspace{0.2cm}
+        \begin{center}
+            \includegraphics[width=\textwidth,height=3.5cm,keepaspectratio]{img/comparacao/imagem-mid-clean.png}\\[0.2cm]
+            
+            \includegraphics[width=\textwidth,height=3.5cm,keepaspectratio]{img/comparacao/imagem-suja.png}
+        \end{center}
+    \end{column}
+\end{columns}
+\end{frame}
+
+% Slide 18: Impacto compacto
 \begin{frame}{Impacto e Aplicações}
 \vspace{-0.2cm}
 \begin{multicols}{2}
@@ -594,36 +632,7 @@ MT      & 100,00 & 0,00  & 99,90 \\
 \end{multicols}
 \end{frame}
 
-% Slide 18: Comparação com Literatura
-\begin{frame}{Contexto e Perspectiva Científica}
-\vspace{-0.2cm}
-\begin{center}
-\textbf{Visão ampla da otimização multidimensional:}
-\end{center}
-
-\begin{columns}[T]
-    \begin{column}{0.48\textwidth}
-        \textbf{\color{ufal}Algumas Referências:}
-        \begin{itemize}
-            \item Rodriguez-Puerta et al\@.: Apenas remoção de nuvens (89,4\%)
-            \item Shepherd et al\@.: Qualidade radiométrica sazonal (<0,1\% nuvens)
-            \item Combarro-Simon: Heurística gulosa simples
-        \end{itemize}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-        \textbf{\color{success}Contribuições desta Pesquisa:}
-        \begin{itemize}
-            \item Otimização multidimensional
-            \item Sequências temporais consistentes
-            \item Heurística + PLIM híbrida
-            \item Exclusividade de imagens
-            \item Sobreposição garantida ($\geq$80\%)
-        \end{itemize}
-    \end{column}
-\end{columns}
-\end{frame}
-
-% Slide 19: Limitações e Trabalhos Futuros Detalhado
+% Slide 20: Limitações e Trabalhos Futuros
 \begin{frame}{Limitações e Trabalhos Futuros}
 \begin{columns}[T]
     \begin{column}{0.48\textwidth}
@@ -640,7 +649,7 @@ MT      & 100,00 & 0,00  & 99,90 \\
             \item \textbf{Integração SAR} para áreas nubladas
             \item \textbf{Janelas temporais maiores} para cobrir lacunas
             \item \textbf{Fusão de imagens} com base em máscaras de nuvens
-            \item Expansão para diferentes perfis climáticos
+            \item \textbf{Expansão} para diferentes perfis climáticos
         \end{itemize}
     \end{column}
 \end{columns}
@@ -653,16 +662,16 @@ MT      & 100,00 & 0,00  & 99,90 \\
 \end{center}
 \end{frame}
 
-% Slide 20: Final com logos ajustados
+% Slide 21: Final
 \begin{frame}[plain]
     \begin{center}
         {\Large\textbf{Agradecimentos}}\\[0.5cm]
-        
-        Agradecimentos à meus pais, meus orientadores, à Universidade Federal de Alagoas\\
+
+        Agradecimentos aos meus orientadores, à Universidade Federal de Alagoas,\\
         ao Instituto de Computação e à organização do SBPO 2025\@.\\[0.7cm]
 
-        Obrigado à todos presentes!
-        
+        Obrigado a todos presentes!
+
         \includegraphics[height=1.5cm]{img/ufal.jpg}\hspace{0.5cm}%
         \includegraphics[height=1.5cm]{img/logo-ic.png}\hspace{0.5cm}%
         \includegraphics[height=1.5cm]{img/sbpo2025-header-logo.png}\\[0.7cm]

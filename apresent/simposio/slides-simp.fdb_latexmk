@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1759428439.87632 "/Users/luryand/Documents/encode-image/coverage_otimization/apresent/simposio/slides-simp.tex" "slides-simp.pdf" "slides-simp" 1759428448.56564 0
-  "/Users/luryand/Documents/encode-image/coverage_otimization/apresent/simposio/slides-simp.tex" 1759428434.40773 22733 6c16548e59b5400e5a92d589fb697b6a ""
+["pdflatex"] 1759746952.3411 "/Users/luryand/Documents/encode-image/coverage_otimization/apresent/simposio/slides-simp.tex" "slides-simp.pdf" "slides-simp" 1759746962.15762 0
+  "/Users/luryand/Documents/encode-image/coverage_otimization/apresent/simposio/slides-simp.tex" 1759746950.49168 23344 4f2251b34d0b7d74961e74ef6108d441 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1202520719 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1202520719 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -45,6 +45,7 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/rm-lmss12.tfm" 1254269338 11024 7a83ae8920360cd8bd5d0289069119dc ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/rm-lmss8.tfm" 1254269338 10976 d5243dcaf5ba5ee7825c8438c6b7a7ea ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/rm-lmss9.tfm" 1254269338 11004 a6c4e1a908f2608664e4229dbcec5884 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/ts1-lmss10.tfm" 1254269338 1576 dc39c0165a09a2dd2c8da4cbb869c2e7 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/lm/ts1-lmss8.tfm" 1254269338 1604 48051ef252c0ddf583dd76f1a193d4ae ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmex10.pfb" 1254269338 23055 2e5b42921de910eaa97b85df04ca4891 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi10.pfb" 1254269338 30388 702fae6a5f0e6e9c48a1d872b442ffcf ""
@@ -269,6 +270,9 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1752772770 3345734 1a11d357f3a97f5ff35f748bef39a407 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "img/all_selection.jpg" 1759415411.38255 801858 6fe15046f7e9278360e84c5d52df01b6 ""
+  "img/comparacao/imagem-clean.png" 1759709048.10918 7645760 4fec47e4b4b6e331e7a2d4187fea82bc ""
+  "img/comparacao/imagem-mid-clean.png" 1759712432.09739 8141861 8b13a9a08c24b816e91a1a74b3ffaac8 ""
+  "img/comparacao/imagem-suja.png" 1759709111.53005 6505089 3656cb8fee66376778dbb742077353ec ""
   "img/logo-ic.png" 1759169448.58281 11580 2348204ecedb4b86996534e4e97c90f1 ""
   "img/mosaic_example.jpg" 1755021709.61296 322048 a9f83e2505aec5ebd9e81012400c11c0 ""
   "img/mosaic_top1_output-each-area.jpg" 1755021709.61255 138100 77f3388d977fded59bdd810ef1cae523 ""
@@ -276,10 +280,10 @@
   "img/ufal.jpg" 1759154758.59731 1432742 ca8dde5d7e865aa312f6d46704145a63 ""
   "img/ufal1.png" 1759169412.05561 14347 39aa8e3dd84e0d763552989167241fb5 ""
   "img/visualizacao_clouds_and_outfovcorner.jpg" 1755021709.61307 302740 cc29d1150d22be8eee0e71ebd691c3a5 ""
-  "slides-simp.aux" 1759428447.71906 4100 5676ee138c4c524194079ccbc847ee07 "pdflatex"
-  "slides-simp.nav" 1759428447.72467 2039 5a4196ea47006e239fc20568aaec1af6 "pdflatex"
-  "slides-simp.out" 1759428445.18827 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "slides-simp.tex" 1759428434.40773 22733 6c16548e59b5400e5a92d589fb697b6a ""
+  "slides-simp.aux" 1759746961.47001 4273 fc8dca7572e40de078256a64639e8695 "pdflatex"
+  "slides-simp.nav" 1759746961.47575 2132 9ecbcfc9f7de68c052dc9846a033acac "pdflatex"
+  "slides-simp.out" 1759746955.9425 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "slides-simp.tex" 1759746950.49168 23344 4f2251b34d0b7d74961e74ef6108d441 ""
   (generated)
   "slides-simp.aux"
   "slides-simp.log"
