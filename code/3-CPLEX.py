@@ -146,7 +146,7 @@ def define_objective_function(mdl, y, mosaic_groups, metrics):
     group_cloud_coverages = metrics["group_cloud_coverages"]
     
     # Pesos para a função objetivo
-    gamma = 3.7  # Penalidade por cobertura de nuvens
+    gamma = 0.8  # Penalidade por cobertura de nuvens
 
     # Função objetivo:
     # max ∑(j∈M) E_j·y_j - γ·∑(j∈M) N_j·y_j

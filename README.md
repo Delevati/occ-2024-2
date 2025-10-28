@@ -1,153 +1,156 @@
-# Otimização de Cobertura de Mosaicos de Imagens de Satélite
 
-## Visão Geral
+## Componentes do Fluxo de Trabalho
 
-Este projeto implementa um pipeline para otimização da seleção de mosaicos de imagens de satélite Sentinel-2, visando maximizar a cobertura efetiva de uma Área de Interesse (AOI) com mínima presença de nuvens. O sistema combina processamento geométrico, algoritmos heurísticos e métodos exatos de otimização para resolver este problema.
+### 1. Aquisição de Imagens
+
+-**`1.1-cdse-download-image-by-range.py`**: Realiza busca e download inicial de imagens Sentinel-2 por intervalo de datas
+
+-**`1.2-cdse-recapture-img-not-downloaded.py`**: Recupera imagens específicas que não foram baixadas na etapa inicial
+
+### 2. Processamento e Análise Heurística
+
+-**`2-heuristica-gulosa.py`**: Processa imagens e aplica algoritmo heurístico guloso para encontrar combinações iniciais de mosaicos candidatos
+
+### 3. Otimização Final
+
+-**`3-cplex.py`**: Implementa modelo de Programação Linear Inteira Mista (PLIM) utilizando CPLEX para selecionar o conjunto ótimo de grupos de mosaicos
 
 ## Estrutura do Projeto
 
 ```text
 
 coverage_otimization/
-├── code/                         # Scripts principais de processamento
-│   ├── 1.1-cdse-download.py      # Download inicial de imagens Sentinel-2
-│   ├── 1.2-cdse-recapture.py     # Recuperação de imagens
-│   ├── 2-compatibility-greedy.py # Implementação da heurística gulosa
-│   ├── 2.2-calc-area-2a2.py      # Cálculo de cobertura par a par (método 2a2)
-│   ├── 3-CPLEX.py                # Modelo PLIM com IBM CPLEX
-│   ├── APA-input/                # Diretório com shapefiles das áreas de interesse
-│   │   ├── recapture/            # Subdiretório com áreas categorizadas
-│   │   └── primarios/            # Shapefiles originais das AOIs
-│   ├── cplex_utils/              # Módulo de utilitários para o algoritmo CPLEX
-│   │   ├── validation.py         # Utilitário de resultados do modelo
-│   │   └── save_log.py           # Utilitário para logs de mosaicos selecionados
-│   ├── greedy_utils/             # Módulo de utilitários para o algoritmo Guloso
+├── code/                                    # Scripts principais de processamento
+│   ├── 1.1-cdse-download-image-by-range.py # Download inicial de imagens Sentinel-2
+│   ├── 1.2-cdse-recapture-img-not-downloaded.py # Recuperação de imagens específicas
+│   ├── 2-heuristica-gulosa.py              # Implementação da heurística gulosa
+│   ├── 3-cplex.py                          # Modelo PLIM com IBM CPLEX
+│   ├── .env                                # Variáveis de ambiente (credenciais CDSE)
+│   ├── APA-input/                          # Diretório com shapefiles das áreas de interesse
+│   │   ├── primarios/                      # Shapefiles originais das AOIs
+│   │   │   ├── AL/                         # Área de Alagoas
+│   │   │   ├── BA/                         # Área da Bahia
+│   │   │   ├── MG/                         # Área de Minas Gerais
+│   │   │   ├── MG-SP-RJ/                   # Área da Mantiqueira (MG-SP-RJ)
+│   │   │   ├── PI-PE-CE/                   # Área do Piauí-Pernambuco-Ceará
+│   │   │   └── RS/                         # Área do Rio Grande do Sul
+│   │   └── recapture/                      # Áreas processadas com dados organizados
+│   │       ├── AL/                         # Contém shapefiles, JSONs e resultados para AL
+│   │       ├── BA/                         # Contém shapefiles, JSONs e resultados para BA
+│   │       ├── MG/                         # Contém shapefiles, JSONs e resultados para MG
+│   │       ├── MG-SP-RJ/                   # Contém shapefiles, JSONs e resultados para Mantiqueira
+│   │       ├── PI-PE-CE/                   # Contém shapefiles, JSONs e resultados para PI-PE-CE
+│   │       └── RS/                         # Contém shapefiles, JSONs e resultados para RS
+│   ├── cplex_utils/                        # Módulo de utilitários para o algoritmo CPLEX
 │   │   ├── __init__.py
-│   │   ├── configuration.py      # Configurações globais e parâmetros
-│   │   ├── file_utils.py         # Utilitários para manipulação de arquivos
-│   │   ├── image_processing.py   # Funções de processamento de imagens
-│   │   ├── json_utils.py         # Utilitários para serialização JSON
-│   │   ├── metadata_utils.py     # Processamento de metadados
-│   │   ├── plotting_utils.py     # Funções de visualização
-│   │   └── processing_utils.py   # Funções de processamento principal
-│   └── output_log_cplex/         # Logs e JSONs de mosaicos selecionados pelo CPLEX
-├── external_utils/               # Utilitários externos / não usados em scripts principais
-├── submission/                   # Dir para submissões
-│   ├── artigo-sbpo/              # Arquivos .tex, .pdf e img/ 
-│   └── resumo-sbpo/              # Arquivos .tex, .pdf e img/
-└── results/                      # Diretório de saída para resultados
+│   │   ├── validation.py                   # Utilitário de validação de resultados do modelo
+│   │   └── save_log.py                     # Utilitário para logs de mosaicos selecionados
+│   ├── greedy_utils/                       # Módulo de utilitários para o algoritmo Guloso
+│   │   ├── __init__.py
+│   │   ├── configuration.py                # Configurações globais e parâmetros
+│   │   ├── file_utils.py                   # Utilitários para manipulação de arquivos
+│   │   ├── image_processing.py             # Funções de processamento de imagens
+│   │   ├── json_utils.py                   # Utilitários para manipulação de JSON
+│   │   ├── metadata_utils.py               # Funções para metadados de imagens
+│   │   ├── plotting_utils.py               # Funções de plotagem e visualização
+│   │   └── processing_utils.py             # Funções de processamento de imagens ZIP
+│   ├── output_log_cplex/                   # Logs e resultados da otimização CPLEX
+│   │   ├── selected_mosaics_log.txt        # Log detalhado dos mosaicos selecionados
+│   │   └── *.json                          # Resultados por região (AL, BA, MG, etc.)
+│   └── cplex_env/                          # Ambiente virtual Python para CPLEX
+├── external_utils/                         # Scripts auxiliares e utilitários externos
+├── results/                                # Resultados finais de processamento
+├── submission/                             # Artigos e documentos de submissão
+└── apresent/                              # Apresentações e slides
 
+```
 
-````
+## Fluxo de Execução
 
-## Inputs Necessários
+### Pré-requisitos
 
-### 1. Área de Interesse (AOI)
+1. Configure as credenciais do Copernicus Data Space Ecosystem (CDSE) no arquivo [`code/.env`](code/.env)
+2. Certifique-se de ter os shapefiles das áreas de interesse em [`code/APA-input/primarios/`](code/APA-input/primarios/)
 
-- __Formato__: Shapefile (.shp)
+### Execução Sequencial
 
-- __Projeção__: Recomendado usar projeções UTM específicas para a região
+#### Etapa 1: Download de Imagens
 
-- __Localização__: ```code/APA-input/recapture/[região]/[nome_shapefile].shp```
+```bash
 
-### 2. Imagens Sentinel-2
+cdcode/
 
-- __Formato__: Arquivos .zip ou diretórios .SAFE
+python1.1-cdse-download-image-by-range.py
 
-- __Localização__: Configurável em `ZIP_SOURCE_DIR`
+python1.2-cdse-recapture-img-not-downloaded.py# Se necessário recuperar imagens específicas
 
-- __Padrão de Nomes__: Formato padrão do Sentinel-2 (ex: `S2A_MSIL2A_YYYYMMDD...`)
+```
 
-## Componentes do Fluxo de Trabalho
+**Saídas da Etapa 1:**
 
-### 1. Aquisição de Imagens
+- Imagens Sentinel-2 baixadas no diretório configurado
+- Logs de download
 
-- __`1.1-cdse-download.py`__: Realiza busca e download inicial de imagens Sentinel-2
+#### Etapa 2: Processamento Heurístico Guloso
 
-- __`1.2-cdse-recapture.py`__: Recupera imagens específicas da seleção inicial
+```bash
 
-### 2. Processamento e Análise
+cdcode/
 
-- __`2-compatibility-greedy.py`__: Processa imagens e aplica algoritmo heurístico guloso para encontrar combinações iniciais de mosaicos
+python2-heuristica-gulosa.py
 
-- __`2.2-calc-area-2a2.py.py`__: Pós-processa grupos de mosaicos para calcular valores de cobertura par a par
+```
 
-### 3. Otimização
+**Pré-condições:**
 
-- __`3-CPLEX.py`__: Implementa modelo de Programação Linear Inteira Mista (PLIM) utilizando CPLEX para selecionar o conjunto ótimo de grupos de mosaicos
+- Imagens Sentinel-2 disponíveis da Etapa 1
+- Shapefiles das AOIs em [`APA-input/primarios/`](code/APA-input/primarios/)
 
-## Abordagem Metodológica
+**Saídas da Etapa 2:**
 
-O sistema utiliza os valores de cobertura para calcular considerando sobreposições entre mosaicos. O modelo de otimização:
+- Arquivo `optimization_parameters.json` com grupos de mosaicos candidatos
+- Metadados de imagens processadas
+- Logs de processamento em [`greedy_utils/`](code/greedy_utils/)
 
-- Maximiza a cobertura efetiva
-- Minimiza o número de grupos de mosaicos
-- Minimiza a cobertura de nuvens
-- Garante restrições de exclusividade de imagens
-- Impõe requisitos mínimos de cobertura
+#### Etapa 3: Otimização CPLEX
 
-### Métodos de Cálculo de Cobertura
+```bash
 
-__Cobertura estimada pelo MILP__: Cobertura = Soma(Áreas_Individuais) - Soma(Interseções_Pares)
+cdcode/
 
-### Normalização no Modelo de Otimização
+python3-cplex.py
 
-Todos os valores de cobertura são normalizados para o intervalo [0,1] no modelo de otimização, representando a proporção (%) da AOI coberta.
+```
 
-## Parâmetros do Algoritmo Guloso
+**Pré-condições:**
 
-Os seguintes parâmetros podem ser ajustados no arquivo `code/greedy_utils/configuration.py`:
+- Arquivo `optimization_parameters.json` da Etapa 2
+- IBM CPLEX instalado e configurado
 
-- `MOSAIC_MIN_CONTRIBUTION_THRESHOLD`: Limiar de contribuição mínima (5%) para inclusão de imagem em grupo
-- `CENTRAL_IMAGE_EFFECTIVE_COVERAGE_THRESHOLD`: Limiar para classificação de imagem como central (30%)
-- `COMPLEMENT_IMAGE_MIN_GEOGRAPHIC_COVERAGE_THRESHOLD`: Cobertura mínima para imagens complementares (2%)
-- `MOSAIC_TIME_WINDOW_DAYS`: Janela temporal máxima para agrupar imagens (5 dias)
-- `MAX_CLOUD_COVERAGE_THRESHOLD`: Cobertura máxima de nuvens permitida (50%)
-- `OVERLAP_QUALITY_WEIGHT`: Peso para qualidade na avaliação de sobreposições (0.3)
+**Saídas da Etapa 3:**
 
-## Parâmetros de Otimização Método Exato CPLEX
+- Grupos de mosaicos otimizados selecionados
+- Logs detalhados em [`output_log_cplex/`](code/output_log_cplex/)
+- Resultados por região no formato JSON
 
-Para personalizar o comportamento do modelo de otimização CPLEX:
+## Configuração por Região
 
-1. __Diretórios e Arquivos__:
+Para processar uma região específica, ajuste os caminhos nos scripts:
 
-   - Ajuste `METADATA_DIR` e `OUTPUT_DIR` para os diretórios de metadados e resultados
-   - Configure os caminhos de `OPTIMIZATION_PARAMS_FILE` e `CPLEX_RESULTS_FILE`
+-**AL**: [`code/APA-input/recapture/AL/`](code/APA-input/recapture/AL/)
 
-2. __Pesos da Função Objetivo__:
+-**BA**: [`code/APA-input/recapture/BA/`](code/APA-input/recapture/BA/)
 
-   - `alpha = 0.4` - Penalidade por número de grupos (maior valor = menos grupos)
-   - `gamma = 0.8` - Penalidade por cobertura de nuvens (maior valor = menos nuvens)
+-**MG**: [`code/APA-input/recapture/MG/`](code/APA-input/recapture/MG/)
 
-3. __Restrições do Modelo__:
+-**MG-SP-RJ**: [`code/APA-input/recapture/MG-SP-RJ/`](code/APA-input/recapture/MG-SP-RJ/)
 
-   - `cloud_threshold = 0.40` - Limite máximo de cobertura de nuvens (40%)
-   - `min_total_coverage = 0.85` - Cobertura mínima requerida da AOI (85%)
+-**PI-PE-CE**: [`code/APA-input/recapture/PI-PE-CE/`](code/APA-input/recapture/PI-PE-CE/)
 
-4. __Ajustes Recomendados por Cenário__:
+-**RS**: [`code/APA-input/recapture/RS/`](code/APA-input/recapture/RS/)
 
-   - Para regiões com muitas nuvens: Reduza `gamma` (0.4-0.6) e aumente `cloud_threshold` (0.60-0.70)
-   - Para maximizar qualidade: Aumente `gamma` (0.9-1.0)
-   - Para maximizar cobertura: Aumente `min_total_coverage` (0.90-0.95) e reduza `alpha` (0.2-0.3)
-   - Para reduzir grupos de mosaicos: Aumente `alpha` (0.5-0.7)
+Cada região deve conter:
 
-## Ambientes de Execução
-
-O sistema da Heurística Gulosa foi desenvolvido e testado principalmente em sistema macOS, enquanto os modelos de otimização CPLEX foram executados em ambiente AWS Ubuntu.
-
-## Requisitos de Sistema
-
-- __Python 3.9+__
-- __Espaço em Disco__: ~500GB para áreas grandes (imagens temporárias + resultados)
-- __RAM__: Mínimo 16GB, recomendado 32GB+ para áreas extensas
-- __IBM CPLEX Optimizer__: Versão 12.10+
-- __Pacotes Python__:
-  - docplex
-  - geopandas
-  - rasterio
-  - shapely
-  - pyproj
-  - numpy
-  - matplotlib
-  - cdsetool (para download direto do Copernicus)
-  
+- Shapefile da área de interesse
+- Diretório `greedy/` para resultados da heurística
+- Arquivos de configuração específicos da região
