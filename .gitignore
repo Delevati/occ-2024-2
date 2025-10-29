@@ -40,13 +40,13 @@ submission/artigo-sbpo-multiple-results/*
 !submission/artigo-sbpo-multiple-results/img/
 !submission/artigo-sbpo-multiple-results/img/**
 
-# REGRAS PARA A PASTA artigo-sbpo-result
-!submission/artigo-sbpo-result/
-submission/artigo-sbpo-result/*
-!submission/artigo-sbpo-result/artigo-sbpo.tex
-!submission/artigo-sbpo-result/artigo-sbpo.pdf
-!submission/artigo-sbpo-result/img/
-!submission/artigo-sbpo-result/img/**
+# REGRAS PARA A PASTA artigo-aprovado
+!submission/artigo-aprovado/
+submission/artigo-aprovado/*
+!submission/artigo-aprovado/artigo-sbpo.tex
+!submission/artigo-aprovado/artigo-sbpo.pdf
+!submission/artigo-aprovado/img/
+!submission/artigo-aprovado/img/**
 
 # REGRAS PARA A PASTA resumo-sbpo
 !submission/resumo-sbpo/
